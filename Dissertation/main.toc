@@ -1,0 +1,74 @@
+\contentsline {chapter}{Declaration of Authorship}{i}{dummy.1}
+\vspace {1em}
+\contentsline {chapter}{Abstract}{iii}{dummy.2}
+\vspace {1em}
+\contentsline {chapter}{Acknowledgements}{iv}{dummy.3}
+\vspace {1em}
+\contentsline {chapter}{Contents}{v}{dummy.4}
+\contentsline {chapter}{List of Figures}{viii}{dummy.6}
+\contentsline {chapter}{List of Tables}{ix}{dummy.8}
+\contentsline {chapter}{Abbreviations}{x}{dummy.10}
+\contentsline {chapter}{Physical Constants}{xi}{dummy.13}
+\contentsline {chapter}{Symbols}{xii}{dummy.16}
+\vspace {2em}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.19}
+\contentsline {section}{\numberline {1.1}Structure Domains in Computer Vision}{1}{section.20}
+\contentsline {section}{\numberline {1.2}Overview}{1}{section.21}
+\contentsline {subsection}{\numberline {1.2.1}Part I: Inference with Graphical Models}{1}{subsection.22}
+\contentsline {subsection}{\numberline {1.2.2}Part II: Structural Output Learning}{1}{subsection.23}
+\contentsline {subsection}{\numberline {1.2.3}Part III: Optimization on Structures}{1}{subsection.24}
+\contentsline {chapter}{\numberline {2}Graphical Models: Structural Modeling and Inference}{2}{chapter.25}
+\contentsline {section}{\numberline {2.1}Bayeisan Networks and Markov Networks}{2}{section.26}
+\contentsline {subsection}{\numberline {2.1.1}Bayeisan Networks}{2}{subsection.27}
+\contentsline {subsection}{\numberline {2.1.2}Markov Networks}{3}{subsection.28}
+\contentsline {subsection}{\numberline {2.1.3}Factor Graph}{3}{subsection.29}
+\contentsline {section}{\numberline {2.2}Exact and Approximate Inference}{3}{section.30}
+\contentsline {subsection}{\numberline {2.2.1}Belief Propagation}{3}{subsection.31}
+\contentsline {subsection}{\numberline {2.2.2}Variational Method}{4}{subsection.32}
+\contentsline {subsection}{\numberline {2.2.3}Markov Chain Monte Carlo}{4}{subsection.33}
+\contentsline {section}{\numberline {2.3}Applications}{4}{section.34}
+\contentsline {subsection}{\numberline {2.3.1}3D Part-Based Shape Modeling with Spatial Latent Dirichlet Markov Random Fields}{4}{subsection.35}
+\contentsline {chapter}{\numberline {3}Graph-Based Structural Output Learning}{5}{chapter.36}
+\contentsline {section}{\numberline {3.1}Conditional Random Fields}{5}{section.37}
+\contentsline {subsection}{\numberline {3.1.1}Training with Maximum-Likelihood}{5}{subsection.38}
+\contentsline {subsection}{\numberline {3.1.2}Training with Persistent Sequential Monte Carlo}{6}{subsection.39}
+\contentsline {section}{\numberline {3.2}Max-Margin Markov Networks}{6}{section.40}
+\contentsline {subsection}{\numberline {3.2.1}Structural Hinge-Loss Function}{6}{subsection.41}
+\contentsline {subsection}{\numberline {3.2.2}Relation to Conditional Random Fields}{7}{subsection.42}
+\contentsline {section}{\numberline {3.3}Applications}{7}{section.43}
+\contentsline {subsection}{\numberline {3.3.1}Image Annotation}{7}{subsection.44}
+\contentsline {subsection}{\numberline {3.3.2}Image Segmentation}{7}{subsection.45}
+\contentsline {chapter}{\numberline {4}Kernel-Based Structural Output Learning}{8}{chapter.46}
+\contentsline {section}{\numberline {4.1}Joint SVM}{8}{section.47}
+\contentsline {subsection}{\numberline {4.1.1}Structural SVM}{8}{subsection.48}
+\contentsline {subsection}{\numberline {4.1.2}Max-Margin Regression}{9}{subsection.49}
+\contentsline {subsection}{\numberline {4.1.3}Joint SVM: Output Kernel Learning and Regularization }{9}{subsection.50}
+\contentsline {section}{\numberline {4.2}Kernel Generalized Homogeneity Analysis}{9}{section.51}
+\contentsline {subsection}{\numberline {4.2.1}Homogenetiy Analysis}{9}{subsection.52}
+\contentsline {subsection}{\numberline {4.2.2}Kernel Generalized Hmoogeneity Analysis: Low-rank Output Kernel Learning and Co-Regularized Multi-View Learning}{10}{subsection.53}
+\contentsline {section}{\numberline {4.3}Applications}{10}{section.54}
+\contentsline {subsection}{\numberline {4.3.1}Object-Action Relation Learning}{10}{subsection.55}
+\contentsline {subsection}{\numberline {4.3.2}Image Annotation}{10}{subsection.56}
+\contentsline {chapter}{\numberline {5}Optimization on Structures}{11}{chapter.57}
+\contentsline {section}{\numberline {5.1}Convex Optimization on Rotation}{11}{section.58}
+\contentsline {subsection}{\numberline {5.1.1}$SO(3)$ Group and $\mathfrak {se}3$ Algebra}{11}{subsection.59}
+\contentsline {subsection}{\numberline {5.1.2}Gradient-Based Search on $SO(3)$ Manifold}{12}{subsection.60}
+\contentsline {section}{\numberline {5.2}Monte Carlo Tree Search for Orientation Optimization}{12}{section.61}
+\contentsline {subsection}{\numberline {5.2.1}Monte Carlo Tree Search with Opimistic Principle}{12}{subsection.62}
+\contentsline {subsection}{\numberline {5.2.2}Tetrahedron Construction for Orientation-Space Decomposition}{12}{subsection.63}
+\contentsline {subsection}{\numberline {5.2.3}Orientation Optimization with Bayesian Multi-Scale Optimistic Optimization}{12}{subsection.64}
+\contentsline {section}{\numberline {5.3}Adaptive Stochastic Optmization with Constraints}{13}{section.65}
+\contentsline {subsection}{\numberline {5.3.1}Markov Chain Monte Carlo and Simulated Annealing}{13}{subsection.66}
+\contentsline {subsection}{\numberline {5.3.2}Stochastic Optmization of Unknown Functions on Riemannian Manifolds using Kernel Adaptive MCMC}{13}{subsection.67}
+\contentsline {section}{\numberline {5.4}Applications}{14}{section.68}
+\contentsline {subsection}{\numberline {5.4.1}3D Point Cloud Registration}{14}{subsection.69}
+\contentsline {subsection}{\numberline {5.4.2}Object Grasp Optimization }{14}{subsection.70}
+\contentsline {chapter}{\numberline {6}Conclusion}{15}{chapter.71}
+\contentsline {section}{\numberline {6.1}Main Section 1}{15}{section.72}
+\contentsline {subsection}{\numberline {6.1.1}Subsection 1}{15}{subsection.73}
+\contentsline {subsection}{\numberline {6.1.2}Subsection 2}{16}{subsection.74}
+\contentsline {section}{\numberline {6.2}Main Section 2}{16}{section.75}
+\vspace {2em}
+\contentsline {chapter}{\numberline {A}Appendix Title Here}{17}{appendix.76}
+\vspace {2em}
+\contentsline {chapter}{Bibliography}{18}{dummy.77}
