@@ -181,7 +181,7 @@
 %	defined as \examname above so you cite it as \examname
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Inference, Learning and Optimization on Structure Domains: Theories and Applications in Visual Perception} % Your thesis title - this is used in the title and abstract
+\thesistitle{Inference, Learning and Optimization on Structure Domains: Methods and Applications in Visual Perception} % Your thesis title - this is used in the title and abstract
 %-------------------------------------------------  
 \supervisor{Prof. Justus \textsc{Piater}} % You supervisor's name - this is used in the title page
 %-------------------------------------------------   
@@ -213,11 +213,11 @@
                 {INSTITUTE OF COMPUTER SCIENCE}} % Your department's name in capitals - this is not currently used anywhere in the template, cite it with \DEPTNAME if you want it
                 {INSTITUTE OF COMPUTER SCIENCE}}
 %-------------------------------------------------                
-\group{\texorpdfstring{\href{iis.uibk.ac.at} % Your research group's URL
+\group{\texorpdfstring{\href{http://iis.uibk.ac.at} % Your research group's URL
                 {Intelligent and Interactive System Group}} % Your research group's name - this is currently used in the title page 
                 {Intelligent and Interactive System Group}}
 %-------------------------------------------------                
-\GROUP{\texorpdfstring{\href{iis.uibk.ac.at} % Your research group's URL
+\GROUP{\texorpdfstring{\href{http://iis.uibk.ac.at} % Your research group's URL
                 {INTELLIGENT AND INTERACTIVE SYSTEM GROUP}} % Your research group's name in capitals - this is not currently used anywhere in the template, cite it with \GROUPNAME if you want it
                 {INTELLIGENT AND INTERACTIVE SYSTEM GROUP}}
 %-------------------------------------------------                

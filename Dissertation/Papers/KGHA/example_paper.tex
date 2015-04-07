@@ -1,0 +1,894 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% ICML 2015 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Use the following line _only_ if you're still using LaTeX 2.09.
+%\documentstyle[icml2015,epsf,natbib]{article}
+% If you rely on Latex2e packages, like most moden people use this:
+\documentclass[a4paper]{article}
+
+% use Times
+\usepackage{times}
+% For figures
+\usepackage{graphicx} % more modern
+%\usepackage{epsfig} % less modern
+\usepackage{subfigure} 
+
+% For citations
+\usepackage{natbib}
+
+% For algorithms
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usepackage{amsmath,amssymb} 
+\usepackage{makecell}
+\usepackage{booktabs}
+
+\usepackage{helvet}
+\usepackage{courier}
+
+% As of 2011, we use the hyperref package to produce hyperlinks in the
+% resulting PDF.  If this breaks your system, please commend out the
+% following usepackage line and replace \usepackage{icml2015} with
+% \usepackage[nohyperref]{icml2015} above.
+\usepackage{hyperref}
+%\usepackage[a4paper, left=2cm, right=2cm, top=1cm,bottom=2.5cm]{geometry}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\shortcite}[1]{\cite{#1}}
+
+\newcommand{\argmax}{\mathop\mathrm{argmax}}
+\newcommand{\argmin}{\mathop\mathrm{argmin}}
+
+\newenvironment{proof}[1][Proof]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newcommand{\qed}{\nobreak \ifvmode \relax \else
+      \ifdim\lastskip<1.5em \hskip-\lastskip
+      \hskip1.5em plus0em minus0.5em \fi \nobreak
+      \vrule height0.75em width0.5em depth0.25em\fi}
+
+\newcommand{\notejp}[1]{\textcolor{red}{JP: #1}}
+
+
+% Packages hyperref and algorithmic misbehave sometimes.  We can fix
+% this with the following command.
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+% Employ the following version of the ``usepackage'' statement for
+% submitting the draft version of the paper for review.  This will set
+% the note in the first column to ``Under review.  Do not distribute.''
+%\usepackage{icml2015} 
+
+% Employ this version of the ``usepackage'' statement after the paper has
+% been accepted, when creating the final version.  This will set the
+% note in the first column to ``Proceedings of the...''
+%\usepackage[accepted]{icml2015}
+
+
+% The \icmltitle you define below is probably too long as a header.
+% Therefore, a short form for the running title is supplied here:
+%\icmltitlerunning{Multi-Label Learning with Kernel Generalized Homogeneity Analysis}
+\title{Multi-Label Learning with Kernel Generalized Homogeneity Analysis}
+\date{}
+\author{Hanchen Xiong \quad Sandor Szedmak\quad Justus Piater\\ \\
+	\textit{\{hanchen.xiong,sandor.szedmak,justus.piater\}@uibk.ac.at} \\ \\
+Institute of Computer Science, University of Innsbruck}	
+\begin{document} 
+\maketitle
+% It is OKAY to include author information, even for blind
+% submissions: the style file will automatically remove it for you
+% unless you've provided the [accepted] option to the icml2015
+% package.
+%\author{Your Name}{email@yourdomain.edu}
+%\address{Your Fantastic Institute,
+%            314159 Pi St., Palo Alto, CA 94306 USA}
+%\author{Your CoAuthor's Name}{email@coauthordomain.edu}
+%\address{Their Fantastic Institute,
+%            27182 Exp St., Toronto, ON M6H 2T1 CANADA}
+
+% You may provide any keywords that you 
+% find helpful for describing your paper; these are used to populate 
+% the "keywords" metadata in the PDF but will not be shown in the document
+%\icmlkeywords{boring formatting information, machine learning, ICML}
+
+
+\begin{abstract} 
+Canonical correlation analysis (CCA) and homogeneity analysis (HA) are two popular methods for analyzing multivariate data. Although they are applied on
+different data types -- the former is used on two sets of variables while the latter operates on multivariate categorical variables -- we reveal that 
+they are actually closely related. Building on this relation, we generalize HA to handle continuous variables, which leads to a 
+relaxed variant of multiple-set CCA. Furthermore, kernel functions are also utilized to enable generalized HA to learn nonlinear dependencies within data.
+
+In present paper, we in particular investigate how kernel generalized HA (KGHA) can be applied to multi-label learning. We found that, for vector-valued functions, KGHA works as a       
+learning method consisting of two advantageous components: low-rank output kernel learning and co-regularized multi-view learning. 
+Low-rank output kernel learning coincides with lower-dimensional 
+latent label space discovery, while co-regularized multi-view learning is related to multiple kernel learning for heterogeneous information fusion. 
+Furthermore, a large-scale KGHA learning scheme is developed by employing a block-wise Nystr{\"o}m approximation.      
+We evaluate KGHA on the image annotation task.
+Our experimental results on several benchmark databases demonstrate that KGHA compares favorably to other state-of-the-art methods.\end{abstract} 
+
+\section{Introduction}
+\label{sec:introduction}
+The study of embedding complex data into a lower-dimensional space is an important task in machine learning.  
+%The motivation are in general twofold: at first, there usually exist some degree of redundancy and noise in real-world data, so projecting the data into a 
+%lower-dimensional space is desirable to more efficiently preserve interesting information and achieve a higher signal-to-noise ratio; secondly, since lower 
+%dimensional representation of data can be more easily visualized, \emph{e.g.} 2D or 3D plots, many embedding techniques are used in data visualization applications.
+Relevant methods include \emph{principal component analysis} (PCA), \emph{canonical correlation analysis} (CCA), \emph{homogeneity analysis} (HA, also known as multiple correspondence 
+analysis), to name just a few.  These methods are generally known as \emph{multivariate analysis} (MVA; \citeauthor{MVA_book} \citeyear{MVA_book}).   
+Originally, MVA methods were proposed with linear projections to satisfy different objective functions, in supervised or unsupervised contexts. For instance, the objective of PCA is 
+to maximize the variances of linear projections of data onto a small number of principal bases.
+CCA seeks two lower-dimensional coordinate frames in which two sets of variables (\emph{e.g.} input and output) are maximally correlated. HA, by contrast, operates 
+on multivariate categorical data, and outcomes are a set of linear projections which can map both data instances and categorical values to a low-dimensional space such 
+that their consistency is preserved as much as possible.                  
+Although these methods have been successfully employed in various application domains, detecting linear patterns within data is rather limited in the face of
+increasingly more complicated data. Therefore, some nonlinear embedding techniques, \emph{e.g.} \emph{kernelized versions} 
+of the above-mentioned MVA methods or \emph{nonlinear manifold learning} methods \cite{Manifold_Learning}, 
+are increasingly used in modern data analysis.  
+
+We start with introductions to CCA and HA (Section \ref{sec:pre}), in which their corresponding objective 
+functions, constraints, solutions and properties are explained. Similar to CCA, in a supervised-learning context, HA can be employed by considering one set of variables as 
+outputs and the remaining sets as input 
+features from heterogeneous information sources. 
+Then, in section \ref{sec:linking}, by reformulating CCA on $J$ sets of variables with $J>2$, we 
+arrive at an objective function of a form identical to HA.  Building on this relationship, we generalize homogeneity analysis to handle continuous 
+variables, which leads to a relaxed variant of multiple-set CCA. Furthermore, in section \ref{sec:KGHA}, we add a trade-off parameter to fit supervised-learning scenarios and kernel functions to 
+enable generalized HA for learning nonlinear patterns.  
+We refer to this novel HA as kernel generalized HA (KGHA). Similarly to regular HA, KGHA is trained via alternating least squares (ALS), which is more efficient than the multiple pair-wise eigenvalue  
+computation in multiple-set CCA. 
+
+In section \ref{sec:multi-label} we study KGHA in the multi-label learning case.  We show that when used 
+for learning vector-valued functions (\emph{e.g.}\ multi-label, multi-task learning), KGHA is an elegant combination of low-rank output kernel learning and co-regularized multi-view learning. 
+Low-rank output kernel learning coincides with multi-label dimensionality reduction \cite{sun_MLDR}, which enables learners to gain higher efficiency and 
+accuracy \cite{Ji_2009_IJCAI} by exploiting more compact yet informative latent space. Also, co-regularized multi-view learning  is related to multiple kernel learning 
+(MKL; \citeauthor{MKL_cv} \citeyear{MKL_cv}), in which heterogeneous information is encoded in an ensemble of kernels to match outputs. One feature worth noting is that, 
+since multi-label is encoded in a lower-dimensional latent space, co-regularization in KGHA takes place in a subsapce of multi-view, which differs from conventional 
+co-regularization \cite{Rosenberg_2007_AISTATS}.                   
+
+This paper makes four contributions. First, we reveal the close connections between HA and multiple-set CCA, which sheds light on new understanding   
+and potential extensions of these two MVA techniques. 
+Second, we propose a novel multi-label learning method, KGHA, which is composed of two advantageous components, low-rank output kernel 
+learning and co-regularized multi-view learning. 
+Third, we develop a large-scale learning scheme for KGHA by employing a block-wise Nystr{\"o}m method for approximating kernel matrices and conjugate gradient for solving ALS.           
+Finally, according to our experimental results in image annotation tasks, KGHA can improve performance on several benchmark databases.    
+          
+
+\subsection{Related Work}
+Our study can be connected to many other work in different respects. The following gives a short summary of recent advances of relevant research. 
+
+\textbf{Variants of CCA.} It has been shown that CCA is related to other MVA techniques, such as partial least square (PLS) \cite{Sun_2009_IJCAI}  and  Fisher linear discriminative 
+analysis \cite{Sun_2011_PAMI}. More extensions of CCA for multi-label learning can be found in \citeauthor{HardoonSS04} \shortcite{HardoonSS04} and \citeauthor{Sun_2011_PAMI} \shortcite{Sun_2011_PAMI}.   
+\textbf{Multi-Label Prediction.} Basically, multi-label learning has been studied with different ``canonical'' learning schemes , e.g. regression
+\cite{Hsu_NIPS_2009,lin_2014_icml} and ranking \cite{RankSVM}. Recently, structured output learning has also been 
+leveraged \cite{Hariharan_icml_2010,Xiong_esann_2014} for this study. Our method belongs to the regression category.  
+\textbf{Multi-Label Dimensionality Reduction.} Much effort has been put into learning a shared subspace for multi-label outputs (see a review by \citeauthor{sun_MLDR} \citeyear{sun_MLDR}).
+Other notable work includes projection via compressed sensing \cite{Hsu_NIPS_2009} and feature-aware label encoding  \cite{lin_2014_icml}. 
+\textbf{MKL}. MKL has been recruited as a framework for integrating multiple input features from heterogeneous information 
+sources \cite{MKL}. Especially in computer vision and bioinformatics applications \cite{MKL_cv, Mostafavi_2010_Bioinfo}, since various visual features and bio-related features are available, MKL plays an important role in 
+manipulating geometric structures of data in multiple features to fit certain applications.  \textbf{Co-regularization for Multi-View Learning.} 
+Co-regularization has been well investigated in multi-view learning \cite{Rosenberg_2007_AISTATS,Sridharan_2008_COLT}, however, these studies focus on semi-supervised learning. A similar 
+subspace co-regularization in supervised-learning circumstance was proposed in \citeauthor{Guo_2012_ICML} \cite{Guo_2012_ICML}, where nevertheless only two views are considered.  
+
+Two pieces of work closely related to KGHA are FaIE \cite{lin_2014_icml} and MultiK-MHKS \cite{MKL} respectively. 
+First, in FaIE, lower-dimensional projections of multi-label data are found by jointly optimizing the correlations between input features and 
+projections and recoverability of projections back to the original output data. From a different perspective, KGHA can be formulated as an objective function rather 
+similar to FaIE. KGHA goes beyond FaIE by considering multiple features from heterogeneous sources of information. 
+Secondly, in MultiK-MHKS, an extra regularization is used to encourage consensus among predictions from multiple kernels, which is identical to 
+our co-regularized multi-view learning. Our work differs from MultiK-MHKS in that we learn multiple kernels in a non-binary subspace, and 
+thus use least-squares loss instead of misclassification loss.   
+In this sense, KGHA can be considered a combination of FaIE and MultiK-MHKS. 
+
+\section{Preliminaries}
+\label{sec:pre}
+
+\subsection{Canonical Correlation Analysis}
+\label{subsec:CCA}
+Canonical correlation analysis (CCA) \cite{HardoonSS04} was developed to find the correlations between two sets of variables. The essence of CCA is to seek a pair of 
+linear transformations, one for each set, such that the correlation of transformed variables is maximized. 
+Assume that a data instance is composed of two set of variates, $[g_1^\top,g_2^\top]$, of which the dimensions are $d_1$ and $d_2$ respectively.  
+A dataset $\mathcal{D}$ consisting of $M$ such instances can be represented as a $M\times (d_1+d_2)$ matrix of the form $\mathcal{D}=[G_1,G_2]$. By using two matrices 
+$\mathbf{w}_1\in\mathbb{R}^{d_1\times p}$ and $\mathbf{w}_2\in\mathbb{R}^{d_2\times p}$ with $p<\min(d_1,d_2)$, we can project the data into a lower, $p$-dimensional space:
+\begin{equation}
+    \hat{\mathcal{D}}= [G_1\mathbf{w}_1, G_2\mathbf{w}_2] 
+\end{equation}
+Assuming the original data are already centered, $\hat{\mathcal{D}}$ will be centered as well, and the covariance of $\hat{\mathcal{D}}$ is $\mathbf{w}_1 G_1 G_2 \mathbf{w}_2$. 
+The objective of CCA is to select $\mathbf{w}_1$ and $\mathbf{w}_2$ to maximize the correlation between $G_1\mathbf{w}_1$ and $G_2\mathbf{w}_2$:
+\begin{equation}
+    \begin{array}{rcl}
+        \{\mathbf{w}_1^*,\mathbf{w}_2^*\} &= &\displaystyle\argmax_{\mathbf{w}_1,\mathbf{w}_2} \frac{\mathbf{w}_1^\top G_1^\top G_2 \mathbf{w}_2}{||\mathbf{w}_1 G_1||||\mathbf{w}_2 G_2||} \\ 
+                                          &= & \displaystyle\argmax_{\mathbf{w}_1,\mathbf{w}_2} \frac{\mathbf{w}_1^\top C_{12} \mathbf{w}_2}{\sqrt{\mathbf{w}_1^\top C_{11} \mathbf{w}_1 \mathbf{w}_2^\top C_{22} \mathbf{w}_2}}
+    \end{array}
+    \label{equ:CCA1}
+\end{equation}
+where $C_{12}, C_{11}, C_{22}$ are blocks within the covariance matrices of $\mathcal{D}$:  
+\begin{equation}
+    \mathrm{cov}(\mathcal{D})=\left[\begin{array}{cc}
+            C_{11} & C_{12} \\
+            C_{21} & C_{22}
+        \end{array}
+    \right]
+\end{equation}
+(\ref{equ:CCA1}) can be rewritten as   
+\begin{eqnarray}
+        \{\mathbf{w}_1^*,\mathbf{w}_2^*\} &=& \argmax_{\mathbf{w}_1,\mathbf{w}_2}\mathbf{w}_1^\top C_{12} \mathbf{w}_2     \label{equ:CCA2}\\
+                     s.t.    & &  \mathbf{w}_1^\top C_{11} \mathbf{w}_1=1,\; \mathbf{w}_2^\top C_{22} \mathbf{w}_2=1 \nonumber
+\end{eqnarray}
+It has been shown \cite{Bie_05,HardoonSS04} that the solution to (\ref{equ:CCA2}) can be obtained by solving following generalized eigenvalue problem:   
+%To solve the constrained optimization problem in (\ref{equ:CCA2}), we can first write out its corresponding Lagrangian:   
+%\begin{equation}
+%    \mathcal{L}=\mathbf{w}_1^\top C_{12} \mathbf{w}_2 - \frac{\lambda_1}{2} (\mathbf{w}_1^\top C_{11} \mathbf{w}_1-1)-\frac{\lambda_2}{2} (\mathbf{w}_2^\top C_{22} \mathbf{w}_2-1),
+%\end{equation} 
+%and then compute the derivatives of $\mathcal{L}$ \emph{w.r.t.} $\mathbf{w}_1$ nd $\mathbf{w}_2$ as:
+%\begin{equation}
+%    \begin{array}{rcl}
+%        \frac{\partial \mathcal{L}}{\partial \mathbf{w}_1} &=& C_{12} \mathbf{w}_2-\lambda_1 C_{11} \mathbf{w}_1=0 \\
+%        \frac{\partial \mathcal{L}}{\partial \mathbf{w}_2} &=& C_{21} \mathbf{w}_1-\lambda_2 C_{22} \mathbf{w}_2=0
+%    \end{array}
+%    \label{equ:cca_L_derivate}
+%\end{equation}
+%where $C_{21}=C_{12}^\top$. Based on (\ref{equ:cca_L_derivate}), we can further find that:
+%\footnotesize 
+%\begin{equation}
+%    \begin{array}{cl}
+%                        & \mathbf{w}^\top_1\frac{\partial \mathcal{L}}{\partial \mathbf{w}_1}-\mathbf{w}^\top_2\frac{\partial \mathcal{L}}{\partial \mathbf{w}_2}=0 \\ 
+%        \Leftrightarrow & \mathbf{w}^\top_1 C_{12} \mathbf{w}_2-\lambda_1 \mathbf{w}^\top_1 C_{11} \mathbf{w}_1=\lambda_2\mathbf{w}^\top_2 C_{22} \mathbf{w}_2-\mathbf{w}^\top_2 C_{21} \mathbf{w}_1 \\
+%         \Leftrightarrow & \lambda_1 \mathbf{w}^\top_1 C_{11} \mathbf{w}_1=\lambda_2\mathbf{w}^\top_2 C_{22} \mathbf{w}_2
+%    \end{array}
+%\end{equation}
+%\normalsize
+%which implies that $\lambda_1=\lambda_2=\lambda$ (because $\mathbf{w}_1^\top C_{11} \mathbf{w}_1=\mathbf{w}_2^\top C_{22} \mathbf{w}_2=1$). Then the primal form of CCA can be written out as:
+\begin{equation}
+    \left(\begin{array}{cc}
+        \mathbf{0} & C_{12} \\
+        C_{21}     & \mathbf{0}
+    \end{array}
+    \right) 
+    \left( \begin{array}{c} \mathbf{w}_1\\ \mathbf{w}_2 \end{array} \right)= 
+    \lambda 
+    \left(\begin{array}{cc}
+        C_{11} & \mathbf{0} \\
+        \mathbf{0}  & C_{22}
+    \end{array}
+    \right)
+    \left( \begin{array}{c} \mathbf{w}_1\\ \mathbf{w}_2 \end{array} \right)
+    \label{equ:CCA_primal}
+\end{equation}
+%which is a generalized eigenvalue problem. 
+There can be many solutions for (\ref{equ:CCA_primal}), which correspond to different eigenvectors. One important 
+property of different solution pairs (\emph{e.g.} when we have $p$ solution pairs $\mathbf{W}_1=[\mathbf{w}_1^1,\ldots, \mathbf{w}_1^p]$, $\mathbf{W}_2=[\mathbf{w}_2^1,\ldots, \mathbf{w}_2^p]$) is that the projections onto different $\mathbf{w}_{i=1,2}^{k\in [1,p]}$ are 
+uncorrelated to each other:     
+\footnotesize
+\begin{equation}
+    \begin{array}{rcl}
+        \forall i=1,2, & &    \mathbf{W}_i^{\top} C_{ii}\mathbf{W}_i=I_p \\
+        \forall k\neq h, & &  \mathbf{w}_1^{k\top} C_{12}  \mathbf{w}_2^h=0 
+    \end{array}
+\end{equation}
+\normalsize
+%To enhance the generalization and numerical stability, regularization is usually added in $C_{11}$ and $C_{22}$:     
+%\scriptsize
+%\begin{equation}
+%    \left(\begin{array}{cc}
+%        \mathbf{0} & C_{12} \\
+%        C_{21}     & \mathbf{0}
+%    \end{array}
+%    \right) 
+%    \left( \begin{array}{c} \mathbf{w}_1\\ \mathbf{w}_2 \end{array} \right)= 
+%    \lambda 
+%    \left(\begin{array}{cc}
+%        C_{11}+\lambda I& \mathbf{0} \\
+%        \mathbf{0}  & C_{22}+\lambda I 
+%    \end{array}
+%    \right)
+%    \left( \begin{array}{c} \mathbf{w}_1\\ \mathbf{w}_2 \end{array} \right)
+%\normalsize
+%    \label{equ:CCA_primal}
+%\end{equation}
+%\normalsize
+%\subsection{Dual Form and Kernel CCA}
+It was also shown that the solutions of (\ref{equ:CCA_primal})  $\mathbf{w}_1, \mathbf{w}_2$ lie in the span of $G_1$ and $G_2$ respectively, \emph{i.e.} 
+$\mathbf{w}_1=G_1^\top\boldsymbol{\alpha}_1 $, $\mathbf{w}_2=G_2^\top\boldsymbol{\alpha}_2 $, $\boldsymbol{\alpha}_1,\boldsymbol{\alpha}_2\in \mathbb{R}^M$. By substituting the alternative form 
+of $\mathbf{w}_1, \mathbf{w}_2$ into the primal form of CCA (\ref{equ:CCA_primal}), we can write out the dual form of CCA \cite{Bie_05,HardoonSS04} as
+\small
+\begin{equation}
+    \left(\begin{array}{cc}
+        \mathbf{0} & K_1 K_2 \\
+        K_2 K_1     & \mathbf{0}
+    \end{array}
+    \right) 
+    \left( \begin{array}{c} \boldsymbol{\alpha}_1\\ \boldsymbol{\alpha}_2 \end{array} \right)= 
+    \lambda 
+    \left(\begin{array}{cc}
+        K_{1}^2 & \mathbf{0} \\
+        \mathbf{0}  & K_{2}^2
+    \end{array}
+    \right)
+    \left( \begin{array}{c} \boldsymbol{\alpha}_1\\ \boldsymbol{\alpha}_2 \end{array} \right)
+    \label{equ:CCA_dual}
+\end{equation}
+\normalsize
+where $K\in\mathbb{R}^{M\times M}$ is the \emph{Gram matrix} of the data, \emph{i.e.} $K_{i=1,2}=G_i G_i^\top$.  Therefore, by comparing (\ref{equ:CCA_primal}) and (\ref{equ:CCA_dual}), we can see that 
+when $M<d_1+d_2$, the dual form can be used to accelerate computing. The value of the dual form is even more significant when the \emph{kernel method} is used on the data 
+and the Gram matrix is replaced with a kernel matrix: 
+\begin{equation}
+    \mathcal{K}(G_i^{(m)}, G_i^{(n)})=\left\langle \phi_i(G_i^{(m)}),\phi_i(G_i^{(n)}) \right\rangle
+    \label{equ:kernel}
+\end{equation}
+where $\phi_i:\mathbb{R}^{d_i} \to \mathcal{H}$ is a feature map from original data space to a reproducing kernel Hilbert space (RKHS). Kernel methods are of great help in detecting nonlinear patterns within the data.    
+
+\subsection{Homogeneity Analysis}
+\label{subsec:HA}
+Homogeneity analysis \cite{gifi} is a popular tool for analyzing and visualizing multivariate categorical data.  
+Assume that there are $M$ data instances in a dataset $\mathcal{D}=\{O_m\}_{m=1}^M$, and each data instance is  
+represented by a $J$-dimensional vector $O_m=[v_1,v_2,\dots, v_J]^\top$ $(m = 1,\dots,M)$. 
+Variable $v_j$ takes on $n_j$ categorical values. Here we briefly review the procedure of homogeneity analysis with its 
+application to this simple dataset. 
+Since the data is represented in a categorical space, 
+we need to convert them to a vector space.    
+To this end, we list $n_j$ categorical values of $v_j$ over all $M$ data instances into an $M\times n_j$ binary indicator matrix $G_j$.  The set of indicator matrices 
+can be gathered in a block matrix
+\begin{equation}
+  G=[G_1 | G_2 | \cdots | G_J].
+\end{equation}
+The key feature of homogeneity analysis is that it simultaneously
+produces two projections into the same Euclidean space $\mathbb{R}^p$,
+one from $J$-dimensional data instances $O_i$, the other from the
+$M$-dimensional categorical attribute indicator vectors (columns of
+$G$).  These projections are referred to as \emph{object 
+scores} and \emph{category quantifications}, respectively \cite{gifi}. 
+In addition, these two projections are intended to preserve the consistency among data instances and 
+attribute values as closely as possible to the data in the original categorical space:
+\begin{itemize}
+    \item data instances that exhibit similar attribute values are located closely together; 
+    %\item data instances that exhibit dissimilar attribute values are located far apart;
+    \item data instances are close to their attribute category values.
+\end{itemize}
+Suppose that the collection of data instances is represented by an $M\times p$ matrix $X$, and category quantifications for variable $v_j$ are represented by 
+a $n_j\times p$ matrix $Y_j$. Then, the cost function of projections can be formulated as:
+\begin{equation} 
+    f(X,Y_1,\ldots, Y_J)=\frac{1}{J} \sum_{j=1}^{J} ||X-G_j Y_j||_F^2 
+  \label{equ:cost_function}
+\end{equation}
+where $||\cdot||_F$ denotes the Frobenius norm. Two extra constraints are added to avoid the trivial solution ($X=\mathbf{0}, \forall j\in [1,J]\quad Y_j=\mathbf{0}$):
+\begin{eqnarray}
+  \mathbf{1}_{M\times 1}^\top X&=&\mathbf{0}
+  \label{equ:first_constraint} \\
+  X^\top X&=&I_p
+  \label{equ:second_constraint}
+\end{eqnarray}
+The first constraint (\ref{equ:first_constraint}) essentially normalizes the projected object scores to be centered around the origin.  
+The second restriction (\ref{equ:second_constraint}) standardizes all $p$ dimensions of the object score by rescaling the square length of 
+each dimension to $M$. In addition, another effect of (\ref{equ:second_constraint}) is that the $p$ columns of $X$ are imposed to be 
+orthogonal to each other.   
+
+To minimize the cost function (\ref{equ:cost_function}) under these constraints (\ref{equ:first_constraint}, \ref{equ:second_constraint}), usually 
+the alternating least squares (ALS) algorithm \cite{gifi} is used. The basic idea of ALS is to iteratively optimize with respect to $X$ or 
+to $[Y_1,\ldots,Y_M]$ with the other held fixed. Assuming $X^{(0)}$ is provided arbitrarily at iteration $t=0$, each iteration of ALS can be summarized as:    
+\begin{enumerate}
+    \item $\forall j\in[1,J],  $update $Y_j$: 
+  \begin{equation}
+    Y_j^{(t)}=(G_j^\top G_j)^{-1}G_j^{\top}X^{(t)}
+    \label{equ:update_Y}
+  \end{equation}
+  \item update $X$:
+    \begin{equation}
+        X^{(t+1)}=J^{-1}\sum_{j=1}^{J}G_j Y_j^{(t)}
+      \label{equ:update_X}
+    \end{equation}
+  \item normalize $X$: 
+    \begin{equation}
+    X^{(t+1)}=\textit{Gram-Schmidt}(X^{(t+1)})
+    \label{equ:orthognalization}
+  \end{equation}
+\end{enumerate}
+It can be seen (\ref{equ:update_Y}) that the category quantification of $Y_j$ is computed as the centroid of the object scores that belong to it. 
+Step 2 (\ref{equ:update_X}) updates object scores $X$ 
+by taking the average of the quantifications of the categories it belongs to. In step~3 (\ref{equ:orthognalization}) a \emph{Gram-Schmidt} procedure is used to find 
+the normalized and orthogonal basis of updated object scores from the previous step. In this way, the object scores will be located close to the category 
+quantifications they fall in, and category quantifications will be close to the object scores belonging in them.   
+
+
+\section{Linking CCA and HA}
+\label{sec:linking}
+Based on the previous section, we can see that CCA and HA are used in two different data types: the former operates on two sets of variables 
+while the latter is used on multivariate categorical variables. We reveal that they are closely related when CCA is generalized to multiple sets of variables. 
+Suppose we 
+want to find 2 sets of $p$ linear projections $\mathbf{W}_1=[\mathbf{w}_1^1,\ldots, \mathbf{w}_1^p]$, $\mathbf{W}_2=[\mathbf{w}_2^1,\ldots, \mathbf{w}_2^p]$ for regular CCA. We can rewrite 
+(\ref{equ:CCA1}) as
+\begin{equation}
+    \begin{array}{l}
+        \{\mathbf{W}_1^*,\mathbf{W}_2^*\}  =  \displaystyle\argmin_{\mathbf{W}_1,\mathbf{W}_2} ||G_1 \mathbf{W}_1  -G_2 \mathbf{W}_2 ||_F^2 \\ \\
+                        s.t.  \quad  \forall i\in\{1,2\}, \forall k,h\in [1,p], k\neq t \\ 
+                        \quad\mathbf{W}_i^\top C_{ii} \mathbf{W}_i=I_p, \quad \mathbf{w}_1^{k \top} C_{12}\mathbf{w}_2^h=0
+    \end{array}
+    \label{equ:CCA_misfit}
+\end{equation}
+When we have $J>2$ sets of variables, (\ref{equ:CCA_misfit}) will be: 
+\begin{equation}
+    \begin{array}{l}
+        \{\mathbf{W}_1^*,\ldots,\mathbf{W}_J^*\} = 
+        \displaystyle\argmin_{\mathbf{W}_1, \ldots,\mathbf{W}_J} \sum_{i=1,j=1}^J ||G_i \mathbf{W}_i  -G_j \mathbf{W}_j ||_F^2 \\ \\
+                        s.t. \quad \forall i,j\in[1,J], \forall k,h\in [1,p], k\neq h  \\
+                        \mathbf{W}_i^\top C_{ii} \mathbf{W}_i=I_p, \quad \mathbf{w}_i^{k \top} C_{ij}\mathbf{w}_j^h=0
+    \end{array}
+    \label{equ:CCA_SE}
+\end{equation}
+
+\begin{lemma}
+The objective function in (\ref{equ:CCA_SE}) is equivalent to
+\begin{equation}
+    %\begin{array}{l}
+        \min_{X, \mathbf{W}_1, \ldots,\mathbf{W}_J} \frac{1}{J} \sum_{j=1}^{J} ||X-G_j \mathbf{W}_j||_F^2  
+                                             %  s.t. X=\frac{1}{J}\sum_{j=1}^{J}G_j \mathbf{W}_j;
+    %\end{array}
+\end{equation}
+    \label{lemma:equ}
+\end{lemma}
+\begin{proof}
+For simplicity, we only consider one data instance $\mathcal{D}=[g_1^\top, \ldots, g_J^\top]$. $\forall i,j\in [1,J], i\neq j$, we denote $\mathbf{W}_i^\top g_i$ and $\mathbf{W}_j^\top g_j$ as $v_i$ and $v_j$ respectively, $v_i,v_j\in\mathbb{R}^p$. Then the
+    objective function in (\ref{equ:CCA_SE}) is
+    \begin{equation}
+        \small
+        \begin{array}{cl}
+              &\displaystyle\sum_{i=1,j=1}^J ||v_i-v_j||^2 \\   
+            = &\displaystyle\sum_{i=j,j=1}^J \sum_{k=1}^p \left(v_{ik}^2+v_{jk}^2-2v_{ik}v_{jk}\right)\\
+            = &\displaystyle\sum_{k=1}^p \left(\sum_{i=1,j=1}^J v_{ik}^2+\sum_{i=1,j=1}^J v_{jk}^2- \sum_{i=1,j=1}^J2v_{ik}v_{jk}\right) \\
+            = &\displaystyle\sum_{k=1}^p \left(J\sum_{i=1}^J v_{ik}^2+J\sum_{j=1}^J v_{jk}^2- 2\sum_{i=1}^Jv_{ik}\sum_{j=1}^J v_{jk}\right).
+        \end{array}
+        \label{equ:extend_1}
+    \end{equation}
+    In addition, by denoting $\mathcal{M}_1^k=\frac{1}{J}\sum_{j=1}^{J}v_{jk}$, $\mathcal{M}_2^k=\frac{1}{J}\sum_{j=1}^{J}v_{jk}^2$, (\ref{equ:extend_1}) is equal to
+    \begin{equation}
+    J^2 \sum_{k=1}^p \left(\mathcal{M}_2^{k}-(\mathcal{M}_1^{k})^2\right).
+    \end{equation}
+    Since $\left(\mathcal{M}_2^{k}-(\mathcal{M}_1^{k})^2\right)$ is the variance of the $k$th component in $\{v_i\}_{i=1}^J$, this is further equal to
+    \begin{equation}
+        J^2 \sum_{k=1}^p \sum_{j=1}^J (v_{ik}-\mathcal{M}_1^k)^2=J^2 \sum_{j=1}^J ||v_i-\mathbf{M}_1||^2
+        \label{equ:extend_2}
+    \end{equation}
+    where $\mathbf{M}_1=[\mathcal{M}_1^1,\ldots,\mathcal{M}_1^p]^\top$. (\ref{equ:extend_2}) can be phrased as a rescaled optimization problem
+    \begin{equation}
+        \min_X  \frac{1}{J} \sum_{j=1}^J ||v_i-X||^2
+        \label{equ:extend_3}
+    \end{equation}
+    with optimal solution $X=\mathbf{M}_1=\frac{1}{J}\sum_{j=1}^J v_j$. When $M$ data instances are considered, it is straightforward to extend (\ref{equ:extend_3}) to
+    \begin{equation}
+        \min_X  \frac{1}{J} \sum_{j=1}^J ||G_i\mathbf{W}_i-X||_F^2
+        \label{equ:extend_4}
+    \end{equation}
+    which completes the proof of the lemma. 
+\qed
+\end{proof}
+Comparing (\ref{equ:cost_function}) and (\ref{equ:extend_4}), we can see that multiple-set CCA has the same objective function as HA (by replacing $Y_i$ with  
+$\mathbf{W}_i$), yet with different constraints; see (\ref{equ:first_constraint}), (\ref{equ:second_constraint}) and (\ref{equ:CCA_SE}). In the following, we 
+will show some connections between constraints in multiple-set CCA $\Omega_{mCCA}$ and 
+constraints in HA $\Omega_{HA}$.
+%\begin{lemma}
+%    $\Omega_{CCA}\Rightarrow \Omega_{HA}$, but $\Omega_{HA}\nRightarrow \Omega_{CCA}$
+%\end{lemma}
+
+First, since in $\Omega_{mCCA}, \forall j\in[1,J], \mathbf{1}_{M\times 1}^\top G_j \mathbf{W}_j=0$, $\mathbf{1}_{M\times 1}^\top X=\frac{1}{J}\sum_{j=1}^J \mathbf{1}_{M\times 1}^\top G_j \mathbf{W}_j=0$, which coincides with the first constraint in $\Omega_{HA}$ (\ref{equ:first_constraint}).
+Secondly,  in $\Omega_{mCCA}, \forall i,j\in[1,J], \forall k,h\in [1,p], k\neq h, \mathbf{W}_i^\top C_{ii} \mathbf{W}_i=I_p, \quad \mathbf{w}_i^{k \top} C_{ij}\mathbf{w}_j^h=0$. 
+Therefore,
+$
+  X^\top X=\frac{1}{J^2} \big(\sum_{j=1}^J\mathbf{W}_j^\top C_{jj}\mathbf{W}_j+2\sum_{i\neq j} \mathbf{W}_i^\top C_{ij}\mathbf{W}_j\big).
+$
+We can see that when the correlation of projected data in every pair ($i,j$) are ideally maximized to 1, $X^\top X=I_p$, which is a rescaled version of the second constraint 
+in $\Omega_{HA}$ (\ref{equ:first_constraint}).
+However, satisfying $\Omega_{HA}$ cannot ensure satisfaction of any constraint in $\Omega_{mCCA}$. Therefore, roughly speaking, we can consider $\Omega_{mCCA}$ as a sufficient but not 
+necessary condition for $\Omega_{HA}$, or in other words,  $\Omega_{HA}$ is a relaxed version of $\Omega_{mCCA}$.    
+
+\section{Kernel Generalized Homogeneity Analysis}
+\label{sec:KGHA}
+Based on the analysis above, we can generalize HA as a relaxed variant of multiple-set CCA by replacing binary indicator matrices of $J$ types of features. 
+%In particular, they can come from $J$ heterogeneous information sources. 
+One strength we gain by using HA is that normalization constraints on $J$ individual projections are eliminated.         
+Therefore, by using ALS for training, multiple pair-wise eigenvalue computations can be avoided.  
+In a supervised-learning context, we can assume that the $J$th set of variables are outputs (denoted by $T=[t^{(1)},t^{(2)},\ldots, t^{(M)}]^\top \in \mathbb{R}^{M\times d_J}$) 
+and the remaining $J-1$ sets of variables represent $J-1$ input features from heterogeneous information sources. Then (\ref{equ:cost_function}) is rewritten as
+\begin{equation} 
+    \begin{array}{cl}
+         & \displaystyle f(X,\mathbf{W},\ldots, \mathbf{W}_{J-1}, \mathbf{P}) \\
+        =& \displaystyle\frac{1}{J} \Bigg( \sum_{j=1}^{J-1} \underbrace{||X-G_j \mathbf{W}_j||_F^2}_{\rho_j}+\underbrace{||X-T \mathbf{P}||_F^2}_{\pi} \Bigg)
+   \end{array}
+  \label{equ:extended_HA}
+\end{equation}
+where $\mathbf{P}$ is the projection associated with outputs $T$\footnote{From now on, we refer to the same thing by using $G_J$ or $T$, and similarly, $\mathbf{P}$
+and $\mathbf{W}_J$ are equivalent.}. Interestingly, $\rho_j$ and $\pi$ in (\ref{equ:extended_HA}) are identical to the predictability 
+and recoverability of $X$ respectively, which are two concepts recently introduced in FaIE \cite{lin_2014_icml}. More concretely, predictability is measured by how much  
+input features are correlated with lower-dimensional representations of multi-label outputs, while recoverability refers to how successfully the compact representations 
+can be decoded back to binary vectors. It is worth noting that only one $\rho_j$ was used in FaIE.  
+Following the philosophy of \citet{lin_2014_icml}, we also introduce a trade-off parameter $\lambda$ to balance $\sum_{j=1}^J \rho_j$ and $\pi$.  After rescaling we can further 
+rewrite (\ref{equ:extended_HA}) as:
+%\begin{equation} 
+%    \begin{array}{cl}
+%         &  \displaystyle f(X,\mathbf{W},\ldots, \mathbf{W}_{J-1}, \mathbf{P}) \\
+%        =&  \displaystyle\lambda \sum_{j=1}^{J-1} ||X-G_j \mathbf{W}_j||_F^2+||X-T \mathbf{P}||_F^2 
+%   \end{array}
+%  \label{equ:tradeoff_HA}
+%\end{equation}
+\begin{equation} 
+    f=\displaystyle\lambda \sum_{j=1}^{J-1} ||X-G_j \mathbf{W}_j||_F^2+||X-T \mathbf{P}||_F^2 
+  \label{equ:tradeoff_HA}
+\end{equation}
+
+Similarly to kernel CCA and kernel FaIE, we can add a kernel function (\ref{equ:kernel}), for each feature, on a pair of data points,     
+$\mathcal{K}_j(G_j^{(m)},G_j^{(n)}), j\in [1,J], m,n\in [1,M]$. We refer to this novel learning method as kernel generalized HA (KGHA).   
+Since updates of $Y_j$ in (\ref{equ:update_Y}) solve a multivariate linear regression (MLR), by replacing it with a dual form of kernel multivariate ridge regression (KMRR), 
+we can develop a dual learning algorithm for KGHA by changing the first two steps in ALS to
+\begin{enumerate}
+    \item $\forall j\in[1,J]$, update the dual matrix $\boldsymbol{\alpha}_j\in \mathbb{R}^{M\times p}$: 
+  \begin{equation}
+      \boldsymbol{\alpha}_j^{(t)}=(K_j+c_j I_M) ^{-1}X
+    \label{equ:update_alpha}
+  \end{equation}
+  \item update $X$:
+    \begin{equation} 
+        X^{(t+1)}=\frac{1}{\lambda(J-1)+1} \left(\sum_{j=1}^{J-1}\lambda K_j\boldsymbol{\alpha}_j + K_J\boldsymbol{\alpha}_J \right) 
+    \end{equation}
+\end{enumerate}
+where $c_j$ is a ridge parameter for each feature
+%, and usually $c_J=0$ for outputs \cite{lin_2014_icml}
+. $K_j$ denotes the kernel matrix of the
+data within the $k$th feature or the Gram matrix if no kernel function is applied.   
+
+
+\section{Multi-Label Learning with KGHA}
+\label{sec:multi-label}
+We now investigate the application of KGHA on multi-label learning, in which 
+KGHA works as a learning framework with low-rank output kernel learning and subspace co-regularized multi-view learning. For the kernel 
+on the $j$th feature ($j\in[1,J-1]$), the original data are mapped to a RKHS $\phi_j(G_j^{(m)})\in \mathcal{H}_j, m\in[1,M]$.  We define a linear kernel on multi-label outputs as did
+\citeauthor{Hariharan_icml_2010} (\citeyear{Hariharan_icml_2010}) and \citeauthor{output_kernel} (\citeyear{output_kernel}): 
+\begin{equation}
+    \small
+        \mathcal{K}_T (t^{(m)}, t^{(n)})  =  \left\langle \phi_T (t^{(m)}),\phi_T(t^{(n)})\right\rangle
+=\left\langle \mathbf{Q}^\top t^{(m)},\mathbf{Q}^\top t^{(n)} \right\rangle 
+                                        % & =&  t^{(m) \top} \mathbf{Q} \mathbf{Q}^\top t^{(n)} \\
+\end{equation}
+where $t^{(m)},t^{(n)}\in \mathbb{B}^{d_J}=\mathcal{T}$, $\mathbf{Q}\in\mathbb{R}^{d_J\times d_J} $ captures the pairwise dependencies between elements in $t^{(m)}$.  
+Using a pairwise formulation as in (\ref{equ:CCA_SE}), the objective function of KGHA is
+\begin{equation}
+    \begin{array}{r@{}l}
+    \sum_{j=1}^{J-1} & \underbrace{||\phi_j (G_j)\mathbf{W}_j-T\mathbf{Q}\mathbf{P})||_F^2}_{\mathcal{A}_j} \\
+    +\;\lambda \sum_{i,j=1:i\neq j} ^{J-1} & \underbrace{||\phi_i (G_i)\mathbf{W}_i-\phi_j (G_j)\mathbf{W}_j||_F^2}_{\mathcal{B}_{ij}}
+    \end{array}
+\label{equ:pairwise-objective}
+\end{equation}
+where $\phi_j(G_j)=[\phi_j(G_j)^{(1)},\ldots,\phi_j(G_j)^{(M)}]^\top$, $\sum_{j=1}^{J-1} \mathcal{A}_j$ corresponds to low-rank output kernel learning 
+with $J-1$ features, while $\sum_{i,j=1:i \neq j}^{J-1}\mathcal{B}_{ij}$ corresponds to co-regularization for multi-view learning. 
+
+\subsection{Low-Rank Output Kernel Learning}
+Let $\tilde{\mathbf{Q}}=\mathbf{QP}$ be a low-rank feature map $\tilde{\phi}_T$ for $\mathcal{T}$.
+Then, $\mathcal{K}_T (t^{(m)}, t^{(n)})=t^{(m) \top} \tilde{\mathbf{Q}} 
+\tilde{\mathbf{Q}}^\top t^{(n)}=t^{(m) \top} \mathbf{L} t^{(n)}$. In each $\mathcal{A}_j$, with a feature map defined on both input and output, a function to be 
+learned is defined as $f_j(G_j^{(m)},t^{(m)})=\mathbf{W}_j^\top \left(\phi_j(G_j^{(m)})\otimes \tilde{\phi}_T(t^{(m)})\right)$, where $\otimes$ denotes tensor product. Therefore, within the framework 
+of regularization in reproducing kernel Hilbert 
+spaces (RKHS) of vector-valued functions \cite{vector_value_function},  the unique 
+kernel $\mathbf{H}_j$ associated with the RHKS of $\tilde{\phi}_T(\mathcal{T})$-valued function is
+\begin{eqnarray*}
+    \small
+        \mathbf{H}_j &=& \left\langle \phi(G_j^{(m)})\otimes \tilde{\phi}_T(t^{(m)}), \phi(G_j^{(n)})\otimes \tilde{\phi}_T(t^{(n)}) \right\rangle  \\
+        &=& \left\langle \phi(G_j^{(m)}),\phi(G_j^{(n)}) \right\rangle \left\langle \tilde{\phi}_T(t^{(m)}),\tilde{\phi}_T(t^{(n)}\right\rangle \\ 
+        &=& \left\langle t^{(m)}, \mathcal{K}_j^{m,n} \mathbf{L} t^{(n)} \right\rangle,
+\end{eqnarray*}
+where $\mathcal{K}_j^{m,n}$ is the kernel value $\mathcal{K}_j(G_j^{(m)},\phi(G_j^{(n)})$. $\mathcal{K}_j^{m,n} \mathbf{L}$ defines an operator-valued, 
+positive semidefinite $\mathcal{T}$-kernel: $\mathbb{R}^{d_j}\times \mathbb{R}^{d_j}\to \mathbb{R}^{d_J \times d_J}$. 
+Because of the decomposability $\mathbf{H}_j=\mathcal{K}_j\cdot \mathbf{L}$ \cite{output_kernel}, $\mathbf{L}$ corresponds to a low-rank output kernel \cite{low_rank_kernel}. 
+Since $\tilde{\mathbf{Q}}$ itself specifies a linear dimensionality reduction, a
+plain Gram matrix is used for $T$ in (\ref{equ:update_alpha}) to learn $\tilde{\mathbf{Q}}$.      
+Low-rank output kernel learning, to some extent, is equivalent to multi-label dimensionality reduction (see a review by \citeauthor{sun_MLDR}\citeyear{sun_MLDR}),              
+whose target is to find a lower-dimensional latent space for multi-label space so as to capture inter-label dependencies as well as to remove nuisance noise.             
+
+\subsection{Co-regularized Multi-view Learning}
+Co-regularization has been popularly employed in multi-view learning \cite{Farquhar_2005_NIPS,Brefeld_2006_ICML,Rosenberg_2007_AISTATS}. Essentially, co-regularization 
+works as an extra model-complexity controller by penalizing functions which tend to generate big disagreements among multiple views (see pairwise $\mathcal{B}_{ij}$ in (\ref{equ:pairwise-objective})).   
+In particular, an improved generalization bound of using co-regularization was presented by \citeauthor{Rosenberg_2007_AISTATS} (\citeyear{Rosenberg_2007_AISTATS}) in terms of Rademacher complexities.    
+While most co-regularization is for semi-supervised learning, quite similar to our work,  a subspace co-regularised multi-view learning paradigm was proposed by \citeauthor{Guo_2012_ICML} (\citeyear{Guo_2012_ICML})
+for supervised learning.
+A similar regularization is also used in MultiK-MHKS \cite{MKL} for multiple kernel learning, which strategically integrates heterogeneous information with an 
+ensemble of kernels. Since MultiK-MHKS works on the original binary output space, the squared misclassification loss is used. However, a least-squares loss is 
+used in KGHA as a regression on lower-dimensional representations of multi-label outputs.      
+
+%\cite{Kernel_alignment}, \cite{MKL}, \cite{MKL_cv}.
+\subsection{Prediction}
+With training data $\mathcal{D}=[G_1,G_2,\ldots, G_{J-1}; T]$, we can obtain $J-1$ dual matrices $\{\boldsymbol{\alpha}\}_{j=1}^{J-1}$ and one linear 
+output decoding matrix $\tilde{\mathbf{Q}}=T^\top \boldsymbol{\alpha}_J$.  
+Then, given a test inputs $\mathcal{D}^{test}=[\dot{G}_1^\top,\dot{G}_2^\top,\ldots, \dot{G}_{J-1}^\top]$, the predicted lower-dimensional representation is
+\begin{equation}
+    \dot{X}=\frac{1}{J-1}\sum_{j=1}^{J-1} \mathcal{K}_j(\dot{G}_j, G_j)\boldsymbol{\alpha}_j  
+\end{equation}
+where $\mathcal{K}_j(G_j, \dot{G}_j )$ is a cross kernel matrix.  Then the score values of labels are computed as 
+\begin{equation}
+    \dot{T}=\dot{X}\tilde{\mathbf{Q}}^\top (\tilde{\mathbf{Q}}\tilde{\mathbf{Q}}^\top)^\dagger
+    \label{equ:binary_prediction}
+\end{equation}
+where $^\dagger$ denotes the Moore-Penrose pseudoinverse. Finally, labels can be predicted by retrieving top$-l$ ($l$ is the desired number of labels) ranked score values. 
+
+\section{Large-Scale KGHA Learning}
+\label{sec:large_scale}
+The computation in each ALS iteration is dominated by the matrix inversion in (\ref{equ:update_alpha});
+thus the time complexity of training KGHA is $O(JM^3)$. 
+On the other hand, the space complexity is $O(JM^2)$. 
+In modern machine learning tasks, it is not uncommon to come across databases with large numbers (\emph{e.g.} millions) of training instances. 
+Like other kernel-based methods, learning on such large-scale databases is challenging since the storage and computation of large kernel matrices          
+will go beyond the memory of normal PCs. To enable KGHA for large-scale learning, in our experiments we used low-rank approximations of kernel matrices with  
+Memory Efficient Kernel Approximation (MEKA, \citeauthor{BlockNystrom}\citeyear{BlockNystrom}). MEKA is essentially a block-wise Nyst{\"o}m algorithm by first clustering 
+instances to obtain dense diagonal kernel blocks, and then obtaining rank-$k$ ($k$ is small) approximations of all diagonal blocks with Nyst{\"o}m algorithm and also off-diagonal blocks
+with regression. For the kernel matrix of the $j$-th 
+feature, 
+\begin{equation}
+    \tilde{K}_j\approx W_j L_j W_j^\top
+\end{equation}
+where $W_j=\boldsymbol{\oplus}_{s=1}^S W_j^{(s)}$ (\emph{i.e.} the direct sum of $W_j^{(s)}$ in $S$ blocks, $W_j\in\mathbb{R}^{Sk\times Sk}$)
+and $L_j\in\mathbb{R}^{Sk\times Sk}$ consists of $S^2$ block-linking matrices. 
+MEKA was reported 
+to outperform other low-rank approximations by exploiting the block structure in kernel matrices \cite{BlockNystrom}.  
+By using MEKA, the space complexity of training KGHA decreases to $O(J(Mk+(ck)^2))$. 
+In addition, to avoid the matrix inverse in (\ref{equ:update_alpha}), we employed \emph{conjugate gradient} (CG) to solve the linear equation for each feature: 
+\begin{equation}
+    (K_j+c_j I_M)\boldsymbol{\alpha}_j=X 
+    \label{equ:linear_equation}
+\end{equation}
+and consequently, time complexity of solving ALS is reduced to $O(JMk)$.   
+%and the cost of computing CG is dominated by a matrix-matrix multiplication $(K_j+c_j I_M)\bold{d}$. By using our low-rank approximation, it can be computed as 
+%$W_j L_j (\sum_{s=1}^S W_j^{(s)\top}\boldsymbol{\alpha}_j^{(s)})$, where $\boldsymbol{\alpha}_j^{(s)}$ are the dual variables of instances clustered in block $s$.       
+
+
+\section{Experiments}
+\begin{table}[t]
+\center
+\begin{tabular}{@{}l@{}lcccc}
+\Xhline{2\arrayrulewidth}
+Dataset   & & \#labels & \#training  &\#test         & \#average \\ 
+          & &         & instances  & instances    & labels  \\ 
+\Xhline{2\arrayrulewidth}
+\textsf{Corel5k}   &  & 260 &  4500 &   500 &  3.3965 \\ 
+\textsf{Espgame}   &  & 268 & 18689 &  2081 &  4.6859 \\
+\textsf{Iaprtc12}  &  & 291 & 17665 &  1962 &  5.7187 \\
+\Xhline{2\arrayrulewidth}
+\end{tabular}
+\caption{Statistics of three image-annotation benchmark datasets.}
+\label{tab:data}
+\end{table}
+  
+\begin{table}[!t]
+\small
+\center
+\begin{tabular}{lcccc}
+\Xhline{2\arrayrulewidth} 
+Feature        & Dim       & Source  & Descriptor   & Location   \\ 
+\Xhline{2\arrayrulewidth}
+DenseHueV3H1   &   300     & texture & Hue          & dense      \\
+DenseSiftV3H1  &  3000     & texture & Sift         & dense      \\
+Gist           &   512     &  -      & Holistic     & -          \\
+HarrisHueV3H1  &   300     & texture & Hue          & Harris     \\
+HarrisSiftV3H1 &  3000     & texture & Sift         & Harris     \\
+HsvV3H1        &  5184     & color   & HSV          & -         \\
+LabV3H1        &  5184     & color   & LAB          & -       \\ 
+RgbV3H1        &  5184     & color   & RGB          & -        \\
+\Xhline{2\arrayrulewidth}
+\end{tabular}
+\normalsize
+\caption{A summary of 8 heterogeneous visual features.}
+\label{tab:features}
+\end{table}
+
+
+\begin{table}[!t]
+    \footnotesize
+\center
+\begin{tabular}{@{}l@{}c@{}c@{}c@{}}
+\Xhline{2\arrayrulewidth}
+\begin{minipage}{0.5in}
+\begin{tabular}{c@{}p{0.6in}@{}}
+\\
+$p/d_J$          \\ \hline
+$0.2$            \\
+$0.4$            \\
+$0.5$            \\
+$0.6$            \\
+$0.8$            \\
+\end{tabular}
+\end{minipage}
+&
+\begin{minipage}{1in}
+\begin{tabular}{c@{}c@{}c@{}}
+    \multicolumn{3}{c}{\textsf{Corel5K}} \\
+ P($\%$) & R($\%$) & F1($\%$) \\ \hline
+  26.1& 30.7 & 28.2  \\
+  30.8& 35.1 & 32.8 \\
+ {\bf 33.7} & {\bf 42.5} & {\bf 37.6} \\
+  29.1 &  38.6 & 33.2  \\
+  28.5 &  38.1 & 32.6  \\
+ \end{tabular}
+\end{minipage}
+&
+\begin{minipage}{0.9in}
+\begin{tabular}{@{}c@{}c@{}c@{}}
+    \multicolumn{3}{c}{\textsf{Espgame}} \\
+ P($\%$) & R($\%$) & F1($\%$) \\ \hline
+  30.1  & 18.8  & 23.1 \\
+  33.7  & 24.4  & 28.3 \\
+{\bf 37.8} & {\bf 27.3} & {\bf 31.7} \\
+ 33.1 & 26.8 & 29.6 \\
+ 31.9 & 25.5 & 28.3 \\
+ \end{tabular}
+\end{minipage}
+&
+\begin{minipage}{0.85in}
+\begin{tabular}{@{}c@{}c@{}c@{}}
+    \multicolumn{3}{c}{\textsf{Iaprtc12}} \\
+ P($\%$) & R($\%$) & F1($\%$) \\ \hline
+ 35.9  & 24.7  & 29.3  \\
+ 38.2  & 25.2  & 30.4  \\
+{40.1} & {\bf 29.7} & {\bf 34.1} \\
+ 40.7  & 26.4 & 32.0  \\
+ {\bf 41.3}  & 26.5 & 32.2  \\
+ \end{tabular}
+\end{minipage}\\
+\Xhline{2\arrayrulewidth}
+\end{tabular}
+\normalsize
+\caption{Performance of KGHA with different $p$ values.}
+\label{tab:different_p}
+\end{table}
+
+
+\begin{table}[!t]
+    \small
+\center
+\begin{tabular}{@{}l@{}c@{}c@{}c@{}}
+\Xhline{2\arrayrulewidth}
+\begin{minipage}{0.5in}
+\begin{tabular}{@{}p{0.6in}@{}}
+\\
+Method          \\ \hline
+%LS       \cite{chen_2013_icml}    \\
+MBRM         \\
+JEC             \\
+TagProp         \\
+FastTag     \\ \hline
+r-MLR             \\
+r-KMLR           \\
+L-HA            \\
+KGHA$-$d            \\
+KGHA$-$r            \\
+KGHA            \\
+\end{tabular}
+\end{minipage}
+&
+\begin{minipage}{1in}
+\begin{tabular}{c@{}c@{}c@{}}
+    \multicolumn{3}{c}{\textsf{Corel5K}} \\
+ P($\%$) & R($\%$) & F1($\%$) \\ \hline
+% 20.0 & 32.0 & 30.0 \\
+ 24.0 & 25.0 & 24.0 \\
+ 27.0 & 32.0 & 29.0 \\
+{\bf 33.0} & 42.0 & {\bf 37.0} \\
+ 32.0 & {\bf 43.0} &{\bf 37.0} \\ \hline
+ 27.7 & 29.3 & 28.5 \\
+ 31.7 & 35.1 & 33.3 \\
+ 30.0 & 27.5 & 28.7 \\
+ 33.1 & 38.1 & 37.5 \\
+ 31.3 & 32.6 & 32.0 \\
+ {\bf 33.7} & {\bf 42.5} & {\bf 37.6} \\
+ \end{tabular}
+\end{minipage}
+&
+\begin{minipage}{0.9in}
+\begin{tabular}{@{}c@{}c@{}c@{}}
+    \multicolumn{3}{c}{\textsf{Espgame}} \\
+ P($\%$) & R($\%$) & F1($\%$) \\ \hline
+% 35.0 & 19.0 & 25.0 \\
+ 18.0 & 19.0 & 18.0 \\
+ 24.0 & 19.0 & 21.0 \\
+ 39.0 & {\bf 27.0} & {\bf 32.0} \\
+ {\bf 46.0} & 22.0 & 30.0 \\ \hline
+ 24.3 & 19.3 & 21.5 \\
+ 24.8 & 26.6 & 25.7 \\
+ 25.1 & 22.4 & 23.7 \\
+ 32.7 & 27.2 & 29.7 \\
+ 28.8 & 18.6 & 22.6 \\
+{\bf 37.8} & {\bf 27.3} & {\bf 31.7} \\
+ \end{tabular}
+\end{minipage}
+&
+\begin{minipage}{0.85in}
+\begin{tabular}{@{}c@{}c@{}c@{}}
+    \multicolumn{3}{c}{\textsf{Iaprtc12}} \\
+ P($\%$) & R($\%$) & F1($\%$) \\ \hline
+% 40.0 & 19.0 & 26.0 \\
+ 24.0 & 23.0 & 23.0 \\
+ 29.0 & 19.0 & 23.0 \\
+ 45.0 & {\bf 34.0} & {\bf 39.0} \\
+ {\bf 47.0} & 26.0 & 34.0 \\ \hline
+ 34.8  & 19.5 & 25.0 \\
+ 36.6  & 20.1 & 26.0 \\
+{38.1}  & 22.5 & 28.3 \\
+{\bf 43.8}  & 21.3 & 28.7 \\
+ 31.2  & 22.6 & 26.2 \\
+{40.1} & {\bf 29.7} & {\bf 34.1} \\
+ \end{tabular}
+\end{minipage}\\
+\Xhline{2\arrayrulewidth}
+\end{tabular}
+\normalsize
+\caption{Comparison between KGHA and other related methods on three image-annotation benchmark databases. The results in the upper panel were reported 
+by \citeauthor{chen_2013_icml} (\citeyear{chen_2013_icml}). }
+\label{tab:final_comparison}
+\end{table}
+
+
+To evaluate the proposed KGHA for multi-label learning, we test it on the image annotation task.  
+\subsection{Image Annotation}
+\subsubsection{Data and Evaluation}
+In this experiment, we used three benchmark datasets, \textsf{Corel5k}, \textsf{Espgame} and \textsf{Iaprtc12}. 
+These three datasets have been widely used in image annotation studies \cite{GMVS09,baseline,chen_2013_icml} with 
+performance evaluations reported therein.  Therefore, we can easily compare our method with others.   
+Statistics of the three benchmark datasets are summarized in Table~\ref{tab:data}.
+Readers are referred to \citet{baseline} for more details of the three datasets.  
+We worked with 8 visual features extracted by \citet{GMVS09}.
+They include one Gist descriptor, three global color histograms and four histograms of local bag-of-words texture features%
+\footnote{In the original dataset, two versions of color features 
+and texture features are available, with and without spatial layout; here we use only those with layout.}. The descriptions of 8 features are 
+summarized in Table~\ref{tab:features}. Readers are referred to \citet{GMVS09} for more details on extracting these features.
+Our large-scale learning scheme (section \ref{sec:large_scale}) is applied on \textsf{Espgame} and \textsf{Iaprtc12} since these contain large numbers of instances.    
+
+Following \citeauthor{chen_2013_icml} (\citeyear{chen_2013_icml}), 5 labels with top prediction 
+score values were annotated to each image. We evaluated annotation performance using \emph{precision} (P), \emph{recall} (R), and the \emph{F1} measure (F). For each tag, the precision is 
+computed as the ratio of the number of images assigned the tag correctly over the total number of images predicted to have the tag, while the recall is the number of images 
+assigned the tag correctly divided by the number of images that truly have the tag. Then precision and recall are averaged across all tags. Finally, the F1 measure is calculated as 
+$F=2\frac{P\times R}{P+R}$.
+
+\subsubsection{Results and Comparison}
+First, KGHA was implemented and tested on three databases. A Gaussian kernel 
+$\mathcal{K}^{\textrm{Gauss}}_j=\exp (-||G_j^{(m)}-G_j^{(n)}||_2^2/2\sigma^2_j)$ 
+was used on all 8 visual features, with $\sigma_j$ set to the average value of $||G_j^{(m)}-G_j^{(n)}||_2, 
+m,n\in[1,M]$. The reduced dimension $p$ is set to different 5 values ($p=\{0.2, 0.4,0.5, 0.6,0.8\}\times d_J$). 
+Hyperparameters ($\lambda, \{c_j\}_{j=1}^{J-1}$) were selected by grid search with 4-fold cross validation from  
+$\{10^{-5}, \{10^{-4},10^{-3},10^{-2},10^{-1}\}$. Here for simplicity we use a common ridge parameter $c$ for all $J$ features, and we found it almost does not 
+affect performance. Experimental results are presented in Table \ref{tab:different_p}. It can be seen that the best performance was achieved with $p/d_J=0.5$.   
+on all three datasets. 
+To verify the significance of low-rank output kernel learning and co-regularization, we also implemented another five simplified methods for  
+comparison: (1) multivariate linear ridge regression (r-MLR); (2) multivariate kernel ridge regression (r-KMLR); (3) linear HA (L-HA);    
+(4) KGHA with $p=d_J$ (KGHA$-$d, no dimensionality reduction);  (5) KGHA with extremely small $\lambda$ (KGHA$-$r, no manifold regularization).  
+To ensure fairness, the same Gaussian kernel construction and appropriate hyperparameter searching are used in all methods. The results of all six methods are presented in 
+the lower panel of Table \ref{tab:final_comparison}. We see that KGHA generally outperforms other methods, which empirically proves the importance of
+low-rank output kernel learning and co-regularization.  
+In addition, the upper panel of Table~\ref{tab:final_comparison} lists
+the results of some notable methods that were recently developed or
+surveyed \cite{GMVS09,baseline,chen_2013_icml}. KGHA demonstrates
+promising capabilities by comparing favorably to the state-of-the-art.
+
+\section{Conclusion}
+A novel multi-label learning framework, kernel generalized homogeneity analysis (KGHA),  was proposed. Starting from the connections between regular HA and 
+multiple-set CCA, we revealed that HA can be generalized as a relaxed variant of multiple-set CCA to handle multiple heterogeneous features. By using kernel 
+functions, we showed that KGHA, in multi-label learning, works as a method consisting of  low-rank output kernel learning and co-regularized multi-view learning. 
+We also presented some interesting links between low-rank output kernel learning and multi-label dimensionality reduction, co-regularization and multiple kernel learning, 
+respectively. Promising results are achieved by using KGHA in our experiments on image annotation.
+
+\bibliography{refs}
+\bibliographystyle{icml2015}
+
+\end{document} 
+
+
+% This document was modified from the file originally made available by
+% Pat Langley and Andrea Danyluk for ICML-2K. This version was
+% created by Lise Getoor and Tobias Scheffer, it was slightly modified  
+% from the 2010 version by Thorsten Joachims & Johannes Fuernkranz, 
+% slightly modified from the 2009 version by Kiri Wagstaff and 
+% Sam Roweis's 2008 version, which is slightly modified from 
+% Prasad Tadepalli's 2007 version which is a lightly 
+% changed version of the previous year's version by Andrew Moore, 
+% which was in turn edited from those of Kristian Kersting and 
+% Codrina Lauth. Alex Smola contributed to the algorithmic style files.  

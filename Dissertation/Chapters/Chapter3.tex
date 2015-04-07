@@ -19,25 +19,15 @@ Confucius
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{Conditional Random Fields}
+\section{Conditional Random Field}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
 
 %-----------------------------------
 %	SUBSECTION 1
 %-----------------------------------
-\subsection{Training with Maximum-Likelihood}
-
-Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Vivamus sodales tortor eget quam adipiscing in vulputate ante ullamcorper. Sed eros ante, lacinia et sollicitudin et, aliquam sit amet augue. In hac habitasse platea dictumst.
-
-%-----------------------------------
-%	SUBSECTION 2
-%-----------------------------------
-
-\subsection{Training with Persistent Sequential Monte Carlo}
-Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
-
-
+\subsection{Maximum Likelihood Learning}
+\subsection{Maxi-Margin Markov Network}
 
 
 
@@ -46,44 +36,130 @@ Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar p
 %----------------------------------------------------------------------------------------
 %	SECTION 2
 %----------------------------------------------------------------------------------------
-\section{Max-Margin Markov Networks}
+\section{Training Undirected Graphical Models with Persistent Sequential Monte Carlo}
 
-Sed ullamcorper quam eu nisl interdum at interdum enim egestas. Aliquam placerat justo sed lectus lobortis ut porta nisl porttitor. Vestibulum mi dolor, lacinia molestie gravida at, tempus vitae ligula. Donec eget quam sapien, in viverra eros. Donec pellentesque justo a massa fringilla non vestibulum metus vestibulum. Vestibulum in orci quis felis tempor lacinia. Vivamus ornare ultrices facilisis. Ut hendrerit volutpat vulputate. Morbi condimentum venenatis augue, id porta ipsum vulputate in. Curabitur luctus tempus justo. Vestibulum risus lectus, adipiscing nec condimentum quis, condimentum nec nisl. Aliquam dictum sagittis velit sed iaculis. Morbi tristique augue sit amet nulla pulvinar id facilisis ligula mollis. Nam elit libero, tincidunt ut aliquam at, molestie in quam. Aenean rhoncus vehicula hendrerit.
+\begin{shaded}
+{\Huge II.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Towards Maximum Likelihood: Learning Undirected Graphical Models using Persistent Sequential Monte Carlo}, The 6th Asian Conference on Machine Learning (ACML2014), 
+\end{shaded}
+\includepdf[offset=3cm -2.5cm, scale=1, pages=-,pagecommand={\pagestyle{fancy}}]{./Papers/Xiong-2014-ACML.pdf}
+
+\subsection {Training Conditional Random Fields for Image Annotation and Image Segmentation}
+In this section we present some evaluations and comparison of different learning algorithms on two practical tasks: \emph{multi-label learning} and \emph{image 
+segmentation}. Different from previous experiments where generative models were learned, here we trained discriminative models. Therefore, two 
+conditional random fields were employed. Generally speaking, let us denote $\mathbf{x}$ as input and $\mathbf{y}\in \mathcal{Y}$ as output, and our target is to 
+learn an UGM:  
+\begin{equation}
+	p(\mathbf{y}|\mathbf{x})=\frac{\exp(\boldsymbol{\theta}^\top \phi(\mathbf{y},\mathbf{x}))}{\mathbf{Z}}
+\end{equation}
+where the partition function $\mathbf{Z}$ is
+\begin{equation}
+	\mathbf{Z}=\sum_{\mathbf{y}\in\mathcal{Y}}\exp(\boldsymbol{\theta}^\top \phi(\mathbf{y},\mathbf{x}))
+\end{equation}
+where $\phi(\mathbf{y},\mathbf{x})$ is defined based on task-oriented dependency structure. Note that the partition function $\mathbf{Z}$ is computed by 
+marginalizing out only $\mathbf{y}$ because our interest is a conditional distribution. Six algorithms 
+were implemented: PCD-$H$, PCD-1, PT, TT, SMC and PSMC. Similar setups were used for all algorithms as the previous section.  
+Learning rate $\eta_t=\frac{1}{10+0.1*t}$ was used and 100 iterations were run. For each input $\mathbf{x}$, 
+the size of particle set $\{ \hat{\mathbf{y}}^{(s)}\}$ is 200.  Similar to other supervised learning schemes, a regularization $\frac{1}{2}||\boldsymbol{\theta}||^2$ 
+was added and a trade-off parameters was tunned via $k$ folder cross-validation ($k=4$).  
+
+It is worth mentioning that better results can be expected in both experiments by running more iterations, using better learning rates or exploiting 
+feature engineering. However, our purpose here is to compare different learning algorithms under the some conditional instead of defeat state-of-the-art 
+results in multi-label learning study and image segmentation study respectively. Therefore, we saved our effort in tunning algorithms and constructing 
+sophisticated features. 
+
+\subsubsection{Multi-Label Learning}
+In multi-label learning, inter-label dependency is rather critical. Assume that input $\mathbf{x}\in \mathbb{R}^d$ and there are $L$ labels (\emph{i.e.} $\mathbf{y}\in\{-1,+1\}^L$), here we modeled all pairwise dependencies among $L$ labels, and therefore 
+the constructed conditional random field is:
+\begin{equation}
+	p(\mathbf{y}|\mathbf{x})=\frac{\exp(\mathbf{y}^\top\mathbf{W}_E \mathbf{y}+\mathbf{y}^\top \mathbf{W}_v \mathbf{x})}{\mathbf{Z}}
+	\label{equ:scene_model}
+\end{equation}
+where $\mathbf{W}_E\in \mathbb{R}^{L\times L}$ captures pairwise dependencies among $L$ labels while $\mathbf{W}_v\in \mathbb{R}^{L\times d}$ reflects the 
+dependencies between input $\mathbf{x}$ and all individual labels.   
+In the test phase, with learned $\mathbf{W}_E$ and $\mathbf{W}_v$, for a test input $\mathbf{x}^\dagger$, we predict the corresponding $\mathbf{y}^\dagger$ with 
+100 rounds of gibbs sampling based on (\ref{equ:scene_model}).  
+
+In our experiment, we used popular \emph{scene} database \citep{scene_database}, where scene images are associated with a few semantic labels. In the database, 
+there are 1121 training instances and 1196 test instances.  In total there are 6 labels ($L=6$) and a 294 dimensional feature were extracted from each image         
+($\mathbf{x}\in\mathbb{R}^{294}$). Readers are referred to \cite{scene_database} for more details about the database and feature extraction.  
+
+We evaluated the performance of multi-label learning using \emph{precision} (P), \emph{recall} (R), and the \emph{F1} measure (F). For each label, the precision is 
+computed as the ratio of the number of images assigned the label correctly over the total number of images predicted to have the label, while the recall is the number of images 
+assigned the label correctly divided by the number of images that truly have the label. Then precision and recall are averaged across all labels. Finally, the F1 measure is calculated as 
+$F=2\frac{P\times R}{P+R}$.
+The results of all six algorithms are presented in Table \ref{tab:scene_results}.     
+The average number temperatures in PSMC is around 5, so PCD-5 was implemented. Also 5 temperatures were use in PT and TT.    
+We can see that PSMC yields the best F1 measure 75.1, followed by PT and SMC with 74.6 and 73.4 respectively. The results of PCD-5 and TT             
+are relative worse, while PCD-1 is the worst.  
 
 
+\begin{table}
+	\label{tab:scene_results}
+	\center
+\begin{tabular}{cccc} 
+\Xhline{2\arrayrulewidth} \\ 
+       & Precision($\%$) & Recall($\%$) & F1($\%$) \\ \hline 
+ PCD-1 & 57.7            & 59.3         & 58.5 \\
+ PCD-5 & 70.3            & 72.6         & 71.4 \\
+ TT    & 70.0            & 67.5         & 68.7 \\
+ PT    & {\bf 72.2}      & 77.1         & 74.6 \\
+SMC    & 71.7            & 75.1         & 73.4 \\
+PSMC   & 71.9            & {\bf 78.5}   & {\bf 75.1} \\ 
+\Xhline{2\arrayrulewidth}
+ \end{tabular}
+ \caption{A comparison of six learning algorithms on multi-label learning. }
+\end{table}
 
-%-----------------------------------
-%	SUBSECTION 1
-%-----------------------------------
-\subsection{Structural Hinge-Loss Function}
+\subsubsection{Image Segmentation} 
+Image segmentation essentially is a task to predict the semantic label of all image pixels or blocks.    
+Inter-label dependences within neighbourhood are usually exploited in image segmentation. For instance, by dividing an image into equal size and non-overlapping 
+blocks, the label of a block does not only depend on the appearance of the block, but also the labels of its neighbouring blocks. For simplicity, here 
+we only consider binary labels. In addition, we assume that blocks and inter-label dependencies are position irrelevant. Therefore, a conditional random filed can 
+be constructed as:               
+\begin{equation}
+	p(\mathbf{y}|\mathbf{x})=\frac{\exp(\sum_{u,v\in E}y_u W_e y_v+\sum_{v\in V} y_v \mathbf{w}_v^\top \mathbf{x}_v) }{\mathbf{Z}}
+\end{equation}
+where $y_v\in\{-1,+1\}$, $E$ denotes the set of all edges connecting neighbouring blocks, $W_e\in\mathbb{R}$ encodes the dependency between neighbouring labels, $V$ denotes the set of all 
+block's labels and $\mathbf{w}_v\in \mathbb{R}^{d\times 1}$ encodes the dependency between block label and its appearance which is represented by a $d$-dimensional feature $\mathbf{x}_v\in\mathbb{R}^d$.    
+Similar to the multi-label experiment, desired labels are predicted via 100 round gibbs sampling in test phase.      
 
-Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Vivamus sodales tortor eget quam adipiscing in vulputate ante ullamcorper. Sed eros ante, lacinia et sollicitudin et, aliquam sit amet augue. In hac habitasse platea dictumst.
-
-%-----------------------------------
-%	SUBSECTION 2
-%-----------------------------------
-
-\subsection{Relation to Conditional Random Fields}
-Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
-
-
-
-%----------------------------------------------------------------------------------------
-%	SECTION 3
-%----------------------------------------------------------------------------------------
-\section{Applications}
-
-Sed ullamcorper quam eu nisl interdum at interdum enim egestas. Aliquam placerat justo sed lectus lobortis ut porta nisl porttitor. Vestibulum mi dolor, lacinia molestie gravida at, tempus vitae ligula. Donec eget quam sapien, in viverra eros. Donec pellentesque justo a massa fringilla non vestibulum metus vestibulum. Vestibulum in orci quis felis tempor lacinia. Vivamus ornare ultrices facilisis. Ut hendrerit volutpat vulputate. Morbi condimentum venenatis augue, id porta ipsum vulputate in. Curabitur luctus tempus justo. Vestibulum risus lectus, adipiscing nec condimentum quis, condimentum nec nisl. Aliquam dictum sagittis velit sed iaculis. Morbi tristique augue sit amet nulla pulvinar id facilisis ligula mollis. Nam elit libero, tincidunt ut aliquam at, molestie in quam. Aenean rhoncus vehicula hendrerit.
-
+In our experiment, we used the binary segmentation database from \cite{img_seg_database}, where each image is divided into non-overlapping blocks of 
+size $16\times16$ and each block is annotated with either ``man-made structure" (MS) or ``nature structure" (NS). 
+Overall, there are 108 training images and 129 test images. The training set contains 3004 MS blocks and 36269 NS blocks, while the test set 
+contains 6372 MS blocks and 43164 NS blocks.
+For each block, its appearance is 
+represented by a 3-dimensional features which includes the mean of gradient magnitude, the 'spikeness' of the count-weighted histogram of gradient orientations, 
+the angle between the most frequent orientation and the second most frequent orientation. The feature was designed to fit this specific application.        
+More explanation of the database and feature design can be found in \cite{img_seg_database}. 
 
 
-%-----------------------------------
-%	SUBSECTION 1
-%-----------------------------------
-\subsection{Image Annotation}
+We found that the average number of temperatures in PSMC is 20, therefore PCD-20 was run and 20 temperatures were used in TT and PT. We quantify the segmentation performance of 
+six algorithms with confusion matrices, which are presented in Figure \ref{fig:img_seg_results}. We can see that PSMC outperforms all others (by checking the diagonal entries of confusion matrices).      
+For qualitative comparison, an example image and corresponding segmentations are shown in Figure \ref{fig:img_seg_example}.  It can be seen that the segmentation by PSMC is closer to the ground truth 
+compared to others. 
+\begin{figure}[t!] 
+    \centering
+    \subfigure{\includegraphics[width=0.48\textwidth]{./Figures/CM_PCD_1}\label{fig:CM_PCD_1}}
+    \subfigure{\includegraphics[width=0.48\textwidth]{./Figures/CM_PCD_20}\label{fig:CM_PCD_20}}
+	\subfigure{\includegraphics[width=0.48\textwidth]{./Figures/CM_TT}\label{fig:CM_TT}}
+	\subfigure{\includegraphics[width=0.48\textwidth]{./Figures/CM_PT}\label{fig:CM_PT}}
+	\subfigure{\includegraphics[width=0.48\textwidth]{./Figures/CM_SMC}\label{fig:CM_SMC}}
+	\subfigure{\includegraphics[width=0.48\textwidth]{./Figures/CM_PSMC}\label{fig:CM_PSCM}}
+    \caption{Confusion matrices of binary segmentation by six algorithms.}   
+    \label{fig:img_seg_results}
+\end{figure}
 
-Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Vivamus sodales tortor eget quam adipiscing in vulputate ante ullamcorper. Sed eros ante, lacinia et sollicitudin et, aliquam sit amet augue. In hac habitasse platea dictumst.
-
-\subsection{Image Segmentation}
+\begin{figure}[t!] 
+    \centering
+    \subfigure[]{\includegraphics[width=0.7\textwidth]{./Figures/img_seg_GT}\label{fig:img_seg_GT}} \\
+    \subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_PCD_1}\label{fig:img_seg_PCD_1}}
+    \subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_PCD_20}\label{fig:img_seg_PCD_20}}
+	\subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_TT}\label{fig:img_seg_TT}}
+	\subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_PT}\label{fig:img_seg_PT}}
+	\subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_SMC}\label{fig:img_seg_SMC}}
+	\subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_PSMC}\label{fig:img_seg_PSCM}}
+    \caption{An example image and corresponding segmentations by six algorithms.  }   
+    \label{fig:img_seg_example}
+\end{figure}
 
 

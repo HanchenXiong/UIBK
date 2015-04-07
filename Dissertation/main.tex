@@ -29,7 +29,38 @@
 
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
 
-\usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' 
+\usepackage[square, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' 
+\usepackage{pdfpages}
+\setcitestyle{round}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{framed}
+\definecolor{shadecolor}{rgb}{0.92,0.92,0.92}
+\usepackage{color}
+%\usepackage{mathrsfs}
+\usepackage{braket}
+\usepackage{algorithm}
+%\usepackage{algpseudocode}
+\usepackage{algorithmic}
+\usepackage{subfigure}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\usepackage{makecell}
+\usepackage{booktabs}
+
+\newcommand{\pubnote}[2]{{\setlength{\unitlength}{1cm}
+        \begin{picture}(0,0)
+            \put (0,#1){\begin{minipage}{\textwidth}\textsl{\normalsize#2}%
+            \end{minipage}}
+\end{picture}}}
+
+
 \hypersetup{urlcolor=blue, colorlinks=true} % Colors hyperlinks in blue - change to black if annoying
 \title{\ttitle} % Defines the thesis title - don't touch this
 
@@ -184,30 +215,30 @@ The acknowledgements and the people to thank go here, don't forget to include yo
 %	ABBREVIATIONS
 %----------------------------------------------------------------------------------------
 
-\clearpage % Start a new page
+%\clearpage % Start a new page
+%
+%\setstretch{1.5} % Set the line spacing to 1.5, this makes the following tables easier to read
 
-\setstretch{1.5} % Set the line spacing to 1.5, this makes the following tables easier to read
-
-\lhead{\emph{Abbreviations}} % Set the left side page header to "Abbreviations"
-\listofsymbols{ll} % Include a list of Abbreviations (a table of two columns)
-{
-\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere \\
-%\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
-}
+%\lhead{\emph{Abbreviations}} % Set the left side page header to "Abbreviations"
+%\listofsymbols{ll} % Include a list of Abbreviations (a table of two columns)
+%{
+%\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere \\
+%%\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
+%}
 
 %----------------------------------------------------------------------------------------
 %	PHYSICAL CONSTANTS/OTHER DEFINITIONS
 %----------------------------------------------------------------------------------------
 
-\clearpage % Start a new page
-
-\lhead{\emph{Physical Constants}} % Set the left side page header to "Physical Constants"
-
-\listofconstants{lrcl} % Include a list of Physical Constants (a four column table)
-{
-Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-\mbox{s}}$ (exact)\\
-% Constant Name & Symbol & = & Constant Value (with units) \\
-}
+%\clearpage % Start a new page
+%
+%\lhead{\emph{Physical Constants}} % Set the left side page header to "Physical Constants"
+%
+%\listofconstants{lrcl} % Include a list of Physical Constants (a four column table)
+%{
+%Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-\mbox{s}}$ (exact)\\
+%% Constant Name & Symbol & = & Constant Value (with units) \\
+%}
 
 %----------------------------------------------------------------------------------------
 %	SYMBOLS
@@ -237,7 +268,7 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 
 \pagestyle{empty} % Page style needs to be empty for this page
 
-\dedicatory{For/Dedicated to/To my\ldots} % Dedication text
+\dedicatory{To my wife Youlin FANG: Thanks for being in my life !} % Dedication text
 
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
@@ -271,7 +302,7 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
 
-\input{Appendices/AppendixA}
+%\input{Appendices/AppendixA}
 %\input{Appendices/AppendixB}
 %\input{Appendices/AppendixC}
 
@@ -287,8 +318,7 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 
 \lhead{\emph{Bibliography}} % Change the page header to say "Bibliography"
 
-\bibliographystyle{unsrtnat} % Use the "unsrtnat" BibTeX style for formatting the Bibliography
-
-\bibliography{Bibliography} % The references (bibliography) information are stored in the file named "Bibliography.bib"
+\bibliographystyle{plainnat} % Use the "unsrtnat" BibTeX style for formatting the Bibliography
+\bibliography{refs} % The references (bibliography) information are stored in the file named "Bibliography.bib"
 
 \end{document}  
