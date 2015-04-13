@@ -114,7 +114,7 @@ learning method consisting of two advantageous components: low-rank output kerne
 Low-rank output kernel learning coincides with lower-dimensional 
 latent label space discovery, while co-regularized multi-view learning is related to multiple kernel learning for heterogeneous information fusion. 
 Furthermore, a large-scale KGHA learning scheme is developed by employing a block-wise Nystr{\"o}m approximation.      
-We evaluate KGHA on the image annotation task.
+We evaluate KGHA on two multi-label classification applications, image annotation and protein function prediction.
 Our experimental results on several benchmark databases demonstrate that KGHA compares favorably to other state-of-the-art methods.\end{abstract} 
 
 \section{Introduction}
@@ -159,7 +159,7 @@ and potential extensions of these two MVA techniques.
 Second, we propose a novel multi-label learning method, KGHA, which is composed of two advantageous components, low-rank output kernel 
 learning and co-regularized multi-view learning. 
 Third, we develop a large-scale learning scheme for KGHA by employing a block-wise Nystr{\"o}m method for approximating kernel matrices and conjugate gradient for solving ALS.           
-Finally, according to our experimental results in image annotation tasks, KGHA can improve performance on several benchmark databases.    
+Finally, according to our experimental results in image annotation and protein function prediction tasks, KGHA can improve performance on several benchmark databases.    
           
 
 \subsection{Related Work}
@@ -744,7 +744,7 @@ $0.8$            \\
 
 
 \begin{table}[!t]
-    \small
+    \footnotesize
 \center
 \begin{tabular}{@{}l@{}c@{}c@{}c@{}}
 \Xhline{2\arrayrulewidth}
@@ -828,7 +828,7 @@ by \citeauthor{chen_2013_icml} (\citeyear{chen_2013_icml}). }
 \end{table}
 
 
-To evaluate the proposed KGHA for multi-label learning, we test it on the image annotation task.  
+To evaluate the proposed KGHA for multi-label learning, we test it on image annotation and protein function prediction tasks.  
 \subsection{Image Annotation}
 \subsubsection{Data and Evaluation}
 In this experiment, we used three benchmark datasets, \textsf{Corel5k}, \textsf{Espgame} and \textsf{Iaprtc12}. 
@@ -869,12 +869,170 @@ the results of some notable methods that were recently developed or
 surveyed \cite{GMVS09,baseline,chen_2013_icml}. KGHA demonstrates
 promising capabilities by comparing favorably to the state-of-the-art.
 
+\subsection{Protein Function Prediction}
+\subsubsection{Data and Evaluation}
+Two datasets were used in the second experiment. 
+The first one is \textsf{Human} from \citeauthor{Mostafavi_2010_Bioinfo} (\citeyear{Mostafavi_2010_Bioinfo}) and the 
+second one is \textsf{Yeast} from \citeauthor{Tsuda_2005_BioInfor} (\citeyear{Tsuda_2005_BioInfor}). Following the same preprocessing on \textsf{Human} dataset 
+by \citeauthor{Yu_2013_TBioinfo} (\citeyear{Yu_2013_TBioinfo}), we filtered out some protein instances with too general or too narrow functions. For both datasets, 
+multiple kernels (similarity networks) were already pre-computed. The statistics and heterogeneous features of two datasets are listed in Table \ref{tab:bio_features}. 
+
+For better comparison with the state-of-the-art results in bioinformatics community, we evaluated performances with $1-$RankingLoss \cite{Yu_2012_KDD,Yu_2013_TBioinfo}.  
+\emph{RankingLoss} is computed as the average fraction of label pairs which are incorrectly ordered. To align with Macro F1, $1-$RankingLoss was used instead.  
+The score values of all labels in (\ref{equ:binary_prediction}) were used for ordering. 
+In the \textsf{Human} experiment, 60\% of the instances were used for training and 40\% for testing. 
+On the other hand, 80\% of instances were used for training and 20\% for testing in \textsf{Yeast} experiment. In both cases,  
+5 independent trials were run with different random subsets, based on which 
+the average and standard deviation of $1-$RankingLoss were computed and reported.    
+
+
+\subsubsection{Results and Comparison}
+Similarly to our image-annotation experiment, KGHA with five different $p$ values were tried on  \textsf{Human} and  \textsf{Yeast} databases. 
+Also, the same hyper-parameter tuning was conducted. 
+Results are presented in Table \ref{tab:bio_different_p}, 
+from where we can see that optimal $p$ is $0.5\times d_J$ in the \textsf{Human} experiment and $0.6\times d_J$ in \textsf{Yeast}.
+Three simplified methods (r-MLR and L-HA were not 
+used since only kernel values are provided in original datasets) were also tried on two datasets with results 
+listed in the lower panel of Table \ref{tab:bio_final_comparison}. 
+KGAH is again superior to all others, which suggests its robustness and 
+stability. In addition, four state-of-the-art results on these two datasets (see the upper panel of Table \ref{tab:bio_final_comparison}) were reported 
+in \citeauthor{Yu_2013_TBioinfo} \cite{Yu_2012_KDD,Yu_2013_TBioinfo}. It can be seen that KGHA yielded rather comparable performance.     
+
+\begin{table}[!t] \footnotesize
+\center
+\begin{tabular}{@{}ll@{}ccc@{}}
+\Xhline{2\arrayrulewidth} 
+               & information sources                 & \#labels    & \#instances  & \#ave. \\
+Dataset        & for kernels                         &             &              & labels     \\ 
+\Xhline{2\arrayrulewidth}                                              
+               &  \scriptsize{domain composition}                &            &              &              \\
+               &  \scriptsize{complexes}                         &            &              &              \\ 
+               &  \scriptsize{protein-DNA/RNA-interaction}       &            &              &              \\
+\textsf{Human} &  \scriptsize{p-transcriptional modification}    &            &              &              \\
+               &  \scriptsize{tissue expression}                 &  254       &  3704        &  3.7268      \\
+               &  \scriptsize{protein interaction}               &            &              &              \\
+               &  \scriptsize{OMIM disease}                      &            &              &              \\
+               &  \scriptsize{Su-tissue expression}                &            &              &              \\
+\Xhline{2\arrayrulewidth}
+               & \scriptsize{Pfam domain structure}              &            &              &              \\
+               & \scriptsize{co-participation}                   &            &              &              \\
+\textsf{Yeast} & \scriptsize{PPI network}                        &  13        &  3588        &   1.5279     \\
+               & \scriptsize{gene interaction network}           &            &              &              \\
+               & \scriptsize{cell cycle\&gene expression}        &            &              &              \\
+
+\Xhline{2\arrayrulewidth}
+\end{tabular}
+\normalsize
+\caption{The statistics and heterogeneous features of two datasets. }
+\label{tab:bio_features}
+\end{table}
+
+
+\begin{table}[!t]
+    \footnotesize
+\center
+\begin{tabular}{lcc}
+\Xhline{2\arrayrulewidth}
+\begin{minipage}{0.5in}
+    \begin{tabular}{l}
+          $p/d_J$          \\ \hline
+          0.2             \\
+          0.4           \\
+          0.5            \\
+          0.6           \\
+          0.8           \\
+    \end{tabular}
+\end{minipage}
+&
+\begin{minipage}{0.8in}
+\begin{tabular}{c}
+    \textsf{Human} \\ \hline
+    70.03 ($\pm 0.69$) \\
+    78.63 ($\pm 0.53$) \\
+    \textbf{82.74} ($\pm 0.56$) \\
+    77.14 ($\pm 0.42$) \\
+    76.31 ($\pm 0.61$) \\
+ \end{tabular}
+\end{minipage}
+&
+\begin{minipage}{0.8in}
+\begin{tabular}{c}
+ \textsf{Yeast} \\ \hline
+    71.58 ($\pm 0.63$) \\
+    76.00 ($\pm 0.89$) \\
+    81.13 ($\pm 0.75$) \\
+    80.06 ($\pm 0.83$)\\
+    {\bf 83.97} ($\pm 0.80$) \\
+ \end{tabular}
+\end{minipage}\\
+\Xhline{2\arrayrulewidth} 
+\end{tabular}
+\normalsize
+\caption{Evaluation of KGHA using $1-$RankingLoss (\%) with different $p$ values. }
+\label{tab:bio_different_p}
+\end{table}
+
+
+\begin{table}[!t]
+    \footnotesize
+\center
+\begin{tabular}{lcc}
+\Xhline{2\arrayrulewidth}
+\begin{minipage}{0.8in}
+    \begin{tabular}{l}
+          Method          \\ \hline
+          SW             \\
+          GRF-MK         \\
+          PfunBG-MK      \\
+          TMEC           \\ \hline
+          r-KMLR           \\
+           KGHA$-$d         \\
+          KGHA$-$r         \\
+          KGHA             \\
+    \end{tabular}
+\end{minipage}
+&
+\begin{minipage}{0.8in}
+\begin{tabular}{c}
+    \textsf{Human} \\ \hline
+    78.49 ($\pm 0.58$) \\
+    81.11 ($\pm 0.51$) \\
+    81.60 ($\pm 0.50$) \\
+    \textbf{83.40} ($\pm 0.46$) \\ \hline
+    72.10 ($\pm 0.65$) \\
+    78.69 ($\pm 0.57$) \\
+    77.15 ($\pm 0.78$) \\
+    \textbf{81.74} ($\pm 0.56$) \\
+\end{tabular}
+\end{minipage}
+&
+\begin{minipage}{0.8in}
+\begin{tabular}{c}
+    \textsf{Yeast}  \\ \hline
+    \textbf{84.35} ($\pm 0.73$)  \\
+80.93 ($\pm 0.99$)  \\
+80.50 ($\pm 0.87$)  \\
+80.79 ($\pm 1.01$)  \\ \hline
+73.11 ($\pm 0.94$)\\
+75.25 ($\pm 0.92$) \\
+72.69 ($\pm 1.24$)\\
+    \textbf{83.97} ($\pm 0.80$)\\
+ \end{tabular}
+\end{minipage}\\
+\Xhline{2\arrayrulewidth} 
+\end{tabular}
+\normalsize
+\caption{Comparison between KGHA and other related methods using $1-$RankingLoss (\%) on three image-annotation benchmark databases. The results in the upper panel were reported 
+by \citeauthor{Yu_2013_TBioinfo} (\citeyear{Yu_2013_TBioinfo}) and \citeauthor{Yu_2012_KDD} (\citeyear{Yu_2012_KDD}).}
+\label{tab:bio_final_comparison}
+\end{table}
+
 \section{Conclusion}
 A novel multi-label learning framework, kernel generalized homogeneity analysis (KGHA),  was proposed. Starting from the connections between regular HA and 
 multiple-set CCA, we revealed that HA can be generalized as a relaxed variant of multiple-set CCA to handle multiple heterogeneous features. By using kernel 
 functions, we showed that KGHA, in multi-label learning, works as a method consisting of  low-rank output kernel learning and co-regularized multi-view learning. 
 We also presented some interesting links between low-rank output kernel learning and multi-label dimensionality reduction, co-regularization and multiple kernel learning, 
-respectively. Promising results are achieved by using KGHA in our experiments on image annotation.
+respectively. Promising results are achieved by using KGHA in our experiments on image annotation and protein function prediction.
 
 \bibliography{refs}
 \bibliographystyle{icml2015}

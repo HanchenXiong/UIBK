@@ -20,8 +20,23 @@ Confucius
 %----------------------------------------------------------------------------------------
 
 \section{Conditional Random Field}
+In the past two decades, due to increasingly richer structures in modern data or learning tasks, the research of (supervised) machine learning has been evolving from simple binary 
+classification, or scaler-output 
+regression, to structured-output learning \citep{Bakir07}. Naturally, graphs can be constructed to encode the interesting interactions among the variables within complex output structures, 
+which leads to the 
+popular use of (probabilistic) graphical models \citep{LGM}. Conventionally, a graphical model is specifically designed to match the scenario of a given application by providing a joint probability of all 
+involved variables. For instance, in a multi-label learning case, input $\mathbf{x}\in{\mathbb{R}^D}$ is a $D$-dimensional real-value vector, output $\mathbf{y}\in\mathbb{B}^L$ is a $L$-dimensional 
+binary vector with a component $y_{l:l\in[1:L]}$ denoting the presence of the $l$th label. A \emph{Markov random field} (MRF) $p(\mathbf{x,y})$ can be defined by a  domain expert, or learned from 
+existing training data, with a graph structure and 
+associated potential functions, which are supposed to reconstruct the generative process of $\{\mathbf{x,y}\}: p(\mathbf{x,y})=p(\mathbf{x})p(\mathbf{y}|\mathbf{x})$. 
+As for the prediction task, the conditional probability 
+$p(\mathbf{y|x})=\frac{p(\mathbf{x,y})}{\sum_\mathbf{y} p(\mathbf{x,y})}$ can be derived, or more straightforwardly, 
+$\mathbf{y}^*=\arg\max_{\mathbf{y}}p(\mathbf{y|x})=\arg\max_{\mathbf{y}}p(\mathbf{x,y})$ (\emph{e.g.} by using max-product algorithm). However, it was realised that for the task $\mathbf{x}\to\mathbf{y}$, the only desired
+component is $p(\mathbf{y|x})$; it is wast to expend effort in modeling $p(\mathbf{x})$, which is not relevant anyway. Consequently, \emph{conditional random field} (CRF) was proposed \citep{CRF} as 
+a discriminative model by learning only the conditional probability $p(\mathbf{y|x})$. One strength of CRFs is that it can include arbitrarily complex features (\emph{e.g.} higher order dependencies) 
+of $\mathbf{x}$, which is intractable in MRFs. According to empirical study in \citep{Kumar03,CRF}, CRFs outperform MRFs in many practical applications. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
+
 
 %-----------------------------------
 %	SUBSECTION 1
