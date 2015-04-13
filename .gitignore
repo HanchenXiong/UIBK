@@ -4,4 +4,9 @@
 *.log
 *.out
 *.spl
-*.sw?
+*.sw
+*.fdb_latexmk
+*.lot
+*.lot
+*.toc
+*.~
