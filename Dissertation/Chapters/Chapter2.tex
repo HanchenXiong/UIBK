@@ -25,7 +25,7 @@ Confucius
 This chapter     
 
 Graphical models have been studied in many disciplines, such as artificial intelligence \citep{pear_1988}, statistics \citep{lauritzan_1988}.  It is widely considered 
-as one of the main progresses in machine leanring research by bringing graphs in to assist probabilistic representation, analysis and computing. 
+as one of the main progresses in machine learning research by bringing graphs in to assist probabilistic representation, analysis and computing. 
 
 
 Basically, graphical models are divided into two categories: directed and undirected.  
@@ -56,9 +56,11 @@ If all paths are blocked, then S D-separates $A$ from $B$, and then:
 \end{equation*}
 \end{theorem}
 
-\textbf{Poorf of the D-Separation Rule}:\\
-\includegraphics[width=0.9\textwidth]{./Figures/D_Sep}\newline
-\begin{minipage}[c]{0.3\textwidth}
+The D-Separation rule can be simply proofed as follows:
+\begin{proof}
+	Three type of separating nodes:\emph{tail-to-tail},\emph{head-to-tail} and \emph{head-to-head} are considered in three simple graphs respectively   \\ \\
+	\includegraphics[width=\textwidth]{./Figures/D_Sep}\newline
+\begin{minipage}[c]{0.32\textwidth}
  \begin{equation*}
   \begin{array}{rcl}
    & & P(A,B|S)\\
@@ -68,7 +70,7 @@ If all paths are blocked, then S D-separates $A$ from $B$, and then:
   \end{array}
  \end{equation*}
 \end{minipage}
-\begin{minipage}[c]{0.3\textwidth}
+\begin{minipage}[c]{0.32\textwidth}
  \begin{equation*}
   \begin{array}{rcl}
    & & P(A,B|S)\\
@@ -79,7 +81,7 @@ If all paths are blocked, then S D-separates $A$ from $B$, and then:
   \end{array}
  \end{equation*}
 \end{minipage}
-\begin{minipage}[c]{0.3\textwidth}
+\begin{minipage}[c]{0.32\textwidth}
  \begin{equation*}
   \begin{array}{rcl}
    & & P(A,B|S)\\
@@ -88,6 +90,7 @@ If all paths are blocked, then S D-separates $A$ from $B$, and then:
   \end{array}
  \end{equation*}
 \end{minipage}\\
+\end{proof}
 
 \begin{shaded}
    \textbf{Example:} One morning Tracey found that the grass in her garden is wet ($T\in\{0,1\}$). Is it due to overnight rain ($R \in\{0,1\}$)or did
@@ -215,7 +218,7 @@ For instance,  \newline\newline
 %-----------------------------------
 %	SUBSECTION 3
 %-----------------------------------
-\subsection{Factor Graph}
+\subsection{Connecting Bayesian Networks and Markov Networks}
 
 
 
@@ -278,7 +281,7 @@ How to compute the probability $P(A)$
       \includegraphics[width=1.1\textwidth]{./Figures/message_passing_2}
 \end{minipage}
 \begin{minipage}[c]{0.6\textwidth}
- \begin{equation*}1
+ \begin{equation*}
   \begin{array}{rcl}
   & & P(C) \\
   &\propto& \sum_{A}\phi(A,B) \sum_B \phi(B,C) \sum_D \phi(B,D)\\ 
@@ -300,7 +303,7 @@ How to compute the probability $P(A)$
       \includegraphics[width=1.1\textwidth]{./Figures/message_passing_3}
 \end{minipage}
 \begin{minipage}[c]{0.6\textwidth}
- \begin{equation*}1
+ \begin{equation*}
   \begin{array}{rcl}
   & & P(B) \\
   &\propto& \sum_{A}\phi(A,B) \sum_C \phi(B,C) \sum_D \phi(B,D)\\  
@@ -319,6 +322,41 @@ How to compute the probability $P(A)$
   \end{array}
  \end{equation*}
 
+\begin{algorithm}
+	\caption{Belief Propagation for tree-structured Markov networks}
+	\label{alg:BP_tree}
+\begin{algorithmic}[1]
+\STATE  select one variable as the root; 
+\STATE  starting from all leaves, propagate \emph{beliefs} toward the root as:
+\begin{equation*}
+m_{i \rightarrow j}(x_j)= \sum_{x_i}\left\{\phi(x_i,x_j) \prod_{k\in \text{Ne}(i)\backslash j} m_{k \rightarrow i}(x_i)\right\}
+\end{equation*}
+\STATE  when the root receives all messages from its neighbors, then propagate backwards the \emph{``inverse beliefs"} as the step 2;
+\STATE  the marginal probability of each variable is computed as: 
+\begin{equation*}
+P(x_i)\propto \prod_{k\in \text{Ne}(i)} m_{k \rightarrow i}(x_i)
+\end{equation*}
+where Ne$(i)$ denotes the neighboring variables of $x_i$ in the graph. 
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\begin{algorithm}
+	\caption{Generalized Belief Propagation for Loopy Markov networks}
+	\label{alg:LBP}
+\begin{algorithmic}[1]
+%\STATE  In a loopy graph, there is no root and leaves because of loop.
+\STATE  initialize all messages $m_{i\rightarrow j}$ in both directions of all connected variables randomly or with a constant value (\emph{e.g.} 1);
+\WHILE {all messages converge}
+\STATE  update messages as:
+\begin{equation*}
+  m^{(t+1)}_{i \rightarrow j}(x_j)= \sum_{x_i}\left\{\phi(x_i,x_j) \prod_{k\in \text{Ne}(i)\backslash j} m^{(t)}_{k \rightarrow i}(x_i)\right\}
+\end{equation*}
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
 %-----------------------------------
 %	SUBSECTION 2
 %-----------------------------------
@@ -330,8 +368,114 @@ How to compute the probability $P(A)$
 %	SUBSECTION 3
 %-----------------------------------
 \subsection{Markov Chain Monte Carlo}
+Markov chain Monte Carlo (MCMC) is a family of sampling algorithms, which are designed to generate samples from a target distribution $p(\mathbf{x}), \mathbf{x}\in\mathbb{R}^d$. 
+Usually, directly sampling from $p(\mathbf{x})$ is not possible since its density can be arbitrarily complex, however, $p(\mathbf{x})$ can be evaluated up to a normalizing constant:
+\begin{equation*}
+	p(\mathbf{x})=\frac{\tilde{p}(\mathbf{x})}{\mathbf{Z}}
+\end{equation*}
+
+\subsubsection{Metropolis Algorithm}
+\begin{itemize}
+	\item the proposal distribution is symmetric: $q(\mathbf{x}^*|\mathbf{x}^t)=q(\mathbf{x}^t|\mathbf{x}^*)$;
+	\item acceptance probability is: $\mathcal{A}(\mathbf{x}^*;\mathbf{x}^t) = \min\{1, \frac{p(\mathbf{x}^*)}{p(\mathbf{x}^t)}\}$; 
+\end{itemize}
+It can be seen in the Metropolis algorithm that  $\mathbf{x}^0,\mathbf{x}^1,\cdot, \mathbf{x}^t$ are not independent because successive samples are correlated. Therefore, in practice, real independent 
+samples can be obtained by only retraining samples at every $M$ iterations. 
+
+The detailed balance of the Metropolis algorithm can be proof as follows:
+\begin{proof}
+	\begin{equation}
+		\begin{array}{rcl}
+			p(\mathbf{x}^t)p(\mathbf{x}^*|\mathbf{x}^t)&=&p(\mathbf{x}^t)\left(q(\mathbf{x}^*|\mathbf{x}^t)\min\{1,\frac{p(\mathbf{x}^*)}{p(\mathbf{x}^t)}\}\right) \\
+												       &=& \min\{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t),q(\mathbf{x}^*|\mathbf{x}^t)p(\mathbf{x}^*) \}  \\
+			                                           &=&p(\mathbf{x}^*)q(\mathbf{x}^*|\mathbf{x}^t)\min\{1,\frac{p(\mathbf{x}^t)}{p(\mathbf{x}^*)}\} \\
+																											 &\overset{\text{since } q(\mathbf{x}^*|\mathbf{x}^t)=q(\mathbf{x}^t|\mathbf{x}^*)}=& p(\mathbf{x}^*)\left(q(\mathbf{x}^t|\mathbf{x}^*) \min\{1,\frac{p(\mathbf{x}^t)}{p(\mathbf{x}^*)}\} \right) \\
+																							  &=& p(\mathbf{x}^*)p(\mathbf{x}^t|\mathbf{x}^*)
+	   \end{array}
+	\end{equation}
+\end{proof}
+
+\begin{algorithm}[t]
+	\caption{Metropolis Algorithm}
+	\label{alg:LBP}
+\begin{algorithmic}[1]
+\STATE initialize $\mathbf{x}^0$.
+\FOR {$t=0$ to $T-1$}
+\STATE generate a sample uniformly from $[0,1]$: $u\sim \mathcal{U}_{[0,1]}$.
+\STATE generate a sample from a symmetric proposal distribution: $\mathbf{x}^*\sim q(\mathbf{x}^*|\mathbf{x}^t)$.
+\IF {$u<\min\{1,\frac{p(\mathbf{x}^*)}{p(\mathbf{x}^t)}\}$}
+\STATE $\mathbf{x}^{t+1}=\mathbf{x}^*$.
+\ELSE 
+\STATE $\mathbf{x}^{t+1}=\mathbf{x}^t$.
+\ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Metropolis-Hasting Algorithm} 
+\begin{itemize}
+	\item the proposal distribution can be arbitrary (no symmetric restriction): $q(\mathbf{x}^*|\mathbf{x}^t)$;
+	\item acceptance probability is: $\mathcal{A}(\mathbf{x}^*;\mathbf{x}^t) = \min\{1, \frac{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}\}$; 
+\end{itemize}
+\begin{algorithm}[t]
+	\caption{Metropolis-Hasting (MH) Algorithm}
+	\label{alg:LBP}
+\begin{algorithmic}[1]
+\STATE initialize $\mathbf{x}^0$.
+\FOR {$t=0$ to $T-1$}
+\STATE generate a sample uniformly from $[0,1]$: $u\sim \mathcal{U}_{[0,1]}$.
+\STATE generate a sample $\mathbf{x}^*\sim q(\mathbf{x}^*|\mathbf{x}^t)$.
+\IF {$u<\min\{1,\frac{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}$}
+\STATE $\mathbf{x}^{t+1}=\mathbf{x}^*$.
+\ELSE 
+\STATE $\mathbf{x}^{t+1}=\mathbf{x}^t$.
+\ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
 
 
+
+The detailed balance of the Metropolis algorithm can be proof as follows:
+\begin{proof}
+	\begin{equation}
+		\begin{array}{rcl}
+			p(\mathbf{x}^t)p(\mathbf{x}^*|\mathbf{x}^t)&=&p(\mathbf{x}^t)\left(q(\mathbf{x}^*|\mathbf{x}^t)\min\{1,\frac{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}\}\right) \\
+												       &=& \min\{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t),q(\mathbf{x}^*|\mathbf{x}^t)p(\mathbf{x}^*) \}  \\
+			                                           &=& p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)\min\{1,\frac{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}\} \\
+										&=& p(\mathbf{x}^*)\left(q(\mathbf{x}^t|\mathbf{x}^*)\min\{1,\frac{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}\}\right) \\
+													   &=& p(\mathbf{x}^*)p(\mathbf{x}^t|\mathbf{x}^*)
+	   \end{array}
+	\end{equation}
+\end{proof}
+
+\subsubsection{Gibbs Sampling Algorithm}
+The Gibbs sampling is a special case of MH with the proposal distribution defined as the cyclic conditional distributions among $\{x_1,x_2,\cdots,x_d\}$.               
+\begin{algorithm}[t]
+	\caption{Gibbs Sampling Algorithm}
+	\label{alg:LBP}
+\begin{algorithmic}[1]
+\STATE initialize $\mathbf{x}^0$.
+\FOR {$t=0$ to $T-1$}
+\STATE randomly select   
+\STATE sample $x^*_k$ from  $p(x_k^*|x_{[1,\cdots,d]/k}^t)$.
+\STATE $x^{t+1}_k=x^*_k$.
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{itemize}
+	\item the proposal distribution: $q(\mathbf{x}^*|\mathbf{x}^t)=p(x_k^*|x_{[1,\cdots,d]/k}^t)$;
+	\item acceptance probability is: 
+		\begin{equation*}
+			\begin{array}{rcl}
+				\mathcal{A}(\mathbf{x}^*;\mathbf{x}^t) &=& \min\{1, \frac{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}\} \\
+																				  &=& \min\{1, \frac{p(\mathbf{x}^*)p(x_{[1,\cdots,d]/k}^t|x_k^*)}{p(\mathbf{x}^t)p(x_k^*|x_{[1,\cdots,d]/k}^t)}\} \\
+															 &=& \min\{1,\frac{p(x_k^*)p()p(x_{[1,\cdots,d]/k}^t|x_k^*)}{p(\mathbf{x}^t)p(x_k^*|x_{[1,\cdots,d]/k}^t)}\} \}
+        	\end{array}
+	    \end{equation*}
+\end{itemize}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
