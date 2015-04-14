@@ -154,12 +154,12 @@ explicitly feature map of $\boldsymbol{\phi}(\mathbf{x},\mathbf{y})$  can be con
 The second constraint in (\ref{equ:MMMN}) can be written in a more compact form: 
 $\max_{\mathbf{y}\in\mathcal{Y}} \{d(\mathbf{y}^{(i)},\mathbf{y})-{\mathbf{w}^\top} (\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})-\boldsymbol{\phi} 
         (\mathbf{x}^{(i)},\mathbf{y})) d(\mathbf{y}^{(i)},\mathbf{y}\}\leq \xi_i$. 
-In addition, we can rescale $\mathbf{w}$ ($\mathbf{w}\gets \mathbf{w}d(\mathbf{y}^{(i)},\mathbf{y})$)
+In addition, $\mathbf{w}$ can be rescaled $\mathbf{w}\gets \mathbf{w}d(\mathbf{y}^{(i)},\mathbf{y})$. 
 %; it will not affect the solution of Eq. (\ref{equ:MMMN}) 
 %because the magnitude of $\mathbf{w}$ will be minimized anyway \citep{Taskar03,OnlineMKL}
-. Then, instead of rescaling slack variables, we rescale margin to be the same level as 
+. Then, instead of rescaling slack variables, one can rescale margin to be the same level as 
 $d(\mathbf{y}^{(i)},\mathbf{y})$.  
-Therefore, Eq. (\ref{equ:MMMN}) can be reformulated in a similar form as Eq. (\ref{equ:MAP}):
+Therefore, (\ref{equ:MMMN}) can be reformulated in a similar form as (\ref{equ:MAP}):
 \begin{equation}
         \mathbf{w}^* = \arg\min_{\mathbf{w}} \frac{1}{2} ||\mathbf{w}||^2+ \frac{C}{M}\sum_{i=1}^M \mathcal{L}^{Margin}_i 
     \label{equ:MMMN_compact}
@@ -173,6 +173,235 @@ where
 
 
 
+Based on the introduction of CRFs and M$^3$N above, a unified objective function for structured output learning  can be written out as:  
+\begin{equation} 
+        \mathbf{w}^* = \arg\min_{\mathbf{w}} \frac{1}{2} ||\mathbf{w}||^2+  \frac{C}{M}\sum_{i=1}^M \mathcal{L}_i 
+    \label{equ:unify}
+\end{equation} 
+where $\mathcal{L}_i$ denote loss functions, which correspond to $\mathcal{L}^{MAP}_i$  employed in MAP and $\mathcal{L}^{Margin}_i$ used 
+in M$^3$N respectively.      
+Although, at a fist glance, two loss functions look rather different, they are de facto closely related. This section will provide deep insights  
+into the behaviours of two loss functions.  
+%within which the connections and differences between them can be more clearly exposed. 
+At first, the feature vector in CRFs can be augmented by adding an extra component $d(\mathbf{y}^{(i)},\mathbf{y})$:  
+$\bar{\boldsymbol{\phi}}(\mathbf{x}^{(i)},\mathbf{y})^\top=[\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y})^\top,d(\mathbf{y}^{(i)},\mathbf{y})]$, 
+and $\mathbf{w}$ is extended with a constant 1: $\bar{\mathbf{w}}^\top=[\mathbf{w}^\top, 1]$. Then the modified CRF distribution is:
+\begin{equation}
+    \bar{p}(\mathbf{y}|\mathbf{x})=\frac{\exp(\bar{\mathbf{w}}^\top \bar{\boldsymbol{\phi}}(\mathbf{x,y}))}{\mathbf{Z(\bar{w})}}
+\end{equation}
+Since $d(\mathbf{y}^{(i)},\mathbf{y}^{(i)})=0$, the resulting $\bar{\mathcal{L}}^{MAP}_i$ is:
+\begin{equation}
+    \begin{array}{cl}
+        \bar{\mathcal{L}}^{MAP}_i      =&\log \sum_{\mathbf{y}\in\mathcal{Y}} \exp(\bar{\mathbf{w}}^\top \bar{\boldsymbol{\phi}}(\mathbf{x}^{(i)},\mathbf{y}))-\bar{\mathbf{w}}^\top \bar{\boldsymbol{\phi}}(\mathbf{x}^{(i)},\mathbf{y}^{(i)}) \\ 
+                                       =&\log \sum_{\mathbf{y}\in\mathcal{Y}} \exp\big(\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y})+d(\mathbf{y}^{(i)},\mathbf{y})\big) -\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)}) 
+\end{array}
+    \label{equ:new_MAP_loss}
+\end{equation}
+$\bar{\mathcal{L}}^{MAP}_i$ was also named as ``softmax-margin" by \cite{SoftMax}. It can be easily proved that $\bar{\mathcal{L}}^{MAP}_i$ is convex by following a similar proof in {Proposition \ref{pro:MAP_convex}}
+(note that $d(\mathbf{y}^{(i)},\mathbf{y})$ is independent of $\mathbf{w}$). It can be seen in (\ref{equ:MMMN_loss}) and (\ref{equ:new_MAP_loss}) that two loss functions share a similar form. The only 
+difference between them is that the \emph{max} function is used in (\ref{equ:MMMN_loss}) while the \emph{log-sum-exp} function is used (\ref{equ:new_MAP_loss}) (the first term). 
+
+Here, \textbf{the first connection} between $\mathcal{L}^{Margin}_i$ and $\bar{\mathcal{L}}^{MAP}_i$ is claimed:   
+\begin{equation}
+    \mathcal{L}^{Margin}_i \leq \bar{\mathcal{L}}^{MAP}_i\leq\mathcal{L}^{Margin}_i+\log |\mathcal{Y}|
+    \label{equ:bound}
+\end{equation}
+\emph{i.e.} $\mathcal{L}^{Margin}_i$  
+is a lower bound of $\mathcal{L}^{MAP}_i$ and specifies a upper bound of $\mathcal{L}^{MAP}_i$ by $\mathcal{L}^{Margin}_i+\log |\mathcal{Y}|$. For notation simplicity, $\pi_n$ is used to represent  
+$\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_n)+d(\mathbf{y}^{(i)},\mathbf{y}_n)$, $\forall \mathbf{y}_n\in\mathcal{Y}$, and $|\mathcal{Y}|=N$. 
+\begin{proposition}
+    Given a set $\{\pi_n\in\mathbb{R}\}_{n=1}^N, \max\{\pi_n\}_{n=1}^N \leq \log\sum_{n=1}^N e^{\pi_n}\leq \max\{\pi_n\}_{n=1}^N+\log N$. 
+\label{pro:bound}
+\end{proposition}
+
+\begin{proof}
+    Since $\max\{e^{\pi_n}\}_{n=1}^N \leq \sum_{n=1}^N e^{\pi_n}\leq  N \max\{e^{\pi_n}\}_{n=1}^N$, 
+    by taking the logarithm of above inequalities, it is obvious that    
+    $\max\{\pi_n\}_{n=1}^N \leq \log\sum_{n=1}^N e^{\pi_n}\leq \max\{\pi_n\}_{n=1}^N\\+\log N$. 
+    \label{proof:bound}
+\end{proof}
+
+\textbf{The second connection} between $\mathcal{L}^{Margin}_i$ and $\bar{\mathcal{L}}^{MAP}_i$ is:  
+given two solutions of $\mathcal{L}_i^{Margin}$, $\mathbf{w}_1$  and $\mathbf{w}_2$.   
+\begin{equation}
+    \begin{array}{rcl}
+        \text{when} & &\max_{\mathbf{y}\in\mathcal{Y}}\bar{p}(\mathbf{y}|\mathbf{x}^{(i)};\mathbf{w}_1)> \max_{\mathbf{y}\in\mathcal{Y}}\bar{p}(\mathbf{y}|\mathbf{x}^{(i)};\mathbf{w}_2),\\ 
+                    & &\bar{\mathcal{L}}_i^{MAP}(\mathbf{w}_1)-\mathcal{L}_i^{Margin}(\mathbf{w}_1) < \bar{\mathcal{L}}_i^{MAP}(\mathbf{w}_2)-\mathcal{L}_i^{Margin}(\mathbf{w}_2) 
+    \end{array}
+\label{equ:monotomic}
+\end{equation}
+\emph{i.e.} the gap $\bar{\mathcal{L}}_i^{MAP}(\mathbf{w})-\mathcal{L}_i^{Margin}(\mathbf{w})$ monotonically decreases with respect to $\max_{\mathbf{y}\in\mathcal{Y}}\bar{p}(\mathbf{y}|\mathbf{x}^{(i)};\mathbf{w})$. 
+Likewise, let $\pi_n$ represent  
+$\mathbf{w}_1^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_n)+d(\mathbf{y}^{(i)},\mathbf{y}_n)$ and $\tau_n$ represent 
+$\mathbf{w}_2^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_n)+d(\mathbf{y}^{(i)},\mathbf{y}_n)$, $\forall \mathbf{y}_n\in\mathcal{Y}$. 
+\begin{proposition}
+    Given two sets of the same size $N$, $\{\pi_n\in\mathbb{R}\}_{n=1}^N$ and $\{\tau_n\in\mathbb{R}\}_{n=1}^N$. In addition, $p_t^\pi=\frac{\exp(\pi_t)}{\sum_{n=1}^N\exp(\pi_n)}$ 
+    and $p_t^\tau=\frac{\exp(\tau_t)}{\sum_{n=1}^N\exp(\tau_n)}$. Then $\log\sum_{n=1}^N\\ \exp{\pi_n}-\max\{\pi_n\}_{n=1}^N< \log\sum_{n=1}^N \exp{\tau_n}-\max\{\tau_n\}_{n=1}^N$ when 
+    $\max\{ p_t^\pi\}>\max\{ p_t^\tau\}$.   
+\label{pro:monotomic}
+\end{proposition}
+\begin{proof}
+    $\alpha=\log \sum_{n=1}^M \exp{\pi_n}-\max\{\pi_n\}_{n=1}^N=-\log (\max\{p^\pi_n\})$, $\beta=\log \sum_{n=1}^N\\\exp{\tau_n}-\max\{\tau_n\}_{n=1}^N=-\log (\max\{p^\tau_n\})$. So $\alpha-\beta=
+    \log \frac{\max \{p^\tau_n\}}{\max \{p^\pi_n\}}$, and $\alpha-\beta<0 \Leftrightarrow \max \{p^\pi_n\}>\max \{p^\tau_n\}$.     
+\end{proof}
+
+
+\textbf{The third connection} between $\mathcal{L}^{Margin}_i$ and $\bar{\mathcal{L}}^{MAP}_i$ is: 
+\begin{equation}
+    \text{when} \max_{\mathbf{y}\in\mathcal{Y}}\{\bar{p}(\mathbf{y}|\mathbf{x}^{(i)})\}= 1, \quad \bar{\mathcal{L}}_i^{MAP}=\mathcal{L}^{Margin}_i 
+    \label{equ:tight}
+\end{equation}
+\emph{i.e.} $\bar{\mathcal{L}}_i^{MAP}$ and $\mathcal{L}^{Margin}_i$ are identical when the conditional distribution $\bar{p}(\mathbf{y}|\mathbf{x}^{(i)})$ is a Dirac impulse concentrated on 
+the outputs with the largest confidence score. 
+\begin{proposition}
+    Given a set $\{\pi_n\in\mathbb{R}\}_{n=1}^N$, and $p_t^\pi=\frac{\exp(\pi_t)}{\sum_{n=1}^N\exp(\pi_n)}$. Then $\log\sum_{n=1}^N\\\exp\pi_n-\max\{\pi_n\}=0$ when $\max\{p^\pi_n\}=1$.     
+    \label{pro:bound}
+\end{proposition}
+
+\begin{proof}  
+    $\log\sum_{n=1}^N\exp\pi_n-\max\{\pi_n\}=-\log (\max\{p^\pi_n\})$, so $\log\sum_{n=1}^N 
+    \exp\pi_n-\max\{\pi_n\}=0$ when $\max\{p^\pi_n\}=1$.    
+    \label{proof:bound}
+\end{proof}
+
+At last, \textbf{the forth connection} between $\mathcal{L}^{Margin}_i$ and $\bar{\mathcal{L}}^{MAP}_i$ is: 
+\begin{equation}
+    \text{when} \forall \mathbf{y}_n,\mathbf{y}_q\in\mathcal{Y}, \bar{p}(\mathbf{y}_n|\mathbf{x}^{(i)})= \bar{p}(\mathbf{y}_q|\mathbf{x}^{(i)}), \quad \bar{\mathcal{L}}_i^{MAP}=\mathcal{L}^{Margin}_i+\log|\mathcal{Y}|  
+    \label{equ:upper_bound}
+\end{equation}
+\emph{i.e.} $\bar{\mathcal{L}}_i^{MAP}=\mathcal{L}^{Margin}_i+\log|\mathcal{Y}|$ when the conditional distribution $\bar{p}(\mathbf{y}|\mathbf{x}^{(i)})$ holds the largest entropy.    
+\begin{proposition}
+    Given a set $\{\pi_n\in\mathbb{R}\}_{n=1}^N$, and $p_t^\pi=\frac{\exp(\pi_t)}{\sum_{n=1}^N\exp(\pi_n)}$. Then 
+    $\log\sum_{n=1}^N\\ \exp\pi_n=\max\{\pi_n\}+\log N$ when $\pi_n=\pi_q, \forall n,q \in [1,N]$.  
+    \label{pro:up_bound}
+\end{proposition}
+\begin{proof}  
+    $\log\sum_{n=1}^N\exp\pi_n-\max\{\pi_n\}=\log\frac{N\exp(\max\{\pi_n\})}{\exp(\max\{\pi_n\})}=\log N$.    
+    \label{proof:up_bound}
+\end{proof}
+ 
+Combining four connections between $\bar{\mathcal{L}}^{MAP}_i$ and $\mathcal{L}^{Margin}_i$, it can be somehow concluded that the gap between $\bar{\mathcal{L}}^{MAP}_i$ and $\mathcal{L}^{Margin}_i$ ($\bar{\mathcal{L}}^{MAP}_i-\mathcal{L}^{Margin}_i$) is correlated 
+with the entropy (or smoothness) of the 
+conditional distributions exhibited in CRFs. The minimum gap is 0 when CRFs are collections of Dirac impulses, while the maximum gap is $\log|\mathcal{Y}|$ when conditional distributions 
+are uniform.  
+\cite{MaxEnt} and \cite{Norm_Partition} discovered roughly similar connections by increasing the sharpness of CRFs' output distributions with a tunable inverse temperature parameter, and a norm-defining 
+parameter respectively. Four connections can be summarized by listing three extreme circumstances as follows: \\ \\
+\begin{tabular}{m{15cm}}
+      \Xhline{3\arrayrulewidth} \\ 
+      when $\bar p(\mathbf{y}^{(i)}|\mathbf{x}^{(i)})\to 1$: $\mathbf{w}^\top \boldsymbol\phi(\mathbf{x}^{(i)},\mathbf{y}^{(i)})\gg \mathbf{w}^\top \boldsymbol\phi(\mathbf{x}^{(i)},\mathbf{y}^\prime)
+        +d(\mathbf{y}^{(i)},\mathbf{y}^\prime), 
+        \forall \mathbf{y}^\prime\in\mathcal{Y}/\mathbf{y}^{(i)}$, then $\mathcal{L}_i^{Margin}=0$, and $\mathcal{L}_i^{MAP}\to 0$;  \\ \\
+      when $\exists \mathbf{y}^\prime\in\mathcal{Y}/\mathbf{y}^{(i)}, p(\mathbf{y}^\prime|\mathbf{x}^{(i)})\to 1$: $\mathbf{w}^\top \boldsymbol\phi(\mathbf{x}^{(i)},\mathbf{y}^{(i)})\ll \mathbf{w}^\top \boldsymbol\phi(\mathbf{x}^{(i)},\mathbf{y}^\prime)
+        +d(\mathbf{y}^{(i)},\mathbf{y}^\prime)$, then $\mathcal{L}_i^{MAP}\to \infty$, and $\mathcal{L}_i^{MAP}-\mathcal{L}_i^{Margin}\to 0$ \\
+      \Xhline{3\arrayrulewidth} \\
+when $\forall \mathbf{y}_n, \mathbf{y}_q\in\mathcal{Y}, \bar p(\mathbf{y}_n|\mathbf{x}^{(i)})=\bar p(\mathbf{y}_q|\mathbf{x}^{(i)})$: $\mathbf{w}^\top \boldsymbol\phi(\mathbf{x}^{(i)},
+        \mathbf{y}^{(i)})=\mathbf{w}^\top \boldsymbol\phi(\mathbf{x}^{(i)},\mathbf{y}^\prime)
+        +d(\mathbf{y}^{(i)},\mathbf{y}^\prime), 
+        \forall \mathbf{y}^\prime\in\mathcal{Y}/\mathbf{y}^{(i)}$, then $\mathcal{L}_i^{Margin}=0$, and $\mathcal{L}_i^{MAP}=\log |\mathcal{Y}|$;  \\ \\
+\Xhline{3\arrayrulewidth}
+\end{tabular}
+\newline 
+\newline 
+These three cases do not look so interesting because they are unrealistic in practice.
+However, these analysis will be of help for understanding the regularization in the next section.   
+
+
+\subsection{Regularization as Maximum Entropy}
+This subsection will study the effect of l2-norm 
+regularization in MAP and max-margin learning respectively, and provide an alternative interpretation of its role: \emph{maximum entropy}.
+
+\subsubsection{Maximum Entropy while Maximizing Margin}
+At first, conditional distributions $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ learned 
+with $\mathcal{L}_i^{Margin}$ are considered. As discussed in the previous section, when $\mathcal{L}_i^{Margin}$ is minimized to 0,       
+$\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ can still exhibit different shapes, which correspondingly will lead to different landscapes of 
+$\mathbf{w}^\top\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y})$. For example, in Figure \ref{fig:M3N_outputs_both} two different $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ and 
+corresponding  $\mathbf{w}^\top\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y})$ are presented (for simplicity $|\mathcal{Y}|=5$ is used).                
+In Figure \ref{fig:M3N_outputs}, $p(\mathbf{y}^{(i)}|\mathbf{x}^{(i)})>p(\mathbf{y}^{\prime}|\mathbf{x}^{(i)}),\forall \mathbf{y}^\prime\in \mathcal{Y}/\mathbf{y}^{(i)}$, however, entropy 
+is small because $p(\mathbf{y}^{(i)}|\mathbf{x}^{(i)})$ exceeds different $p(\mathbf{y}^{\prime}|\mathbf{x}^{(i)})$ to different degrees. In Figure \ref{fig:M3N_outputs_smooth},    
+$p(\mathbf{y}^{(i)}|\mathbf{x}^{(i)})=p(\mathbf{y}^{\prime}|\mathbf{x}^{(i)}),\forall \mathbf{y}^\prime\in \mathcal{Y}/\mathbf{y}^{(i)}$ and thus entropy is maximized.     
+Assume that there are two solutions of a M$^3$N with 0 loss, $\mathbf{w}_1$ and $\mathbf{w}_2$, which yield $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ as in Figure (\ref{fig:M3N_outputs}) and 
+Figure (\ref{fig:M3N_outputs_smooth}) respectively. Then a first natural question to ask is: which one should be pursued?    
+Usually the max-entropy case (Figure \ref{fig:M3N_outputs_smooth}) is preferred, and this preference can be explained from two perspectives: 
+\begin{enumerate}
+        \item The first motivation is   
+            the well-known \emph{principle of maximum entropy} \citep{max_entropy_NLP}: once the loss function $\mathcal{L}_i^{Margin}$ is minimized, it is unsafer to impose any more assumptions on $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ without 
+any extra information, \emph{i.e.} uniform $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$  is more desirable.
+        \item Secondly, as we can see in the lower part of Figure 
+\ref{fig:M3N_outputs_smooth}, when $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ is uniform, the set 
+$\{\mathbf{w}^{\top}(\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})-\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^\prime)),\mathbf{y}^\prime\in \mathcal{Y}/\mathbf{y}^{(i)}\}$ is well 
+aligned with the set  $\{d(\mathbf{y}^{(i)},\mathbf{y}^\prime)\}$. For all 
+$i\in[1,M]$, when $\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_n)-\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_q)$ is projected on to $\mathbf{w}$, it equals 
+to $d(\mathbf{y}_n,\mathbf{y}_q)$. Therefore, when $|\mathcal{D}|$ is relatively large, it can be intuitively envisioned that the gap between two points in $p(\mathbf{\mathbf{y}|\mathbf{x}})$ is 
+consistent for all $\mathbf{x}\in\mathcal{X}$, which is better than a collection of distorted conditional distributions ($\{p(\mathbf{y}|\mathbf{x}^{(i)})\}_{i=1}^M$. This property is somehow 
+in line with the findings in \cite{input-output_alignment}, where maximum alignment between inputs and outputs is pursued.      
+\end{enumerate}
+In M$^3$Ns, l2-norm regularization is usually considered as a penalty on the complexity of $\mathbf{w}$. Meanwhile, when $\mathcal{L}_0^{Margin}=0$,  
+$\mathbf{w}^{\top}(\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})-\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^\prime))$ will be closer to $d(\mathbf{y}^{(i)},\mathbf{y}^\prime)$ 
+if $||\mathbf{w}||$ gets smaller. Therefore, the role of l2-norm regularization in M$^3$N can be re-interpreted as entropy maximization.       
+\begin{figure}[t]
+    \centering
+    \subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/M3N_outputs.pdf}\label{fig:M3N_outputs}}
+    \subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/M3N_outputs_smooth.pdf}\label{fig:M3N_outputs_smooth}}
+    \caption{Two possible cases  of $p(\mathbf{y}|\mathbf{x}^{(i)})$ and corresponding $\mathbf{w}^\top\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y})$, when $\mathcal{L}^{Margin}$ is minimized. } 
+    \label{fig:M3N_outputs_both}
+\end{figure}
+
+
+
+\subsubsection{Maximum Entropy within MAP Learning}
+For simplicity, at first it is assumed that there exists only one training instance $\{\zeta,t\}$ in $\mathcal{D}$.  
+Since $\bar{\mathcal{L}}^{MAP}_\zeta$ is convex, the gradient of minimum point $\mathbf{w}^*$ is 0: 
+\begin{equation}
+    \left.\frac{d \bar{\mathcal{L}}^{MAP}_\zeta}{d \mathbf{w}}\right|_{\mathbf{w}^*}=\boldsymbol{\phi}(\zeta, t)-\mathbb{E}_{\bar p(\mathbf{y}|\zeta;\mathbf{w}^*)} \left(\boldsymbol{\phi}(\zeta,\mathbf{y})+d(t,\mathbf{y})\right)=0
+    \label{equ:equality_1}
+\end{equation}
+From (\ref{equ:equality_1}), it is not so obvious how l2-norm regularization can affect entropy of $\bar p(\mathbf{y}|\zeta;\mathbf{w}^*)$.    
+However, by multiplying $\bar{\mathbf{w}}^{*\top}$ ($\bar{\mathbf{w}}^{*\top}=[\mathbf{w}^{*\top},1]$) on the both sides of (\ref{equ:equality_1}), it becomes: 
+\begin{equation}
+    \mathbf{w}^{*\top}\boldsymbol{\phi}(\zeta, t)-\mathbb{E}_{\bar p(\mathbf{y}|\zeta; \mathbf{w}^*)} \left(\mathbf{w}^{*\top} \boldsymbol{\phi}(\zeta,\mathbf{y})+d(t,\mathbf{y})\right)=0 
+\end{equation}
+or equivalently:
+\begin{equation}
+    \begin{array}{ll}
+                   & \mathbf{w}^{*\top}\boldsymbol{\phi}(\zeta, t)=\mathbb{E}_{\bar p(\mathbf{y}|\zeta; \mathbf{w}^*)} \left(\mathbf{w}^{*\top}\boldsymbol{\phi}(\zeta,\mathbf{y})+d(t,\mathbf{y})\right)\\ 
+    \Leftrightarrow& \mathbf{w}^{*\top}\boldsymbol{\phi}(\zeta, t)-\log \mathbf{Z}(\bar{\mathbf{w}})= \mathbb{E}_{\bar p(\mathbf{y}|\zeta; \mathbf{w}^*)}(\mathbf{w}^{*\top} \boldsymbol{\phi}(\zeta,\mathbf{y})+d(t,\mathbf{y})-\log \mathbf{Z}(\bar{\mathbf{w}})) \\ 
+    \Leftrightarrow& \log \bar p(t|\zeta) = \sum_{\mathbf{y}\in\mathcal{Y}} \bar p(\mathbf{y}|\zeta)\log \bar p(\mathbf{y}|\zeta)=-H(\bar p(\mathbf{y}|\zeta)) 
+    %&\Leftrightarrow&\exp(\mathbf{w}^{*\top}\boldsymbol{\phi}(\zeta, t))= \exp(\mathbb{E}_{p(\mathbf{y}|\zeta; \mathbf{w}^*)} \mathbf{w}^{*\top} \boldsymbol{\phi}(\zeta,\mathbf{y}))\\ \\
+    %&\Leftrightarrow&\exp(\mathbf{w}^{*\top}\boldsymbol{\phi}(\zeta, t))\leq \mathbf{E}_{p(\mathbf{y}|\zeta; \mathbf{w}^*)} \exp(\mathbf{w}^{*\top} \boldsymbol{\phi}(\zeta,\mathbf{y})) \\ \\ 
+    %&\Leftrightarrow&\frac{\exp(\mathbf{w}^{*\top}\boldsymbol{\phi}(\zeta, t))}{\mathbf{Z(\mathbf{w}^*)}}\leq \mathbf{E}_{p(\mathbf{y}|\zeta; \mathbf{w}^*)} \exp(\mathbf{w}^{*\top} \boldsymbol{\phi}(\zeta,\mathbf{y})) \\ \\
+    \end{array}
+    \label{equ:entropy}
+\end{equation}
+where $H(\bar p(\mathbf{y}|\zeta))$ denotes the \emph{Shannon's entropy} of $\bar p(\mathbf{y}|\zeta)$. Note that we also have the constraint for the conditional probabilities:   
+\begin{equation}
+    \sum_{\mathbf{y}\in{\mathcal{Y}}} \bar p(\mathbf{y}|\zeta)=1
+    \label{equ:sum_to_1}
+\end{equation}
+According to (\ref{equ:entropy}) and (\ref{equ:sum_to_1}), there can be two situations. At first, when $\bar p(t|\zeta)$ is big, then the gap between $\bar p(t|\zeta)$ and all other  
+$\bar p(\mathbf{y}:\mathbf{y}\in\mathcal{Y}/t|\zeta)$ should be large and different to decrease the entropy (Figure \ref{fig:small_entropy}). Secondly, when $\bar p(t|\zeta)$ is small,       
+then to ensure large entropy, all other $\bar p(\mathbf{y}:\mathbf{y}\in\mathcal{Y}/t|\zeta)$ will be similar to each other and close to $\bar p(t|\zeta)$ to increase the 
+entropy (Figure \ref{fig:large_entropy}).  
+When there are more training instances in $\mathcal{D}$ are considered, the situations are analogous, although mathematics will be more complicated.    
+Since $\log \bar p(\mathbf{y}^{(i)}|\mathbf{x}^{(i)})$  
+is anti-correlated with $H(\bar p(\mathbf{y}|\mathbf{x}^{(i)}))$.  One simple extra regularization term can be added to bias the MAP solution towards max-entropy:    
+\begin{equation}
+    \Omega(\mathbf{w})=\sum_{i=1}^M\log \bar p(\mathbf{y}^{(i)}|\mathbf{x}^{(i)})=-\sum_{i=1}^M \bar{\mathcal{L}}^{MAP}_i
+\end{equation}
+which is actually the log-likelihood of $\mathcal{D}$. Then the resulting objective function is: 
+\begin{equation}  
+    \mathbf{w}^* =\arg\min_{\mathbf{w}} \frac{1}{2} ||\mathbf{w}||^2+  \frac{C-C_2}{M}\sum_{i=1}^M \bar{\mathcal{L}}^{MAP}_i, \quad C_2\geq0
+       \label{equ:MEnMAP}
+\end{equation}
+which is nothing but reducing the trade-off weight on the mean loss, or equivalently, increasing weight on the l2-norm regularization term, compared to the 
+original one.    
+Therefore, it can also be claimed that the l2-norm regularization term within MAP learning also performs as an entropy maximizer.  
+\begin{figure}[t]
+    \centering
+    \subfigure[]{\includegraphics[width=0.48\textwidth]{./Figures/large_margin.pdf}\label{fig:small_entropy}} 
+    \subfigure[]{\includegraphics[width=0.48\textwidth]{./Figures/small_margin.pdf}\label{fig:large_entropy}}
+    \caption{Two possible cases of $\bar{p}(\mathbf{y}|\zeta)$ when $\bar{\mathcal{L}}^{MAP}$ is minimized.  } 
+    \label{fig:MAP_outputs}
+\end{figure}
 
 
 %----------------------------------------------------------------------------------------
