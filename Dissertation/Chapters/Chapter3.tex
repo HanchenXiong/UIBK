@@ -14,25 +14,42 @@ Confucius
 \end{flushright}
 \rule{\textwidth}{0.4pt} 
 
+In chapter \ref{Chapter2}, modeling and inference of graphical models (mostly undirected ones) were explained. Meanwhile, until now, it is assumed that   
+the parameters of potential functions are provided by an expert of a specific task. However, this is usually not the case in practice.      
+Even though some empirical knowledge is available for specifying the parameters, it tends to be unreliable. 
+A wiser strategy is to learn the parameters from some training data.      
+
+This chapter focuses the learning of undirected graphical models, based on which structural data can subsequently be inferred.      
+At first, in section \ref{sec:crf}, a special case of Markov network, \emph{conditional random field} (CRF), is introduced for the discriminative learning      
+of structural-output. Its training issues and relation to \emph{max-margin Markov network} (M$^3$N) are studied as well.   
+Second, in section \ref{sec:PSMC},  a new algorithm, \emph{persistent sequential Monte Carlo} (PSMC), 
+is developed for learning general undirected graphical models.   
+
+Another aspect in training graphical models is the learning of graph structures, which, however, is not covered in this thesis.    
+
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
-
 \section{Conditional Random Field}
 \label{sec:crf}
-For instance, in a multi-label learning case, input $\mathbf{x}\in{\mathbb{R}^D}$ is a $D$-dimensional real-value vector, output $\mathbf{y}\in\mathbb{B}^L$ is a $L$-dimensional 
-binary vector with a component $y_{l:l\in[1:L]}$ denoting the presence of the $l$th label. A \emph{Markov random field} (MRF) $p(\mathbf{x,y})$ can be defined by a  domain expert, or learned from 
-existing training data, with a graph structure and 
-associated potential functions, which are supposed to reconstruct the generative process of $\{\mathbf{x,y}\}: p(\mathbf{x,y})=p(\mathbf{x})p(\mathbf{y}|\mathbf{x})$. 
+In general supervised learning paradigm, there exist input and output: $\{\mathbf{x},\mathbf{y}\}$. The target is to learn a function       
+$f:f(\mathbf{x})\rightarrow \mathbf{y}$ from a training dataset such that the estimated error of $\{f(\mathbf{x}),\mathbf{y}\}$ can be minimized.     
+In classic machine learning, output is only a binary value or a single scalar, which corresponds to binary classification and regression respectively.      
+However, with the increasingly higher data complexity in many areas, learning structural output are now more of interest.        
+
+Markov networks, or Markov random fields (MRFs) can be used as a generative learning scheme for the learning task.    
+A MRF is supposed to 
+reconstruct the generative process by defining a joint probability of $\{\mathbf{x,y}\}: p(\mathbf{x,y})=p(\mathbf{x})p(\mathbf{y}|\mathbf{x})$. 
 As for the prediction task, the conditional probability 
 $p(\mathbf{y|x})=\frac{p(\mathbf{x,y})}{\sum_\mathbf{y} p(\mathbf{x,y})}$ can be derived, or more straightforwardly, 
-$\mathbf{y}^*=\arg\max_{\mathbf{y}}p(\mathbf{y|x})=\arg\max_{\mathbf{y}}p(\mathbf{x,y})$ (\emph{e.g.} by using max-product algorithm). However, it was realised that for the task $\mathbf{x}\to\mathbf{y}$, the only desired
-component is $p(\mathbf{y|x})$; it is wast to expend effort in modeling $p(\mathbf{x})$, which is not relevant anyway. Consequently, \emph{conditional random field} (CRF) was proposed \citep{CRF} as 
-a discriminative model by learning only the conditional probability $p(\mathbf{y|x})$. One strength of CRFs is that it can include arbitrarily complex features (\emph{e.g.} higher order dependencies) 
+$\mathbf{y}^*=\arg\max_{\mathbf{y}}p(\mathbf{y|x})=\arg\max_{\mathbf{y}}p(\mathbf{x,y})$ (\emph{e.g.} by using max-product algorithm). 
+However, it was realised that for learning $f:\mathbf{x}\to\mathbf{y}$, the only desired
+component is $p(\mathbf{y|x})$. It is wast to expend effort in modeling $p(\mathbf{x})$, which is not relevant anyway. Consequently, \emph{conditional random field} (CRF) was proposed \citep{CRF} as 
+a discriminative model by learning only the conditional probability $p(\mathbf{y|x})$. One significant strength of CRFs in practice is that it can include arbitrarily complex features (\emph{e.g.} higher order dependencies) 
 of $\mathbf{x}$, which is intractable in MRFs. According to empirical study in \citep{Kumar03,CRF}, CRFs outperform MRFs in many practical applications. 
 
-At first, the definition of conditional random fields (CRFs) give as \citep{CRF}: 
+At first, the definition of conditional random fields (CRFs) is given as \citep{CRF}: 
 \begin{definition}
     Let $G=(V,E)$ be a graph ($V$ are vertices and $E$ are edges) such that $\mathbf{y}=\{y_v\}_{v\in V}$, so that $y$ is indexed by the vertices of $G$. Then $(\mathbf{x,y})$ is a 
         conditional random field in case, when conditioned on $\mathbf{x}$, the random variables $\{y_v\}_{v\in V}$ obey the Markov property with respect to 
@@ -49,7 +66,7 @@ $\mathbf{Z(w)}$ is the partition function for normalization $\mathbf{Z(w)}=\sum_
 
 As a probabilistic model, one CRF is usually 
 learned via \emph{maximum likelihood estimation} (MLE) or \emph{maximum a posterior} (MAP) \citep{Kumar03,CRF,Accelerated_CRF}. 
-Meanwhile, inspired by the margin notion which has been exploited in successful binary classifiers, \emph{e.g.} Support Vector Machine (SVM),  
+Meanwhile, inspired by the margin notion which has been exploited in successful binary classifiers, \emph{e.g.} \emph{Support Vector Machine} (SVM),  
 an alternative discriminative training scheme of CRFs is maximizing the margin between 
 the $p(\mathbf{y|x})$ of the desired $\mathbf{y^*}$ and the best runner-up $\mathbf{y}^{**}$  in their $\log$ domains. The CRFs trained with this 
 margin
@@ -62,7 +79,7 @@ On the other hand, different from regular SVM, the \emph{quadratic programming}
 Although it can be simplified by exploiting interesting properties within forest-structured outputs \citep{Taskar03},  
 for highly connected graphs, the learning is intractable.      
 Obviously, although CRF and  M$^3$Ns offer almost equivalent modeling capabilities for a given machine learning task, two rather different loss functions are 
-employed in them. However, it can be revealed that MAP and max-margin learning schemes are, to large extent, related. 
+employed in them. However, it will be revealed in next two subsections that MAP and max-margin learning schemes are, to large extent, related. 
 %-----------------------------------
 %	SUBSECTION 1
 %-----------------------------------
@@ -125,9 +142,9 @@ belief propagation} (LBP) or \emph{pseudo likelihood} (PL) \citep{LBP, Kumar03,C
 \subsection{Max-Margin Markov Network}
 \label{subsec:MMMN}
 The max-margin principle used in binary classifier, \emph{e.g.} Support Vector Machine (SVM), has been proven theoretically and empirically \citep{Vapnik} superior to others.        
-The margin notion was generalized to learn structured outputs in \citep{Taskar03} and \citep{StructSVM}. More concretely, they proposed to learn CRFs by maximizing the margin 
+The margin notion was generalized to learn structured outputs in \citep{Taskar03} and structural SVM \citep{StructSVM}. More concretely, they proposed to learn CRFs by maximizing the margin 
 between the $p(\mathbf{y|x})$ of the desired $\mathbf{y^*}$ and the best runner-up $\mathbf{y}^{**}$ in log domain. The CRFs trained with maximum margin are referred to as 
-max-margin Markov networks (M$^3$N) \citep{Taskar03}.  The objective function of M$^3$N can be written out as: 
+max-margin Markov networks (M$^3$Ns) \citep{Taskar03}.  The objective function of a M$^3$N can be written out as: 
 \begin{equation}
     \begin{array}{rl}
         & \arg\min_{\mathbf{w},\xi_{i:i\in[1,M]}}  \frac{1}{2} ||\mathbf{w}||^2 +\frac{C}{M} \sum_{i=1}^M \xi_i \\
@@ -143,10 +160,10 @@ slack variables by the dissimilarities between corresponding $\mathbf{y}^{(i)}$ 
 Obviously, (\ref{equ:MMMN}) is a quadratic programming (QP)  problem with exponential number of 
 constraints. Similarly to SVM, (\ref{equ:MMMN}) can be converted to its dual form, of which some interesting properties can be exploited 
 to simplify the computation 
-for forest-structured outputs (\emph{i.e.} singly-connected graphs). However, for highly-connected graphs, exact learning is intractable.  
+for forest-structured outputs (\emph{i.e.} singly-connected graphs). However, for highly-connected graphs, the exact learning of M$^3$Ns is intractable.  
 An advantage of the dual form of M$^3$N is that it enables the use of \emph{kernel methods}, which can implicitly project 
 $\boldsymbol{\phi}(\mathbf{x},\mathbf{y})$ to 
-a higher dimensional Hilbert feature space. Defining $\boldsymbol{\phi}(\mathbf{x},\mathbf{y})$  with kernel methods was more exploited in Structural SVM \citep{StructSVM} (see section \ref{sec:SSVM}). 
+a higher dimensional Hilbert feature space. Defining $\boldsymbol{\phi}(\mathbf{x},\mathbf{y})$  with kernel methods was more exploited in Structural SVM \citep{StructSVM} (see subsection \ref{subsec:SSVM}). 
 Usually quadratic or cubic kernels are used and yield promising results \citep{Taskar03}. 
 Correspondingly, 
 explicitly feature map of $\boldsymbol{\phi}(\mathbf{x},\mathbf{y})$  can be constructed via two-degree and three-degree polynomials in the primal form of M$^3$Ns.  
@@ -155,9 +172,7 @@ The second constraint in (\ref{equ:MMMN}) can be written in a more compact form:
 $\max_{\mathbf{y}\in\mathcal{Y}} \{d(\mathbf{y}^{(i)},\mathbf{y})-{\mathbf{w}^\top} (\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})-\boldsymbol{\phi} 
         (\mathbf{x}^{(i)},\mathbf{y})) d(\mathbf{y}^{(i)},\mathbf{y}\}\leq \xi_i$. 
 In addition, $\mathbf{w}$ can be rescaled $\mathbf{w}\gets \mathbf{w}d(\mathbf{y}^{(i)},\mathbf{y})$. 
-%; it will not affect the solution of Eq. (\ref{equ:MMMN}) 
-%because the magnitude of $\mathbf{w}$ will be minimized anyway \citep{Taskar03,OnlineMKL}
-. Then, instead of rescaling slack variables, one can rescale margin to be the same level as 
+Then, instead of rescaling slack variables, one can rescale margin to be the same level as 
 $d(\mathbf{y}^{(i)},\mathbf{y})$.  
 Therefore, (\ref{equ:MMMN}) can be reformulated in a similar form as (\ref{equ:MAP}):
 \begin{equation}
@@ -408,26 +423,69 @@ Therefore, it can also be claimed that the l2-norm regularization term within MA
 %	SECTION 2
 %----------------------------------------------------------------------------------------
 \section{Training Undirected Graphical Models with Persistent Sequential Monte Carlo}
-In this section, a new learning method, persistent sequential Monte Carlo (PSMC), for general undirected graphical
-models (UGMs) was presented.
-Here both Markov random fields (MRFs) and conditional random fields (CRFs) are considered as UGMs.
-Without loss of generality, a UGM can be modeled as:
- 
-Most existing learning methods for
-UGMs can be considered as special cases of Robbins-Monro’s stochastic approximation procedure (SAP, see Algorithm \ref{alg:SAP}) 
-with different Metropolis transitions (e.g. PCD is a SAP with Gibbs transitions). By linking SAP
+\label{sec:PSMC}
+As analyzed in subsection \ref{subsec:MLE}, computing the exact likelihoods of CRFs for the maximum likelihood estimation (MLE) is in general intractable. 
+Therefore, different approximations are used, \emph{e.g.} \emph{mean field} (MF), \emph{loopy 
+belief propagation} (LBP) or \emph{pseudo likelihood} (PL) \citep{LBP, Kumar03,CRF,Accelerated_CRF}.  
+In this section, general undirected graphicalmodels (UGMs) are considered, which include 
+both Markov random fields (MRFs) and conditional random fields (CRFs). 
+Without loss of generality, a UGM can be modeled as: 
+\begin{eqnarray}
+    p(\mathbf{x};\boldsymbol{\theta})&=&\frac{\exp\left(-E(\mathbf{x};\boldsymbol{\theta})\right)}{\mathbf{Z}(\boldsymbol{\theta})}
+    \label{equ:MRF}\\
+    \textit{Energy function:} & &\quad E(\mathbf{x};\boldsymbol{\theta})=-\boldsymbol{\theta}^\top \phi(\mathbf{x})
+    \label{equ:energy}
+\end{eqnarray}
+with random variables $\mathbf{x}=[x_1,x_2,\dots,x_D]\in\mathcal{X}$, $\phi(\mathbf{x})$ is a $K$-dimensional vector of sufficient statistics, and parameter 
+$\boldsymbol{\theta}\in \mathbb{R}^K$. $\mathbf{Z}(\boldsymbol{\theta})=\sum_{\mathbf{x}} \exp (\boldsymbol{\theta}^\top\phi(\mathbf{x}))$ is the partition function for global normalization. 
+Note that $p(\mathbf{x};\boldsymbol{\theta})$ can be also a conditional probability although it is not explicitly written out. 
+\begin{algorithm} [!t]                    
+\caption{SAP for learning UGMs}          
+\label{alg:SAP}                           
+\begin{algorithmic}[1]
+\REQUIRE ~~\ %Input
+given a training data $\mathbf{x}^{(m)}$.  
+\STATE  $t\gets 0$, initialize the proposal distribution $p(\mathbf{x};\boldsymbol{\theta}_0)$. 
+\STATE  Randomly initialize $S$ sample particles $\{\bar{\mathbf{x}}_0^{(s)}\}_{s=1}^S$
+\WHILE {! stop criterion}
+\FOR {s=1:S}
+\STATE evolve particle $\bar{\mathbf{x}}_t^{(s)}$ to $\bar{\mathbf{x}}_{t+1}^{(s)}$ with a transition operator which leaves $p(\mathbf{x};\boldsymbol{\theta}_t)$ invariant
+\ENDFOR
+\STATE Calculate the gradient:
+\begin{equation*}
+	\frac{\partial \tilde{\mathcal{L}}(\boldsymbol{\theta}|\mathcal{D})}{\partial \boldsymbol{\theta} }=\phi(\mathbf{x}^{(m)})-\frac{1}{S}\sum_{s=1}^S(\phi(\bar{\mathbf{x}}_t^{(s)}))
+\end{equation*}
+\STATE update $\boldsymbol{\theta}_{t+1}=\boldsymbol{\theta}_{t}+\eta_t \frac{\partial \tilde{\mathcal{L}}(\boldsymbol{\theta}|\mathcal{D})}{\partial \boldsymbol{\theta} }$
+\STATE $t \gets t+1$, decrease learning rate $\eta_t$
+\ENDWHILE
+\ENSURE ~~\ %Output
+estimated parameters  $\boldsymbol{\theta}^*=\boldsymbol{\theta}_t$  
+\end{algorithmic}
+\end{algorithm}
+
+
+
+During the past decade, besides the approximation methods mentioned above, several sampling-based approximations were also developed for learning 
+UGMs, \emph{e.g.} persistence contrastive divergence (PCD) \citep{tielemanPcd2008},  tempered transition (TT) \citep{Salakhutdinov_learningin} and parallel tempering (PT) \citep{desjardins2010}. 
+All these learning methods for
+UGMs can be considered as special cases of Robbins-Monro’s stochastic approximation procedure (SAP; \citealt{RobbinMonro,Younes1988}). A pseudo code of SAP for learning UGMs is provided in Algorithm \ref{alg:SAP}  
+with different invariant transitions (\emph{e.g.} PCD is a SAP with Gibbs transitions). By linking SAP
 and sequential Monte Carlo (SMC), PCD and other state-of-the-art learning algorithms can be cast into a
 SMC-based interpretation framework. Moreover, within the SMC-based interpretation, two key factors
 which affect the performance of learning algorithms are disclosed: \emph{learning rate} and \emph{high model complexity}.
 Based on this rationale, the strengths and limitations of different learning algorithms can be analyzed
 and understood in a new light.
 
-Inspired by the understanding of learning UGMs from a SMC perspective, and the successes of global
-tempering used in parallel tempering and tempered transition, PSMC was put forward to approach the
-maximum likelihood solution in learning UGMs. The basic idea is to construct a long, persistent distribu-
-tion sequence by inserting many tempered intermediary distributions between two successively updated
-distributions. According to empirical results on learning several UGMs, the proposed PSMC out-
+Inspired by the understanding of learning UGMs from the SMC perspective, and the successes of global
+tempering used in parallel tempering and tempered transition, a new learning algorithm, \emph{persistent sequential Monte Carlo} (PSMC) is put forward in this section to approach the
+MLE in learning UGMs. The basic idea is to construct a long, persistent distribution sequence by 
+inserting many tempered intermediary distributions between two successively updated
+distributions. According to empirical results on learning several UGMs, the proposed PSMC out
 performs other learning algorithms in challenging circumstances.
+
+More technical details and results are presented in the paper II by the author. Furthermore, PSMC is also evaluated and compared against other relvelent learning algorithms 
+on two practical tasks: \emph{image annotation} and \emph{image segmentation} in 
+subsection \ref{subsec:graph_experiment}, where two conditional random fields are constructed and trained.    
 
 
 \begin{shaded}
@@ -436,9 +494,10 @@ performs other learning algorithms in challenging circumstances.
 \includepdf[offset=3cm -2.5cm, scale=1, pages=-,pagecommand={\pagestyle{fancy}}]{./Papers/Xiong-2014-ACML.pdf}
 
 \subsection {Training Conditional Random Fields for Image Annotation and Image Segmentation}
-In this section we present some evaluations and comparison of different learning algorithms on two practical tasks: \emph{multi-label learning} and \emph{image 
-segmentation}. Different from previous experiments where generative models were learned, here we trained discriminative models. Therefore, two 
-conditional random fields were employed. Generally speaking, let us denote $\mathbf{x}$ as input and $\mathbf{y}\in \mathcal{Y}$ as output, and our target is to 
+\label{subsec:graph_experiment}
+In this section, some evaluations and comparison of different learning algorithms on two practical tasks, \emph{multi-label learning} and \emph{image 
+segmentation}, are presented. Different from previous experiments where generative models were learned, here discriminative models are used, \emph{i.e.}, two 
+conditional random fields were employed. Generally speaking, let $\mathbf{x}$ denotes input and $\mathbf{y}\in \mathcal{Y}$ as output, the target is to 
 learn an UGM:  
 \begin{equation}
 	p(\mathbf{y}|\mathbf{x})=\frac{\exp(\boldsymbol{\theta}^\top \phi(\mathbf{y},\mathbf{x}))}{\mathbf{Z}}
@@ -448,15 +507,15 @@ where the partition function $\mathbf{Z}$ is
 	\mathbf{Z}=\sum_{\mathbf{y}\in\mathcal{Y}}\exp(\boldsymbol{\theta}^\top \phi(\mathbf{y},\mathbf{x}))
 \end{equation}
 where $\phi(\mathbf{y},\mathbf{x})$ is defined based on task-oriented dependency structure. Note that the partition function $\mathbf{Z}$ is computed by 
-marginalizing out only $\mathbf{y}$ because our interest is a conditional distribution. Six algorithms 
+marginalizing out only $\mathbf{y}$ because the interest here is a conditional distribution. Six algorithms 
 were implemented: PCD-$H$, PCD-1, PT, TT, SMC and PSMC. Similar setups were used for all algorithms as the previous section.  
 Learning rate $\eta_t=\frac{1}{10+0.1*t}$ was used and 100 iterations were run. For each input $\mathbf{x}$, 
 the size of particle set $\{ \hat{\mathbf{y}}^{(s)}\}$ is 200.  Similar to other supervised learning schemes, a regularization $\frac{1}{2}||\boldsymbol{\theta}||^2$ 
 was added and a trade-off parameters was tunned via $k$ folder cross-validation ($k=4$).  
 
 It is worth mentioning that better results can be expected in both experiments by running more iterations, using better learning rates or exploiting 
-feature engineering. However, our purpose here is to compare different learning algorithms under the some conditional instead of defeat state-of-the-art 
-results in multi-label learning study and image segmentation study respectively. Therefore, we saved our effort in tunning algorithms and constructing 
+feature engineering. However, the purpose here is to compare different learning algorithms under the some conditional instead of defeat state-of-the-art 
+results in multi-label learning study and image segmentation study respectively. Therefore, less effort was put in tunning algorithms and constructing 
 sophisticated features. 
 
 \subsubsection{Multi-Label Learning}
@@ -471,22 +530,22 @@ dependencies between input $\mathbf{x}$ and all individual labels.
 In the test phase, with learned $\mathbf{W}_E$ and $\mathbf{W}_v$, for a test input $\mathbf{x}^\dagger$, we predict the corresponding $\mathbf{y}^\dagger$ with 
 100 rounds of gibbs sampling based on (\ref{equ:scene_model}).  
 
-In our experiment, we used popular \emph{scene} database \citep{scene_database}, where scene images are associated with a few semantic labels. In the database, 
-there are 1121 training instances and 1196 test instances.  In total there are 6 labels ($L=6$) and a 294 dimensional feature were extracted from each image         
+The \emph{scene} database \citep{scene_database} was used in the experiment.  In the database, scene images are associated with a few semantic labels.
+There are 1121 training instances and 1196 test instances.  In total there are 6 labels ($L=6$) and a 294 dimensional feature were extracted from each image         
 ($\mathbf{x}\in\mathbb{R}^{294}$). Readers are referred to \cite{scene_database} for more details about the database and feature extraction.  
 
-We evaluated the performance of multi-label learning using \emph{precision} (P), \emph{recall} (R), and the \emph{F1} measure (F). For each label, the precision is 
-computed as the ratio of the number of images assigned the label correctly over the total number of images predicted to have the label, while the recall is the number of images 
-assigned the label correctly divided by the number of images that truly have the label. Then precision and recall are averaged across all labels. Finally, the F1 measure is calculated as 
-$F=2\frac{P\times R}{P+R}$.
+The performance of multi-label learning was evaluated using \emph{precision} (P), \emph{recall} (R), and the \emph{F1} measure (F). 
+%For each label, the precision is 
+%computed as the ratio of the number of images assigned the label correctly over the total number of images predicted to have the label, while the recall is the number of images 
+%assigned the label correctly divided by the number of images that truly have the label. Then precision and recall are averaged across all labels. Finally, the F1 measure is calculated as 
+%$F=2\frac{P\times R}{P+R}$.
 The results of all six algorithms are presented in Table \ref{tab:scene_results}.     
 The average number temperatures in PSMC is around 5, so PCD-5 was implemented. Also 5 temperatures were use in PT and TT.    
-We can see that PSMC yields the best F1 measure 75.1, followed by PT and SMC with 74.6 and 73.4 respectively. The results of PCD-5 and TT             
+It can be seen that PSMC yields the best F1 measure 75.1, followed by PT and SMC with 74.6 and 73.4 respectively. The results of PCD-5 and TT             
 are relative worse, while PCD-1 is the worst.  
 
 
 \begin{table}
-	\label{tab:scene_results}
 	\center
 \begin{tabular}{cccc} 
 \Xhline{2\arrayrulewidth} \\ 
@@ -500,13 +559,14 @@ PSMC   & 71.9            & {\bf 78.5}   & {\bf 75.1} \\
 \Xhline{2\arrayrulewidth}
  \end{tabular}
  \caption{A comparison of six learning algorithms on multi-label learning. }
+	\label{tab:scene_results}
 \end{table}
 
 \subsubsection{Image Segmentation} 
-Image segmentation essentially is a task to predict the semantic label of all image pixels or blocks.    
+Image segmentation is  essentially a task to predict the semantic label of all image pixels or blocks.    
 Inter-label dependences within neighbourhood are usually exploited in image segmentation. For instance, by dividing an image into equal size and non-overlapping 
 blocks, the label of a block does not only depend on the appearance of the block, but also the labels of its neighbouring blocks. For simplicity, here 
-we only consider binary labels. In addition, we assume that blocks and inter-label dependencies are position irrelevant. Therefore, a conditional random filed can 
+only binary labels are considered. In addition, blocks and inter-label dependencies are assumed to be position-irrelevant. Therefore, a conditional random filed can 
 be constructed as:               
 \begin{equation}
 	p(\mathbf{y}|\mathbf{x})=\frac{\exp(\sum_{u,v\in E}y_u W_e y_v+\sum_{v\in V} y_v \mathbf{w}_v^\top \mathbf{x}_v) }{\mathbf{Z}}
@@ -515,7 +575,7 @@ where $y_v\in\{-1,+1\}$, $E$ denotes the set of all edges connecting neighbourin
 block's labels and $\mathbf{w}_v\in \mathbb{R}^{d\times 1}$ encodes the dependency between block label and its appearance which is represented by a $d$-dimensional feature $\mathbf{x}_v\in\mathbb{R}^d$.    
 Similar to the multi-label experiment, desired labels are predicted via 100 round gibbs sampling in test phase.      
 
-In our experiment, we used the binary segmentation database from \cite{img_seg_database}, where each image is divided into non-overlapping blocks of 
+The binary segmentation database from \cite{img_seg_database} was used.  Each image is divided into non-overlapping blocks of 
 size $16\times16$ and each block is annotated with either ``man-made structure" (MS) or ``nature structure" (NS). 
 Overall, there are 108 training images and 129 test images. The training set contains 3004 MS blocks and 36269 NS blocks, while the test set 
 contains 6372 MS blocks and 43164 NS blocks.
@@ -525,8 +585,9 @@ the angle between the most frequent orientation and the second most frequent ori
 More explanation of the database and feature design can be found in \cite{img_seg_database}. 
 
 
-We found that the average number of temperatures in PSMC is 20, therefore PCD-20 was run and 20 temperatures were used in TT and PT. We quantify the segmentation performance of 
-six algorithms with confusion matrices, which are presented in Figure \ref{fig:img_seg_results}. We can see that PSMC outperforms all others (by checking the diagonal entries of confusion matrices).      
+It is found that the average number of temperatures in PSMC is 20, therefore PCD-20 was run and 20 temperatures were used in TT and PT. The segmentation performance of 
+six algorithms are quantified with confusion matrices, which are presented in Figure \ref{fig:img_seg_results}. It can be seen that PSMC outperforms all others (by checking the diagonal 
+entries of confusion matrices).      
 For qualitative comparison, an example image and corresponding segmentations are shown in Figure \ref{fig:img_seg_example}.  It can be seen that the segmentation by PSMC is closer to the ground truth 
 compared to others. 
 \begin{figure}[t!] 
@@ -550,7 +611,8 @@ compared to others.
 	\subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_PT}\label{fig:img_seg_PT}}
 	\subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_SMC}\label{fig:img_seg_SMC}}
 	\subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_PSMC}\label{fig:img_seg_PSCM}}
-    \caption{An example image and corresponding segmentations by six algorithms.  }   
+    \caption{An example image and corresponding segmentations by six algorithms. Regions within white boxes are predicted as ``man-made structure'' while 
+	the remaining are ``nature structure''. }   
     \label{fig:img_seg_example}
 \end{figure}
 
