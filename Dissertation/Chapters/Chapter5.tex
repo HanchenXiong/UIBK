@@ -22,6 +22,31 @@ Aristotle
 \section{Optimization on Matrix Manifolds}
 
 \subsection{3D Point Cloud Registration with Convex Optimization on SO(3) Manifold}
+3D shape pose estimation is an essential in computer vision and robot
+perception.
+Unitl now, the poses of 3D shapes are usually estimated by using registration algorithms. 
+Despite intensive study, 3D shape
+registration remains an open question. 
+For most existing registration algorithms, there are many obstacles to
+practical use them in fully autonomous systems. For instance, ICP usually
+requires manual assistance to provide a good initialization, and
+Gaussian Mixtures and SoftAssign are too expensive for real-time
+tasks. Therefore, a novel algorithm was developed by the author and co-workers to satisfy the
+practical need for better robustness and higher efficiency. Quite
+different from previous registration methods, instead of computing
+correspondence and alignment in 3D space, the propsed algorithm first map
+points to a higher, possibly infinite-dimensional space by applying
+Kernel methods. Registration is subsequently performed within feature
+space by aligning corresponding principal components. The result is
+projected back into 3D pose space. The whole procedure is
+theoretically elegant and efficient. Kernel PCA is used to avoid
+explicit computation in feature space, and SE(3) on-manifold
+optimization is employed to enhance the generality of our registration algorithm. 
+Empirical results demonstrate that the proposed method is quite accurate
+and robust to various challenging circumstances (\emph{e.g.} large motion,
+presence of outliers), and remarkably, it is much faster than other
+state-of-the-art methods with comparable performance. 
+
 \begin{shaded}
  {\Huge IX.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater {\it Efficient, General Point Cloud Registration With Kernel Feature Maps}, 
 In Proceedings of 10th International Conference on Computer and Robot Vision (CRV13), pp 83-90, 2013, IEEE.

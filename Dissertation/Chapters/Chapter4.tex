@@ -19,17 +19,90 @@ Vladimir Vapnik
 
 \section{Joint SVM}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
-
 %-----------------------------------
 %	SUBSECTION 1
 %-----------------------------------
 \subsection{Structural SVM for Multi-Label Learning}
+This subsection will introduce structural SVM based on standard SVM and study its application 
+in multi-label learning. 
+Standard SVM is a binary classifier, which has been well 
+understand and widely used in many applications.  
+Its two advantageous components are \emph{maximum margins} and \emph{input kernels}. 
+The maximum-margin principle is a reflection of statistical learning theory \citep{Vapnik} on 
+linear binary classification. 
+Kernels provide powerful mechanisms enabling the linear classifier to separate highly non-linear data. 
+The critical observation of kernel methods is that a kernel function can be defined on a pair of data 
+instances to implicitly map them to a \emph{reproducing kernel Hilbert space} (RKHS):   
+\begin{equation}
+    K_\phi(\mathbf{x}^{(i)},\mathbf{x}^{(j)})=\langle \phi(\mathbf{x}^{(i)}),\phi(\mathbf{x}^{(j)}) \rangle
+ \label{equ:kernel_trick}
+\end{equation}
+where $\mathbf{x}^{(i)}, \mathbf{x}^{(j)}\in\mathbb{R}^d$ are two input training instances, $\phi$ is the feature map induced by kernel function $K_\phi$, and $\phi(\mathbf{x}^{(i)})$ is the 
+representation of 
+$\mathbf{x}^{(i)}$ in the RKHS $\mathcal{H}_\phi$.
+Given the training dataset $\{\mathbf{x}^{(i)}\in\mathbb{R}^d,y^{(i)}\in\{+1,-1\}\}_{i=1}^m$, the primal form of training SVM is:
+\begin{equation}
+\begin{array}{rl} 
+    \displaystyle \arg\min_{ \mathbf{w} \in \mathbb{R}^{\mathcal{H_{\phi}}}}   & \frac{1}{2} ||\mathbf{w}||^2+C\sum_{i=1}^m \xi^{(i)} \\
+    \text{s.t.} & y^{(i)} \left(\mathbf{w}^\top \phi (\mathbf{x}^{(i)})\right) \geq 1-\xi^{(i)}, \xi^{(i)} \geq 0,  i\in \{1,\dots,m\}
+\end{array}
+\label{equ:hard_svm}
+\end{equation}
+where $\mathbf{w}$ is a linear hyperplane in $\mathcal{H}_\phi$, $\xi^{(i)}$ are slack variables for the tolerance of noise, and $C$ is a trade-off parameter. 
+(\ref{equ:hard_svm}) differs from usual SVM formulation slightly at the absence of a bias term. Here we ignore the bias since 
+it can be absorbed in $\mathbf{w}$. 
+\footnote{When a Polynomial kernel is used, a bias term is already in its corresponding feature map. When a Gaussian kernel is used, an input vector can be 
+augmented with one extra constant.}
 
-Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Vivamus sodales tortor eget quam adipiscing in vulputate ante ullamcorper. Sed eros ante, lacinia et sollicitudin et, aliquam sit amet augue. In hac habitasse platea dictumst.
+
+\begin{figure}[t]
+	\includegraphics[width=\textwidth]{./Figures/SVM_prime}	
+	\caption{Understanding the primal form of SVM.}
+\end{figure}
+
+
+Here, to make the transition from SVM to structural SVM more smooth. An alternative interpretaion  
+of the primal form of SVM is presented. 
+At first, denote $y^{(i)} \left(\mathbf{w}^\top \phi (\mathbf{x}^{(i)})\right)$ in the constraints of (\ref{equ:hard_svm}) as a score function $F(\mathbf{x}^{(i)},y^{(i)}; \mathbf{w})$, then  
+for binary outputs $y^{(i)}$, $F\left(\mathbf{x}^{(i)},y^{(i)}; \mathbf{w}\right)- F\left(\mathbf{x}^{(i)},-y^{(i)}; \mathbf{w}\right)=2\times F\left(\mathbf{x}^{(i)}),y^{(i)}; \mathbf{w}\right)$. 
+Also, a distance function between binary outputs can be denoted as $d(y^{(i)},-y^{(i)})=|y^{(i)}-(-y^{(i)})|=2$. Then by replacing $C$ with $\frac{C}{2}$, (\ref{equ:hard_svm}) can be rewritten 
+as:
+\begin{equation}
+\begin{array}{rl}
+\displaystyle \arg\min_{ \mathbf{w} \in \mathbb{R}^{\mathcal{H_{\phi}}}}   & \frac{1}{2} ||\mathbf{w}||^2+C\sum_{i=1}^m \xi^{(i)} \\
+                                                                       \text{s.t.} & \forall i, F\left(\mathbf{x}^{(i)},y^{(i)}; \mathbf{w}\right)- F\left(\mathbf{x}^{(i)},-y^{(i)}; \mathbf{w}\right) \geq d(y^{(i)},-y^{(i)})-\xi^{(i)}, \xi^{(i)} \geq 0 
+\end{array}
+\label{equ:binary_SSVM}
+\end{equation}
+A structural SVM is a simple extension of (\ref{equ:binary_SSVM}) by considering more general $y$. 
+Assume that the structural output $\mathbf{y}\in\mathcal{Y}$ and $|\mathcal{Y}|$ is more than 
+two. Similarly, a score function can be introduced on a pair of input and output based on the 
+nature of the task: $F(\mathbf{x},\mathbf{y};\boldsymbol{\theta})$ where $\boldsymbol{\theta}$ is
+a parameter set. Then the primal form of the structural SVM can be   
+\begin{equation}
+\begin{array}{rl}
+\displaystyle \arg\min_{ \mathbf{w} \in \mathbb{R}^{\mathcal{H_{\phi}}}}   & \frac{1}{2} ||\mathbf{w}||^2+C\sum_{i=1}^m \xi^{(i)} \\
+                                                                       \text{s.t.} & \forall i, \underbrace{F\left(\mathbf{x}^{(i)},y^{(i)}; \mathbf{w}\right)- F\left(\mathbf{x}^{(i)},-y^{(i)}; \mathbf{w}\right)}_{\Delta_F(y^{(i)},-y^{(i)})} \geq d(y^{(i)},-y^{(i)})-\xi^{(i)}, \xi^{(i)} \geq 0 
+\end{array}
+\label{equ:binary_SSVM}
+\end{equation}
 
 \subsection{Joint SVM: Output Kernel Learning and Regularization }
 
+Joint SVM was developed with a special focus on the interdependencies within outputs in multi-label learning.
+Essentially, Joint SVM is equivalent to SSVM with a linear output kernel plus an regularization on the kernel.  
+Therefore, a linear kernel on outputs is automatically learned to capture the interdependencies within outputs.  
+Furthermore, if prior knowledge about the interdependencies is available, a user-specified output kernel can be 
+straightforwardly mounted in Joint SVM as well.  
+In both cases, the computation complexity of Joint SVM is almost the same as a single SVM, in contrary to the 
+exponential complexity in structural SVM. 
+Joint SVM was shown to yield substantial
+improvements, in terms of both accuracy and efficiency, over
+training them independently. In particular, it outperforms many
+other state-of-the-art algorithms according to empirical results
+on an image-annotation benchmark database. 
+
+More technique detials and results are presented in the paper I and paper III by the author. 
 \begin{shaded}
 {\Huge I.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Implicit Learning of Simpler Output Kernels for Multi-Lable Prediction}, NIPS workshop on Representation and Learning Methods for Complex Outputs (NIPS-RLCO2014).  
 \vspace{-.2cm}
@@ -38,9 +111,10 @@ Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum an
 \vspace{-.2cm}
 \end{shaded}
 
-\includepdf[offset=3cm -2cm, scale=1, pages=-,pagecommand={\pagestyle{fancy}}]{./Papers/Xiong-2015-NEUCOM.pdf}
-\includepdf[offset=3cm -2cm, scale=1, pages=-,pagecommand={\pagestyle{fancy}}]{./Papers/Xiong-2014-NIPS-RLCO.pdf}
 
+
+\includepdf[offset=3cm -2cm, scale=1, pages=-,pagecommand={\pagestyle{fancy}}]{./Papers/Xiong-2014-NIPS-RLCO.pdf}
+\includepdf[offset=3cm -2cm, scale=1, pages=-,pagecommand={\pagestyle{fancy}}]{./Papers/Xiong-2015-NEUCOM.pdf}
 
 
 

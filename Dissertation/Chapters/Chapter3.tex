@@ -408,6 +408,27 @@ Therefore, it can also be claimed that the l2-norm regularization term within MA
 %	SECTION 2
 %----------------------------------------------------------------------------------------
 \section{Training Undirected Graphical Models with Persistent Sequential Monte Carlo}
+In this section, a new learning method, persistent sequential Monte Carlo (PSMC), for general undirected graphical
+models (UGMs) was presented.
+Here both Markov random fields (MRFs) and conditional random fields (CRFs) are considered as UGMs.
+Without loss of generality, a UGM can be modeled as:
+ 
+Most existing learning methods for
+UGMs can be considered as special cases of Robbins-Monro’s stochastic approximation procedure (SAP, see Algorithm \ref{alg:SAP}) 
+with different Metropolis transitions (e.g. PCD is a SAP with Gibbs transitions). By linking SAP
+and sequential Monte Carlo (SMC), PCD and other state-of-the-art learning algorithms can be cast into a
+SMC-based interpretation framework. Moreover, within the SMC-based interpretation, two key factors
+which affect the performance of learning algorithms are disclosed: \emph{learning rate} and \emph{high model complexity}.
+Based on this rationale, the strengths and limitations of different learning algorithms can be analyzed
+and understood in a new light.
+
+Inspired by the understanding of learning UGMs from a SMC perspective, and the successes of global
+tempering used in parallel tempering and tempered transition, PSMC was put forward to approach the
+maximum likelihood solution in learning UGMs. The basic idea is to construct a long, persistent distribu-
+tion sequence by inserting many tempered intermediary distributions between two successively updated
+distributions. According to empirical results on learning several UGMs, the proposed PSMC out-
+performs other learning algorithms in challenging circumstances.
+
 
 \begin{shaded}
 {\Huge II.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Towards Maximum Likelihood: Learning Undirected Graphical Models using Persistent Sequential Monte Carlo}, The 6th Asian Conference on Machine Learning (ACML2014), 
