@@ -19,6 +19,44 @@ Aristotle
 %----------------------------------------------------------------------------------------
 \section{Optimzation on Graphs}
 
+\subsection{Max-product (Loopy) Belief Propagation}
+\begin{algorithm}
+	\caption{Belief Propagation for tree-structured Markov networks}
+	\label{alg:BP_tree}
+\begin{algorithmic}[1]
+\STATE  select one variable as the root; 
+\STATE  starting from all leaves, propagate \emph{beliefs} toward the root as:
+\begin{equation*}
+m_{i \rightarrow j}(x_j)= \sum_{x_i}\left\{\phi(x_i,x_j) \prod_{k\in \text{Ne}(i)\backslash j} m_{k \rightarrow i}(x_i)\right\}
+\end{equation*}
+\STATE  when the root receives all messages from its neighbors, then propagate backwards the \emph{``inverse beliefs"} as the step 2;
+\STATE  the marginal probability of each variable is computed as: 
+\begin{equation*}
+P(x_i)\propto \prod_{k\in \text{Ne}(i)} m_{k \rightarrow i}(x_i)
+\end{equation*}
+where Ne$(i)$ denotes the neighboring variables of $x_i$ in the graph. 
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{Generalized Belief Propagation for Loopy Markov networks}
+	\label{alg:LBP}
+\begin{algorithmic}[1]
+%\STATE  In a loopy graph, there is no root and leaves because of loop.
+\STATE  initialize all messages $m_{i\rightarrow j}$ in both directions of all connected variables randomly or with a constant value (\emph{e.g.} 1);
+\WHILE {all messages converge}
+\STATE  update messages as:
+\begin{equation*}
+  m^{(t+1)}_{i \rightarrow j}(x_j)= \sum_{x_i}\left\{\phi(x_i,x_j) \prod_{k\in \text{Ne}(i)\backslash j} m^{(t)}_{k \rightarrow i}(x_i)\right\}
+\end{equation*}
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Iterated Conditional Mode}
+\subsection{Graph Cut}
+
 \section{Optimization on Matrix Manifolds}
 
 \subsection{3D Point Cloud Registration with Convex Optimization on SO(3) Manifold}

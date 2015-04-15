@@ -12,20 +12,51 @@ Vladimir Vapnik
 \end{flushright}
 \rule{\textwidth}{0.4pt} 
 
+In previous two chapters, structural data are encoded and manipulated within graphs. This chapter, by contrast, 
+deals with structures with \emph{kernel methods}. The kernel methods have been incorporated with many classic data analysis 
+techniques and enable them to detect nonlinear patterns in 
+data \citep{citeulike:Taylor_Nello_Kernel}.   
+Meanwhile, here another function of kernels is more exploited: a kernel is designed as a similarity function on a pair of instances by  
+considering the inter-dependency among the elements in each instance. This property is usually ignored when people use kernels.   
+For instance, a 2-degree polynomial kernel defined on $\mathbf{x}\in\mathbb{R}^d$ is:
+\begin{equation}
+    K(\mathbf{x}^{(i)},\mathbf{x}^{(j)})=\left(\langle \mathbf{x}^{(i)},\mathbf{x}^{(j)} \rangle +c\right)^2
+\label{equ:pol_kernel}
+\end{equation}
+where $c$ is a constant, $\mathbf{x}^{(i)},\mathbf{x}^{(j)}$ are two instances. The feature map induced by the kernel is:      
+\begin{equation}
+    \phi(\mathbf{x})=[x_d^2,\cdots,x_1^2, \sqrt{2}x_d x_{d-1}, \cdots, \sqrt{2}x_2 x_{1}, \sqrt{2c}x_d,\cdots, \sqrt{2c}x_1,c]^\top 
+     \label{equ:pol_feature_map}
+\end{equation}
+It can be seen that the interactions between every pair of elements ($x_d, x_{d-1}$) are encoded in $\phi(\mathbf{x})$, which is 
+more informative than treating elements independently when no kernel is applied.  
+The pairwise interactions within $\phi(\mathbf{x})$ are analogous to the pairwise edges in graphical models. However, kernel methods can go beyond graphical models by providing 
+higher-order interactions, \emph{e.g.} 3-degree polynomial can capture dependencies within triplets.  
+
+Kernels were usually used on inputs since the output is a single scalar value in classic classification and regression tasks.   
+When outputs are structural in modern data analysis, it is interesting to try adding kernels also on outputs.     
+This chapter provides two attempts on structural-outputs-kernels. 
+More concretely, two novel methods are proposed for multi-label learning: \emph{joint SVM} and \emph{kernel generalized homogeneity analysis} (KGHA). 
+Two methods are presented in section \ref{sec:joint_SVM} and section \ref{sec:KGHA} respectively. In particular, joint SVM is closely related to 
+\emph{structural SVM}, which is reviewed in subsection \ref{subsec:SSVM}. KGHA, on the other hand, is an extension of \emph{homogeneity analysis}, which is 
+popular multivariate analysis technique. Section \ref{sec:homo}.
+
+
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
 \section{Joint SVM}
+\label{sec:joint_SVM}
 
 %-----------------------------------
 %	SUBSECTION 1
 %-----------------------------------
 \subsection{Structural SVM for Multi-Label Learning}
 \label{subsec:SSVM}
-This subsection will introduce structural SVM based on standard SVM and study its application 
-in multi-label learning. 
+This subsection introduces structural SVM \citep{StructSVM} based on standard SVM and study its application 
+in multi-label learning. Structural SVMs can also be considered as max-margin Markov networks (M$^3$Ns), which was studied in subsection \ref{subsec:MMMN}. 
 Standard SVM is a binary classifier, which has been well 
 understand and widely used in many applications.  
 Its two advantageous components are \emph{maximum margins} and \emph{input kernels}. 
@@ -75,7 +106,7 @@ as:
 \end{array}
 \label{equ:binary_SSVM}
 \end{equation}
-A structural SVM is a simple extension of (\ref{equ:binary_SSVM}) by considering more general $y$. 
+Structural SVM \citep{StructSVM} is a simple extension of (\ref{equ:binary_SSVM}) by considering more general $y$. 
 Assume that the structural output $\mathbf{y}\in\mathcal{Y}$ and $|\mathcal{Y}|$ is more than 
 two. Similarly, a score function can be introduced on a pair of input and output based on the 
 nature of the task: $F(\mathbf{x},\mathbf{y};\boldsymbol{\theta})$ where $\boldsymbol{\theta}$ is
@@ -125,6 +156,7 @@ More technique detials and results are presented in the paper I and paper III by
 %	SECTION 2
 %----------------------------------------------------------------------------------------
 \section{Homogeneity Analysis for Object-Action Relation Learning}
+\label{sec:homo}
 \begin{shaded}
 {\Huge VII.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater {\it Homogeneity Analysis for Object-Action Relations Reasoning in Kitchen Scenarios}, 
 In Proceedings of 2nd Workshop on Machine Learning for Intelligent Systems (MLIS13), pp 37-44,  2013, ACM. 
@@ -138,6 +170,7 @@ In Proceedings of 2nd Workshop on Machine Learning for Intelligent Systems (MLIS
 %----------------------------------------------------------------------------------------
 
 \section{Multi-Label Learning with Kernel Generalized Homogeneity Analysis}
+\label{sec:KGHA}
 \begin{shaded}
  {\Huge X.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater {\it Multi-Label Learning with Kernel Generalized Homogeneity Analysis}, 
 Unpublished, 2015.
