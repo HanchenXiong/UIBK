@@ -134,8 +134,9 @@ $\mathbf{w}^*$ with the negative gradient computed as:
 where $\mathbb{E}_{p(\boldsymbol{\rho})}f(\boldsymbol{\rho})$ is the expectation of $f(\boldsymbol{\rho})$ under the probability $p(\boldsymbol{\rho})$.
 The difficulty of computing (\ref{equ:gradient_MAP}) is the expectation term because its complexity grows exponentially. For example, in multi-label 
 learning case introduced in section \ref{sec:crf}, $|\mathcal{Y}|=2^L$. 
-Therefore, when $|\mathcal{Y}|$ is relatively large in practice, some approximations are used, \emph{e.g.} by using \emph{mean field} (MF), \emph{loopy 
-belief propagation} (LBP) or \emph{pseudo likelihood} (PL) \citep{LBP, Kumar03,CRF,Accelerated_CRF}.  
+Therefore, when $|\mathcal{Y}|$ is relatively large in practice, enumerating all possible $\mathbf{y}$ is impossible. 
+In addition, as studied in section \ref{sec:inference}, exact inference within loopy graphs is intractable, therefore some approximations were used for learning: 
+\emph{e.g.} \emph{mean field} (MF), \emph{loopy belief propagation} (LBP) or \emph{pseudo likelihood} (PL) \citep{LBP, Kumar03,CRF,Accelerated_CRF}.  
 
 
 
@@ -495,8 +496,8 @@ subsection \ref{subsec:graph_experiment}, where two conditional random fields ar
 
 \subsection {Training Conditional Random Fields for Image Annotation and Image Segmentation}
 \label{subsec:graph_experiment}
-In this section, some evaluations and comparison of different learning algorithms on two practical tasks, \emph{multi-label learning} and \emph{image 
-segmentation}, are presented. Different from previous experiments where generative models were learned, here discriminative models are used, \emph{i.e.}, two 
+In this subsection, some evaluations and comparison of different learning algorithms on two practical tasks, \emph{multi-label learning} and \emph{image 
+segmentation}, are presented. Different from previous experiments in the paper II where generative models were learned, here discriminative models are used, \emph{i.e.}, two 
 conditional random fields were employed. Generally speaking, let $\mathbf{x}$ denotes input and $\mathbf{y}\in \mathcal{Y}$ as output, the target is to 
 learn an UGM:  
 \begin{equation}
@@ -508,7 +509,7 @@ where the partition function $\mathbf{Z}$ is
 \end{equation}
 where $\phi(\mathbf{y},\mathbf{x})$ is defined based on task-oriented dependency structure. Note that the partition function $\mathbf{Z}$ is computed by 
 marginalizing out only $\mathbf{y}$ because the interest here is a conditional distribution. Six algorithms 
-were implemented: PCD-$H$, PCD-1, PT, TT, SMC and PSMC. Similar setups were used for all algorithms as the previous section.  
+were implemented: PCD-$H$, PCD-1, PT, TT, SMC and PSMC. Similar setups were used for all algorithms as in the paper II.  
 Learning rate $\eta_t=\frac{1}{10+0.1*t}$ was used and 100 iterations were run. For each input $\mathbf{x}$, 
 the size of particle set $\{ \hat{\mathbf{y}}^{(s)}\}$ is 200.  Similar to other supervised learning schemes, a regularization $\frac{1}{2}||\boldsymbol{\theta}||^2$ 
 was added and a trade-off parameters was tunned via $k$ folder cross-validation ($k=4$).  
@@ -519,15 +520,16 @@ results in multi-label learning study and image segmentation study respectively.
 sophisticated features. 
 
 \subsubsection{Multi-Label Learning}
-In multi-label learning, inter-label dependency is rather critical. Assume that input $\mathbf{x}\in \mathbb{R}^d$ and there are $L$ labels (\emph{i.e.} $\mathbf{y}\in\{-1,+1\}^L$), here we modeled all pairwise dependencies among $L$ labels, and therefore 
+In multi-label learning, inter-label dependency is rather critical. Assume that input $\mathbf{x}\in \mathbb{R}^d$ and there are $L$ labels (\emph{i.e.} $\mathbf{y}\in\{-1,+1\}^L$), here all pairwise 
+dependencies among $L$ labels were modeled, and therefore 
 the constructed conditional random field is:
 \begin{equation}
 	p(\mathbf{y}|\mathbf{x})=\frac{\exp(\mathbf{y}^\top\mathbf{W}_E \mathbf{y}+\mathbf{y}^\top \mathbf{W}_v \mathbf{x})}{\mathbf{Z}}
 	\label{equ:scene_model}
 \end{equation}
-where $\mathbf{W}_E\in \mathbb{R}^{L\times L}$ captures pairwise dependencies among $L$ labels while $\mathbf{W}_v\in \mathbb{R}^{L\times d}$ reflects the 
+where $\mathbf{W}_E\in \mathbb{R}^{L\times L}$ captures pairwise dependencies among $L$ labels (except diagonal entries) while $\mathbf{W}_v\in \mathbb{R}^{L\times d}$ reflects the 
 dependencies between input $\mathbf{x}$ and all individual labels.   
-In the test phase, with learned $\mathbf{W}_E$ and $\mathbf{W}_v$, for a test input $\mathbf{x}^\dagger$, we predict the corresponding $\mathbf{y}^\dagger$ with 
+In the test phase, with learned $\mathbf{W}_E$ and $\mathbf{W}_v$, for a test input $\mathbf{x}^\dagger$, the corresponding $\mathbf{y}^\dagger$ was predicted with 
 100 rounds of gibbs sampling based on (\ref{equ:scene_model}).  
 
 The \emph{scene} database \citep{scene_database} was used in the experiment.  In the database, scene images are associated with a few semantic labels.
@@ -566,13 +568,14 @@ PSMC   & 71.9            & {\bf 78.5}   & {\bf 75.1} \\
 Image segmentation is  essentially a task to predict the semantic label of all image pixels or blocks.    
 Inter-label dependences within neighbourhood are usually exploited in image segmentation. For instance, by dividing an image into equal size and non-overlapping 
 blocks, the label of a block does not only depend on the appearance of the block, but also the labels of its neighbouring blocks. For simplicity, here 
-only binary labels are considered. In addition, blocks and inter-label dependencies are assumed to be position-irrelevant. Therefore, a conditional random filed can 
+only binary labels are considered (\emph{e.g.} foreground and background). 
+In addition, blocks and inter-label dependencies are assumed to be position-irrelevant. Therefore, a conditional random filed can 
 be constructed as:               
 \begin{equation}
 	p(\mathbf{y}|\mathbf{x})=\frac{\exp(\sum_{u,v\in E}y_u W_e y_v+\sum_{v\in V} y_v \mathbf{w}_v^\top \mathbf{x}_v) }{\mathbf{Z}}
 \end{equation}
 where $y_v\in\{-1,+1\}$, $E$ denotes the set of all edges connecting neighbouring blocks, $W_e\in\mathbb{R}$ encodes the dependency between neighbouring labels, $V$ denotes the set of all 
-block's labels and $\mathbf{w}_v\in \mathbb{R}^{d\times 1}$ encodes the dependency between block label and its appearance which is represented by a $d$-dimensional feature $\mathbf{x}_v\in\mathbb{R}^d$.    
+block's labels and $\mathbf{w}_v\in \mathbb{R}^{d\times 1}$ encodes the dependency between a block's label and its appearance which is represented by a $d$-dimensional feature $\mathbf{x}_v\in\mathbb{R}^d$.    
 Similar to the multi-label experiment, desired labels are predicted via 100 round gibbs sampling in test phase.      
 
 The binary segmentation database from \cite{img_seg_database} was used.  Each image is divided into non-overlapping blocks of 
