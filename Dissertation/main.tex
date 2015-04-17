@@ -160,9 +160,9 @@ I, \authornames, declare that this thesis titled, '\ttitle' and the work present
 \item[\tiny{$\blacksquare$}] Where I have consulted the published work of others, this is always clearly attributed.
 \item[\tiny{$\blacksquare$}] Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
 \item[\tiny{$\blacksquare$}] I have acknowledged all main sources of help.
-\item[\tiny{$\blacksquare$}] Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
+%\item[\tiny{$\blacksquare$}] Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
 \end{itemize}
- 
+\vfill
 Signed:\\
 \rule[1em]{25em}{0.5pt} % This prints a line for the signature
  
@@ -197,8 +197,28 @@ Lao Tuz
 \addtotoc{Abstract} % Add the "Abstract" page entry to the Contents
 
 \abstract{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
-
-The Thesis Abstract is written here (and usually kept to just this page). The page is kept centered vertically so can expand into the blank space above the title too\ldots
+With the development of modern digitization, increasingly more data emerge in almost all areas. It is worth emphasizing that not only does the quantity 
+of the data increase, but also    
+the number of data types, or the sources where data are collected, are boosted. 
+Undoubtedly, more information can be exploited with the presence of more comprehensive data.        
+Nevertheless, merging different data together also makes the analysis of them more challenging.   
+There exist various forms of dependencies or interactions among multiple data.  
+Therefore, working with these data goes much beyond traditional machine leaning tasks: \emph{e.g.}
+classification or regression, where the output is a single scalar.      
+In this thesis, multiple data are considered as structures, in which different dependencies can 
+hence be modeled. In particular, structures are encoded within three forms by using: \emph{graphs}, 
+\emph{kernels} and \emph{manifolds} respectively,  which can match different application domains.   
+This thesis goes through \emph{inference}, \emph{learning} and \emph{optimization} of structural data which 
+are represented with different forms. Some existing work are reviewed while a few new methods are put forward.    
+In particular, to make the thesis more practical, different methods were applied and evaluated on real-world application 
+domains, including \emph{image segmentation}, \emph{image annotation}, \emph{protein function prediction}, 
+\emph{object-action relation modeling} and \emph{3D transformation estimation}. Of course the applicabilities 
+of those methods goes far beyond what are presented in the thesis. Meanwhile, this thesis attempts to 
+provide some main principles or methodologies when confronting structural data, and empirical experience in above-mentioned                 
+domains should be easily transferred to other ones.         
+Above all, the main contributions of this thesis are several novel learning algorithms for structural outputs, which 
+hopefully can widen and/or deepen the understanding of relevant research.    \\ 
+\textbf{Keywords:} graphical models, structural output learning, conditional random fields, structural SVM, multivariate analysis, matrix manifolds.   
 }
 
 \clearpage % Start a new page
@@ -210,8 +230,31 @@ The Thesis Abstract is written here (and usually kept to just this page). The pa
 \setstretch{1.3} % Reset the line-spacing to 1.3 for body text (if it has changed)
 
 \acknowledgements{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+This thesis is based on my work during years 2011-2015, at the Intelligent and Interactive Systems (IIS) research group, University of Innsbruck.  
 
-The acknowledgements and the people to thank go here, don't forget to include your project advisor\ldots
+First and foremost, I wish to express my sincerest gratitude to my supervisor, Prof. Justus Piater, who has been continuously 
+providing me with seasoned guidance while leaving me immense freedom. The thesis would not have been possible without 
+his encouragement and support. My gratitude also goes to Dr. Sandor Szedmak, who is a true workmate and friend to me despite his seniority. I really enjoyed working 
+with him and have learnt a lot from him in both scientific knowledge and how to conduct research, which I believe will be of great benefit in my future career. 
+
+I am grateful to all my colleagues, including members who are in IIS now: Emre Ugur,  
+Antonio Rogr{\'i}uez-S{\'a}nchez, Philipp Zech, Mirela Popa, {\"O}zg{\"u}r Erkent, Simon Hangl, Sebastian Stabinger, Alexander Rietzler, Dadhichi Shukla, Safoura Rezapour, 
+Senka Krivi{\'c}, Raphaela Hauser; and of course also those alumni of IIS: Damien Teney, Heiko Hahn, Thomas Hoyoux, Stephen Cobeldick.    
+These fellows accompanied me at different stages of four-year Phd life and brought me plenty of happiness in different ways. In particular, I should thank        
+Cornelia Vidovic and Simon Haller, who are always helpful with my trivial things.      
+
+I also would like to acknowledge EU FP7 project, XPERIENCE, from which my Phd study was financially supported. Via the project I also fortunately          
+get to know many excellent researchers outside of IIS.  
+In particular, I really appreciate Mikkel Tang Thomsen and Wail Mustafa from University of Southern Denmark. They are very good coworkers, actively  
+exchanging thoughts with me and motivating me at different lines of research.   
+
+Undoubtedly, there are far too many more people to whom I own my gratitude. They brought their most wonderful moments to my life, which will be preserved    
+in my heart forever. 
+
+I am deeply indebted to my wife, Youlin, who unconditionally stands by me, with patience and encouragement, in all circumstances.          
+Last but definitely not least, many thanks to my parents, for everything they have done to me.    \\ \\ 
+\emph{Innsbruck, 16.04.2015}\\
+\emph{Hanchen Xiong}
 }
 \clearpage % Start a new page
 
@@ -287,8 +330,8 @@ The acknowledgements and the people to thank go here, don't forget to include yo
 
 \pagestyle{empty} % Page style needs to be empty for this page
 
-\dedicatory{To my wife Youlin FANG,\\
-thanks for being in my life !} % Dedication text
+\dedicatory{To my beloved\\
+} % Dedication text
 
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 

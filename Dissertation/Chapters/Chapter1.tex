@@ -16,7 +16,7 @@ I Ching
 This is an introductory chapter which provides an overview of the thesis. As the title suggests, this thesis focuses on working with structural data, including 
 inference, learning and optimization. In section \ref{sec:motivation}, some motivation and background of studying structure domains are explained. In section \ref{sec:overview}, 
 an outline of the thesis is presented. Basically, the thesis is composed of three parts and each part is briefly introduced. In section \ref{sec:contribution}, as the author's 
-contribution to relevant scientific fields, his research papers during Phd study are listed and summarized.       
+contributions to relevant scientific fields, a list of his research papers during Phd study are presented.        
 
 
 \section{Work on Structure Domains}
@@ -25,10 +25,11 @@ This section mainly explains the concept of "structure" and some structure domai
 
 Generally, structures exist almost everywhere in the universe. For instance, it is usually said that a galaxy, an architecture or a society is a structure.          
 Looking closer at these three examples and abstracting their similarities, a rough definition of the "structure" can somehow be derived:     
+\begin{definition}
+A structure is is a set of elements, which exist with certain status based on the interactions among them. 
+\end{definition}
 
-\textit{A structure is is a set of elements, which exist with certain status based on the interactions among them. }  
-
-The "interactions" can be also replaced with other terms at different scenarios, \emph{e.g.} dependencies, compatibilities, constraints. 
+The "interactions" can be also replaced with other terms in different scenarios, \emph{e.g.} dependencies, compatibilities, constraints. 
 Tow critical points in understanding the definition are: (\emph{i}). there should be more than one element; (\emph{ii}). each element's status can be affected by the statuses of other ones.  
 Based on this specification, 
 more "structure" 
@@ -36,51 +37,94 @@ examples can also be easily observed. A sentence is a structure by considering w
 arms, legs and other parts, just name a few. Indeed, structure domains is very common in many areas.  
 
 
-
-In old times, people are already aware of integrating data collected from different sources to find internal patterns among them.     
+In old times, people are already aware of integrating data collected from different sources to find interesting patterns among them.     
 However, this procedure was usually slow and unstable.  
-With the development of modern computers and digitization, increasingly more structural data are available.   
+With the development of modern computers and digitization, increasingly more types of data are available in almost all areas.  
+There usually exist different kinds of dependencies among multiple data. Therefore, on the one hand, more information can be expected to be extracted  
+from more comprehensive data; on the other hand, some extra challenges are also added when confronting multiple dependent data.      
+For instance, after pooling multiple date together, working with them obviously goes much beyond classic machine learning techniques for classification 
+or regression.
+Therefore, it is of significance to study how to conduct different tasks or manipulations on multiple dependent data.          
+
+In this thesis, merged multiple data are considered as structures, in which different dependencies can 
+hence be modeled. Furthermore, structures are encoded within three forms by using: \emph{graphs}, 
+\emph{kernels}, and \emph{manifolds} respectively. These three forms match different application domains and are selected 
+according to the nature of the task at hand.  
+
+In this thesis, several structure domains will be considered in following tasks:  
+\begin{itemize}
+	\item \emph{image segmentation}
+	\item \emph{image annotation}
+	\item \emph{protein function prediction}
+	\item \emph{object action relation modeling}
+	\item \emph{3D transformation optimization} 
+\end{itemize}
+In \emph{image segmentation}, the labels of all pixels (or blocks) within an image construct a structure, in which neighbouring labels should be dependent.  
+In \emph{image annotation}, the annotated tags for images is also a structure domain, where the presence of each tag can be affected by other ones.       
+Similarly, in \emph{protein function prediction}, the functions associated with each protein are also dependent. Actually, image annotation and 
+protein functions belong to \emph{multi-label learning}. In \emph{object action relation modeling}, meanwhile, the structure is 
+considered in two ways: first, given an object, the actions which can be applied on it and lead to positive effects is a structure domain; second, given an action, 
+the objects on which the action can be successfully executed is also a structure domain. In this sense, object-action relation modeling is  
+a \emph{two-view learning} paradigm. At last, in \emph{3D transformation optimization},  3D translation and rotation together is considered  
+as a structure. In particular, by representing 3D rotations with $3\times 3$ matrices, there exist hard constraints among the entries of one matrix, \emph{i.e.} they 
+are dependent.  
 
 
-
-In these thesis,  structures are dealt with in three forms: (\emph{i}). graphs, (\emph{ii}). kernels, (\emph{iii}). manifolds.    
 
 \section{Overview}
 \label{sec:overview}
-The thesis can be divided into three parts: inference, learning and optimization. The first part contains Chapter \ref{Chapter2}, where (probabilistic) graphical models 
+The thesis can be divided into three parts: \emph{inference}, \emph{learning} and \emph{optimization}. The first part contains Chapter \ref{Chapter2}, where (probabilistic) graphical models 
 and corresponding inference are presented. Chapter \ref{Chapter3} and Chapter \ref{Chapter4} belong to the second part, where two principles
-for handling structures, \emph{kernels} and \emph{graphs}, are studied respectively. The third part contains Chapter \ref{Chapter5}, which studies the optimization on 
-\emph{graphs} and \emph{matrix manifold}.                    
+for handling structures, \emph{kernels} and \emph{graphs}, and their corresponding learning algorithms are studied respectively. 
+The third part contains Chapter \ref{Chapter5}, which studies the optimization on 
+\emph{graphs} and \emph{matrix manifolds}.                    
 
 \subsection{Part I: Inference with Graphical Models}
+Graphical model is a popular tool for probabilistically modeling the interactions among multiple variables. Directed graphical models and undirected graphical models will be introduced, of which 
+the representatives are \emph{Bayesian network} and \emph{Markov network} 
+respectively. The connections between Bayesian network and Markov networks will be studied,  and meanwhile, the latter will be more emphasized 
+since it provides more flexible modeling capacity.        
 
+Also, three inference algorithms will be presented: \emph{(loopy) belief network}, \emph{variational methods} and \emph{Markov chain Monte Carlo}. 
 \subsection{Part II: Structural Output Learning}
+The second part will focus on learning. At first, Chapter \ref{Chapter3} will continue with Markov networks. In particular, a discriminative case of Markov network, \emph{conditional random field} (CRF) 
+will be introduced. However, instead of modeling and inference in Chapter \ref{Chapter2}, Chapter \ref{Chapter3} is dedicated to investigate learning issues with undirected graphical models.          
+
+Chapter \ref{Chapter4}, by contrast, will treat structural data within \emph{kernel methods}. Kernel is not unfamiliar to machine learning community since it has been incorporated with many 
+classic techniques for handling nonlinear patterns. Meanwhile, most previous work only consider kernels on inputs, while in Chapter \ref{Chapter4} kernels on structural output will be particularly 
+studied.         
+
 
 \subsection{Part III: Optimization on Structures}
+The third part is for optimization on structural data, which is also quite desirable in many applications. Two types of structure forms will be considered: graphs and matrix manifolds.         
+In particular, optimization with graphical models is essentially a generalization of inference (in Chapter \ref{Chapter2}) by considering modes rather than expectations.            
+Optimization on matrix manifolds will be explained basically with a practical task: 3D transformation optimization.      
+
 
 \section{Author's Contribution}
 \label{sec:contribution}
-During the author's  PhD study, ten relevant research papers were finished, out of which nine are published (or accepted for publication) in 
+During the author's  Phd study, ten relevant research papers were finished, out of which nine are published (or accepted for publication) in 
 journals or conference proceedings. They are listed as follows:     
 \begin{shaded}
-{\Huge I.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Implicit Learning of Simpler Output Kernels for Multi-Lable Prediction}, NIPS workshop on Representation and Learning Methods for Complex Outputs (NIPS-RLCO2014).  
+{\Huge I.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Implicit Learning of Simpler Output Kernels for Multi-Lable Prediction}, NIPS workshop on Representation and Learning Methods for Complex Outputs (NIPS-RLCO14).  
 \vspace{-.2cm}
 
-{\Huge II.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Towards Maximum Likelihood: Learning Undirected Graphical Models using Persistent Sequential Monte Carlo}, The 6th Asian Conference on Machine Learning (ACML2014), 
+{\Huge II.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Towards Maximum Likelihood: Learning Undirected Graphical Models using Persistent Sequential Monte Carlo}, The 6th Asian Conference on Machine Learning (ACML14), pp 205-220, 2014, Journal of Machine Learning Research: Workshop and Conference Proceedings 39, 
 \textbf{Best Paper Award}.    
 \vspace{-.2cm}
 
 {\Huge III.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Scalable, Accurate Image Annotation with Joint SVMs and Output Kernels}, Neurocomputing Journal (Accepted).  
 \vspace{-.2cm}
 
-{\Huge IV.} \textbf{Hanchen Xiong}, Sandor Szedmak, Antonio Rodr{\'i}guez S{\'a}nchez, Justus Piater. {\it Towards Sparsity and Selectivity: Bayesian Learning of Restricted Boltzmann Machine for Early Visual Features},In Proceedings of the 24th International Conference on Artificial Neural Networks (ICANN14), 2013, Springer. 
+{\Huge IV.} \textbf{Hanchen Xiong}, Sandor Szedmak, Antonio Rodr{\'i}guez S{\'a}nchez, Justus Piater. {\it Towards Sparsity and Selectivity: Bayesian Learning of Restricted Boltzmann Machine for Early Visual Features},In Proceedings of the 24th International Conference on Artificial Neural Networks (ICANN14), pp 419-426, 2014, Springer LNCS. 
 \vspace{-.2cm}
 
-{\Huge V.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Joint SVM for Accurate and Fast Image Tagging},In Proceedings of the 22nd European Symposium on Artificial Neural Network (ESANN14). 
+{\Huge V.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Joint SVM for Accurate and Fast Image Tagging},In Proceedings of the 22nd European Symposium on Artificial Neural Network (ESANN14), 
+pp 295-330, 2014
 \vspace{-.2cm}
 
 
-{\Huge VI.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it 3D Object Class Geometry Modeling with Spatial Latent Dirichlet Markov Random Fields}, In Proceedings of the 35th German Conference on Pattern Recognition (GCPR13), pp 51-60, 2013,  Springer.  
+{\Huge VI.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it 3D Object Class Geometry Modeling with Spatial Latent Dirichlet Markov Random Fields}, In Proceedings of the 35th German Conference on Pattern Recognition (GCPR13), pp 51-60, 2013,  Springer LNCS.  
 \vspace{-.2cm}
 
 {\Huge VII.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater {\it Homogeneity Analysis for Object-Action Relations Reasoning in Kitchen Scenarios}, 
@@ -96,13 +140,16 @@ In Proceedings of 10th International Conference on Computer and Robot Vision (CR
 
 \vspace{-.2cm}
 \end{shaded}
-To minimize content redundancy, only a subset of them are inserted at appropriate (sub)chapters of the thesis. In addition, to keep them self-contained and self-consistent,     
-their original content and formats are preserved.   
-Which should be distinguished from regular paragraphs. The preprints of these publications can be also found at: \url{http://iis.uibk.ac.at/publications}, complying with their corresponding copyrights. 
 
 Besides, one unpublished work is also be presented in the thesis.   
 \begin{shaded}
  {\Huge X.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater {\it Multi-Label Learning with Kernel Generalized Homogeneity Analysis}, 
 Unpublished, 2015.
 \end{shaded}
-Throughout the thesis, all these papers will be referred to by their corresponding roman numerals specified above.    
+To fit the main theme of the thesis and minimize content redundancy, only a subset of them (paper I, II, III, VI, VII, IX, X) are inserted at appropriate chapters or (sub)sections of the thesis. 
+In addition, to keep them self-contained and self-consistent,     
+their original content and formats are preserved.   
+Which should be distinguished from regular paragraphs. The preprints of these publications can be also found at: \url{http://iis.uibk.ac.at/publications}, 
+complying with their corresponding copyrights. 
+Throughout the thesis, used papers will be referred to by their corresponding roman numerals specified above. 
+
