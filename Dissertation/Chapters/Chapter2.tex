@@ -15,25 +15,58 @@ Confucius
 \rule{\textwidth}{0.4pt} 
 
 
+Graphical models have been studied in many disciplines, such as artificial intelligence \citep{pearl_book}, statistics \citep{lauritzen_book} and communication \citep{MRF_communication}.  
+Using graphical models is considered as one important landmark in machine learning research. Essentially, graphical models enable graphs to assist and facilitate probabilistic representation, 
+analysis and computing. This chapter starts with two representative graphical models, \emph{Bayesian networks} and \emph{Markov networks} in section \ref{sec:PGMs}. Some fundamental basics, 
+including \emph{factorizations, conditional independencies} and \emph{the conversions between Bayesian networks and Markov networks} , are explained. In section \ref{sec:inference}, three inference 
+algorithms for graphical models are reviewed: \emph{(loopy) belief propagation}, \emph{variational method} and \emph{Markov chain Monte Carlo} (MCMC). 
+At last, an application of the modeling and inference with graphical models is presented in section \ref{sec:3D_Shape}, where a hybrid model of Bayesian network and Markov network, \emph{Spatial Latent 
+Dirichlet Markov Random Fields}, is developed for learning 3D part-based shapes.             
+
+The content in this chapter basically is a short summary of relevant materials collected from \cite{MLPR_book}, \cite{Barber_book}, \cite{Koller09} and \cite{Wainwright_book}.                   
+
 
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 \section{Probabilistic Graphical Models}
-
-This chapter     
-
-Graphical models have been studied in many disciplines, such as artificial intelligence \citep{pear_1988}, statistics \citep{lauritzan_1988}.  It is widely considered 
-as one of the main progresses in machine learning research by bringing graphs in to assist probabilistic representation, analysis and computing. 
-
-
-Basically, graphical models are divided into two categories: directed and undirected.  
+\label{sec:PGMs}
+Basically, graphical models are divided into two categories: directed and undirected ones. The most popular directed graphical model is \emph{Bayesian networks}, or \emph{Belief networks}; 
+while the most widely used undirected graphical model is \emph{Markov networks}, or sometimes referred to as \emph{Markov random fields}. This section will cover both Bayesian networks and 
+Markov networks by going through their basic properties.   
 
 %-----------------------------------
 %	SUBSECTION 1
 %-----------------------------------
 \subsection{Bayesian Networks}
+Given a set of variables $\{x_1,x_2,\cdot, x_i\}$, one key function of graphical models is to model the interactions among them using graphs. A Bayesian network is a very 
+intuitive graphical model by defining a joint distribution of  $\{x_1,x_2,\cdot, x_i\}$ with simple \emph{causal-effect} links. More precisely,  a Bayesian network is constructed by considering 
+all causal-effect relations and linking them with directed arrows. Then the joint distribution can be factorized as the product of all conditional distributions associated with causal-effect relations. 
+It is better to start with an real-world example \citep{Barber_book} for a 
+quick understanding of the concept:   
+\begin{shaded}
+   \textbf{Wet-grass Example:} One morning Tracey found that the grass in her garden is wet ($T\in\{0,1\}$). Is it due to overnight rain ($R \in\{0,1\}$)or did
+she forget to turn off the sprinkler last night ($S\in\{0,1\}$)? Next she notices that the grass of her neighbor, Jack, is also
+wet ($J\in\{0,1\}$), and she also remembered it was cloudy on the previous daytime ($C\in\{0,1\}$).                   
+\end{shaded}
+In the above example, five binary variables are involved: $T,R,J,S,C$. After an easy analysis, the corresponding Bayesian network can be drawn as follow: 
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.4\textwidth]{./Figures/wet_glass_BN.pdf}
+   \caption{The Bayesian network for the wet-grass example.}
+\end{figure}
+
+The joint distribution of these five variables is:
+\begin{equation}
+	P(J,T,R,C,S)=P(J|R)P(T|R,S)P(R|C)P(C)P(S)
+	\label{equ:wet_grass}
+\end{equation}
+It is worth mentioning that the conditional distributions are definitely not limited to represent causal-effect relations.  
+Actually, they are more often used to encode \emph{generation processes}. Therefore, Bayesian networks are usually 
+used as generative models in many scenarios.  
+
+A formal definition of a Bayesian network is given as:  
 \begin{definition}
  A Bayesian network is a Directed Acyclic Graph (DAG), which corresponds to a distribution of the form:
  \begin{equation}
@@ -42,9 +75,23 @@ Basically, graphical models are divided into two categories: directed and undire
 where $X=\cup\{x_i\}$, pa$(x_i)$ denotes the parent nodes of $x_i$. 
 \end{definition}
 
+The \emph{factorization property} of the joint distribution of a Bayesian network is based on the \emph{conditional independencies} between variables. In the wet-grass example, some conditional 
+indepencies can be figured out with common sense:
+\begin{equation*}
+\begin{array}{rcl}
+ &&J\ci T|R, J\ci C|R, J\ci S|R\\
+ &&T\ci C|R \\
+ &&R\ci S|C \\
+ &&C\ci S 
+\end{array}
+\end{equation*}
+ 
+
+Meanwhile, a more systematic way to check conditinal independencies is \emph{D-separation rule}: 
+\emph{D-separation} rule:  
 \begin{theorem}
 \textbf{D-Separation Rule}:
- Given three non-intersecting subsets of nodes $A,B,S$, in a graph $G$, we consider all possible paths from any node in $A$ to any node in $B$. The path 
+ Given three non-intersecting subsets of nodes $A,B,S$, in a DAG $G$, we consider all possible paths from any node in $A$ to any node in $B$. The path 
 is said blocked if either: 
 \begin{enumerate}
  \item the path goes through either \emph{head-to-tail} or \emph{tail-to-tail} at the node, and the node is in set $S$, or
@@ -56,7 +103,7 @@ If all paths are blocked, then S D-separates $A$ from $B$, and then:
 \end{equation*}
 \end{theorem}
 
-The D-Separation rule can be simply proofed as follows:
+The D-Separation rule can be empirically proofed as follows:
 \begin{proof}
 	Three type of separating nodes:\emph{tail-to-tail},\emph{head-to-tail} and \emph{head-to-head} are considered in three simple graphs respectively   \\ \\
 	\includegraphics[width=\textwidth]{./Figures/D_Sep}\newline
@@ -92,61 +139,51 @@ The D-Separation rule can be simply proofed as follows:
 \end{minipage}\\
 \end{proof}
 
-\begin{shaded}
-   \textbf{Example:} One morning Tracey found that the grass in her garden is wet ($T\in\{0,1\}$). Is it due to overnight rain ($R \in\{0,1\}$)or did
-she forget to turn off the sprinkler last night ($S\in\{0,1\}$)? Next she notices that the grass of her neighbor, Jack, is also
-wet ($J\in\{0,1\}$), and she also remembered it was cloudy on the previous daytime ($C\in\{0,1\}$).                   
-\end{shaded}
 
-\begin{equation}
- P(J,T,R,C,S)=P(J|R)P(T|R,S)P(R|C)P(C)
-\end{equation}
-
-\begin{figure}{t}
-   \centering
-   \includegraphics[width=0.4\textwidth]{./Figures/wet_glass_BN.pdf}
-   \caption{The Bayesian network corresponding to the wet-glass example.}
-\end{figure}
 
 %-----------------------------------
 %	SUBSECTION 2
 %-----------------------------------
 \subsection{Markov Networks}
-A more general graph for modeling dependencies among variables is Markov network, or sometimes referred to as Markov random fields (MRFs).      
-
-we can rewrite another factorization form of the joint distribution : 
-\begin{equation*}
+In a Bayesian network, the joint distribution is decomposed into (directed) conditional distributions. However, in many practical tasks, it is more interesting 
+to model symmetric compatibility between two variables.           
+A more general graph for modeling dependencies among variables is Markov networks, or sometimes referred to as Markov random fields (MRFs).      
+To obtain a quick awareness of the modeling flexibility of Markov networks, it is helpful to rewrite the factorization of (\ref{equ:wet_grass}) as:    
+\begin{equation}
  \begin{array}{rcl}
    & & P(J,T,R,C,S)\\
    &=& P(J|R)P(T|R,S)P(R|C)P(C)P(S) \\
    &=& \underbrace{P(J|R)}_{\phi_1(J,R)} \underbrace{P(R|C)P(C)}_{\phi_2(R,C)} \underbrace{P(T|R,S)P(S)}_{\phi_3(T,R,S)}\\
    &=& \phi_1(J,R)\phi_2(R,C)\phi_3(T,R,S)
  \end{array}
-\end{equation*}
-where $\phi_1(J,R), \phi_2(R,C),\phi_3(T,R,S)$ are no longer conditional probabilities
+ \label{equ:BN2MN}
+\end{equation}
+where $\phi_1(J,R), \phi_2(R,C),\phi_3(T,R,S)$ are no longer conditional probabilities. As a matter of fact, $\phi_1(J,R), \phi_2(R,C),\phi_3(T,R,S)$ even 
+do not have to be distributions. They can be compatibilities represented by any parametric form. Meanwhile, since $P(J,T,R,C,S)$ is still a distribution, 
+\emph{i.e.} $\sum_{J,T,R,C,S}P(J,T,R,C,S)=1$, a normalization needs to be introduced.   
 
+A formal definition of a Markov network is given as follows: 
 \begin{definition}
  A Markov Network is an undirected graph which corresponds to the distribution of the form:
  \begin{equation}
   P(x_1,x_2,...x_n)=\frac{1}{Z}\prod_{c}\phi_c(X_c)
+  \label{equ:MN_factorization}
  \end{equation}
-where $X_c$ is a clique of the graph nodes, and $\phi_c(X_c)$ is called potential function over clique $X_c$, and $Z$ is to ensure the distribution normalized.
+ where $X_c$ is a \emph{clique} of the graph nodes, and $\phi_c(X_c)$ is called \emph{potential function} over clique $X_c$, and $Z$ is to ensure the distribution normalized.
 \end{definition}
 \textbf{Remarks:}
 \begin{itemize}
  \item the potential function is non-negative, and can be a function of any form over the clique $X_c$, and in most cases it reflects the dependences /compatibilities /constrains among $x_i\in X_c$ ;
- \item the normalization term can be computed as $Z=\sum_{x_1,x_2,...x_n}\prod_{c}\phi_c(X_c)$ or 
- \item the clique defined here means maximal \emph{fully connected subgraph}
+ \item the normalization term can be computed as $Z=\sum_{x_1,x_2,...x_n}\prod_{c}\phi_c(X_c)$ or $Z=\int_{x_1,x_2,...x_n}\prod_{c}\phi_c(X_c)$ for continuous cases;
+ \item the clique defined here means maximal \emph{fully connected subgraph}, some examples of cliques and potential functions are shown in the following: 
 \end{itemize}
-
-\includegraphics[width=0.9\textwidth]{./Figures/clique}\newline
-
-\begin{minipage}[c]{0.22\textwidth}
+\includegraphics[width=\textwidth]{./Figures/clique}\newline
+\begin{minipage}[c]{0.24\textwidth}
  \begin{equation*}
   \psi(X_1,X_2)
  \end{equation*}
 \end{minipage}
-\begin{minipage}[c]{0.22\textwidth}
+\begin{minipage}[c]{0.24\textwidth}
  \begin{equation*}
   \psi(X_1,X_2,X_3)
  \end{equation*}
@@ -161,13 +198,15 @@ where $X_c$ is a clique of the graph nodes, and $\phi_c(X_c)$ is called potentia
   \end{array}
  \end{equation*}
 \end{minipage}
-\begin{minipage}[c]{0.22\textwidth}
+\begin{minipage}[c]{0.24\textwidth}
  \begin{equation*}
  \psi(X_1,X_2,X_3,X_4)
  \end{equation*}
 \end{minipage}
 
-
+Similarly to Bayesian networks, the factorization of (\ref{equ:MN_factorization}) is also based on the conditional independencies among variables.      
+Meanwhile, in Markov networks, checking conditional independencies is much simpler than D-separation rule. The rule for checking  conditional independencies 
+in Markov networks is referred to as \emph{Markov separation rule}:
 \begin{theorem}
 \textbf{Markov Separation Rule} : a subset $\mathcal{A}$ is said to be separated from another subset $\mathcal{B}$ 
 by subset $\mathcal{S}$ if all possible paths from any member of $\mathcal{A}$ to any member $\mathcal{B}$
@@ -177,7 +216,10 @@ pass through $\mathcal{S}$.
  \mathcal{A} \ci \mathcal{B} | \mathcal{S}
   \end{equation*}
 \end{theorem}
+The equivalence between the factorization of Markov networks and Markov separation rule is proved in \emph{Hammersley-Clifford theorem} \citep{HC_theorem}.  
 
+
+Based on the Markov separation rule, several interesting and useful properties can be further derived.   
 \begin{corollary}
 \textbf{Local Conditional Independence}:
   when conditioned on its neighbor, $x_i$ is  independent of all other variables of the graph: 
@@ -185,16 +227,17 @@ pass through $\mathcal{S}$.
     P(x_i|X \backslash x_i)= P(x_i|\text{ne}(x_i))
    \end{equation*}
 \end{corollary}
-For instance,  \newline\newline 
+For instance, \newline\newline 
 \begin{minipage}[c]{0.5\textwidth}   
 	\centering
 	\includegraphics[width=0.5\textwidth]{./Figures/markov_net_1.pdf}
 \end{minipage}
 \begin{minipage}[c]{0.5\textwidth}
    \begin{equation*}
-    x_4 \ci \{x_2,x_3,x_6,x_8,x_9 \}|\{x_1,x_5,x_7\}
+ \Longrightarrow x_4 \ci \{x_2,x_3,x_6,x_8,x_9 \}|\{x_1,x_5,x_7\}
    \end{equation*}
 \end{minipage}
+\newline 
 
 \begin{corollary}
 \textbf{Pairwise Conditional Independence}:
@@ -210,7 +253,7 @@ For instance,  \newline\newline
 \end{minipage}
 \begin{minipage}[c]{0.4\textwidth}
    \begin{equation*}
-    x_4 \ci x_6 |\{x_1,x_2,x_3,x_5,x_7,x_8,x_9\}
+  \Longrightarrow  x_4 \ci x_6 |\{x_1,x_2,x_3,x_5,x_7,x_8,x_9\}
    \end{equation*}
 \end{minipage}
 
@@ -219,9 +262,26 @@ For instance,  \newline\newline
 %	SUBSECTION 3
 %-----------------------------------
 \subsection{Connecting Bayesian Networks and Markov Networks}
+As shown in (\ref{equ:BN2MN}), a Bayesian network can be also considered as a Markov network which uses conditional distributions 
+as its potential functions. However, the corresponding graph also needs to be modified to fit the conditional independencies and Markov separation 
+rule. The modification procedure is:        
+\begin{enumerate}
+	\item find all parents which share a common child and connect them with undirected links;   
+	\item remove all arrows in the graph.     
+\end{enumerate}
+The first step is usually called ``moralization" since it binds unconnected parents together. For example, converting the Bayesian network of 
+the wet-grass example to a Markov network is shown in Figure \ref{fig:BN_2_MN}.    
+\begin{figure}
+	\subfigure[]{\includegraphics[width=0.65\textwidth]{./Figures/BN_2_MN.pdf}{\label{fig:BN_2_MN}}}\quad \quad \quad
+	\subfigure[]{\includegraphics[width=0.26\textwidth]{./Figures/factor_graph.pdf}{\label{fig:factor_graph}}}
+	\caption{(a) Converting the Bayesian network of 
+	the wet-grass example to a Markov network; (b) the factor graph the wet-grass example. }
+\end{figure}
 
-
-
+Conversion from Markov networks to Bayesian networks is also possible by using \emph{Chordal graphs}. However, the procedure is more complicated 
+and seldom used.  Another way for connecting Bayesian networks and Markov networks is using \emph{factor graphs}, which is also an undirected graphical model. 
+However, \emph{factor nodes} (usually represented by solid squares) are used in factor graphs to encode interactions. Therefor, the specifications of cliques  
+in Markov networks, or conditional distributions in Bayesian networks, are no more necessary. A factor graph of the wet-grass example is shown in Figure \ref{fig:factor_graph}.      
 
 
 
@@ -230,13 +290,20 @@ For instance,  \newline\newline
 %----------------------------------------------------------------------------------------
 \section{Exact and Approximate Inference}
 \label{sec:inference}
+It has been shown that how Bayesian networks or Markov network can be used for modeling dependencies among multiple variables. Meanwhile, a more practically important 
+function of graphical models is that inference tasks can be facilitated by exploiting graph properties.           
+As studied in the previous section, Bayesian networks can be easily converted to Markov networks. Therefore, in this section, the inference algorithms are explained based on 
+Markov network cases.   
 %-----------------------------------
 %	SUBSECTION 1
 %-----------------------------------
 \subsection{Belief Propagation}
+A main inference task is computing marginal distributions, based on which conditional distributions can be subsequently computed as well.    
+Again, an example is fist illustrated to understand the procedure of computing marginal distributions, based on which \emph{Belief propagation} will explained  
+later. 
 
-How to compute the probability $P(A)$
-
+In a tree-structure Markov network shown below, $A,B,C,D$ are four variables and each of them has $n$ states. Then how to compute $P(A)$ ?
+\newline 
 \begin{minipage}[c]{0.4\textwidth}
       \centering
       \includegraphics[width=0.75\textwidth]{./Figures/message_passing}
@@ -253,7 +320,14 @@ How to compute the probability $P(A)$
   \end{array}
  \end{equation*}
 \end{minipage}
+\newline 
 
+In the above procedure, it can be seen that the computation complexity of calculating $p(A)$ is in general $\mathcal{O}(n^3)$. However, by exploiting 
+the graph structure and corresponding factorization, the complexity is reduced to $O(n)$. Basically, each variable is eliminated by first summing 
+itself up in the potential function involving it, and then passing ``marginalized" message to its neighbouring variable. This procedure is repeatedly carried out 
+on all variables until it reaches $A$. To demonstrate the ``message-passing" theme more clearly,  messages and passing directions are added in the Markov networks and  
+highlighted below:
+\newline
 \begin{minipage}[c]{0.4\textwidth}
       \centering
       \includegraphics[width=1.1\textwidth]{./Figures/message_passing_1}
@@ -268,14 +342,12 @@ How to compute the probability $P(A)$
   \end{array}
  \end{equation*}
 \end{minipage}\\
+\newline 
+\textbf{Remarks:}
+$m_{C\rightarrow B}(B)$ is called \emph{belief function} of $B$ over $C$ by summing out $C$ from the potential function $\sum_C \phi(B,C)$, and it will propagate afterwards; 
 
-\begin{itemize}
- \item $m_{C\rightarrow B}(B)$ is called belief function of $B$ over $C$ by summing out $C$ from the potential function $\sum_C \phi(B,C)$, and it will propagate afterwards; 
- \item intuitively, belief propagation can be understood as a 'message passing scheme', $m_{C\rightarrow B}(B)$ is a message  sent from $C$ to $B$ by telling $B$ all possible states of $C$; and then 
- all messages are processed and passed forward$A$;
-\end{itemize}
-
-
+Similarly, $P(C)$ can be computed with the propagation belief functions: 
+\newline
 \begin{minipage}[c]{0.4\textwidth}
       \centering
       \includegraphics[width=1.1\textwidth]{./Figures/message_passing_2}
@@ -291,13 +363,12 @@ How to compute the probability $P(A)$
   \end{array}
  \end{equation*}
 \end{minipage}
-
-  one variable can send a message to one of its neighbor only if it has received messages from all other variables  
-  \begin{equation*}
-   m_{B\rightarrow C}(C)=\sum_{B} \left\{   \phi(B,C) m_{A\rightarrow B}(B) m_{D\rightarrow B}(B) \right\}
-  \end{equation*}
-
-
+\newline 
+\newline 
+\newline 
+and $P(B)$ as well:
+\newline 
+\newline 
 \begin{minipage}[c]{0.4\textwidth}
       \centering
       \includegraphics[width=1.1\textwidth]{./Figures/message_passing_3}
@@ -312,7 +383,15 @@ How to compute the probability $P(A)$
  \end{equation*}
 \end{minipage}\\
 
- the marginal probabilities are computed as the product of incoming messages:
+Based on three examples above, some observations of ``message passing" are:  
+\begin{itemize}
+	\item  one variable can send a message to one of its neighbor only if it has received messages from all other variables  
+
+  \begin{equation*}
+   m_{B\rightarrow C}(C)=\sum_{B} \left\{   \phi(B,C) m_{A\rightarrow B}(B) m_{D\rightarrow B}(B) \right\}
+  \end{equation*}
+
+ \item marginal probabilities are computed as the product of incoming messages:
   \begin{equation*}
   \begin{array}{rcl}
    P(B)&=&\frac{1}{Z}m_{A\rightarrow B}(B) m_{C\rightarrow B} (B) m_{D\rightarrow B}(B)\\
@@ -321,9 +400,10 @@ How to compute the probability $P(A)$
    P(D)&=&\frac{1}{Z}m_{B\rightarrow D}(D) 
   \end{array}
  \end{equation*}
-
+\end{itemize}
+And the belief propagation algorithm for tree-structure Markov networks is provided in Algorithm \ref{alg:BP_tree}.       
 \begin{algorithm}
-	\caption{Belief Propagation for tree-structured Markov networks}
+	\caption{Belief Propagation for tree-structure Markov networks}
 	\label{alg:BP_tree}
 \begin{algorithmic}[1]
 \STATE  select one variable as the root; 
@@ -343,7 +423,7 @@ where Ne$(i)$ denotes the neighboring variables of $x_i$ in the graph.
 
 
 \begin{algorithm}
-	\caption{Generalized Belief Propagation for Loopy Markov networks}
+	\caption{Loopy Belief Propagation for Loopy Markov networks}
 	\label{alg:LBP}
 \begin{algorithmic}[1]
 %\STATE  In a loopy graph, there is no root and leaves because of loop.
@@ -368,8 +448,9 @@ where Ne$(i)$ denotes the neighboring variables of $x_i$ in the graph.
 %	SUBSECTION 3
 %-----------------------------------
 \subsection{Markov Chain Monte Carlo}
-Markov chain Monte Carlo (MCMC) is a family of sampling algorithms, which are designed to generate samples from a target distribution $p(\mathbf{x}), \mathbf{x}\in\mathbb{R}^d$. 
-Usually, directly sampling from $p(\mathbf{x})$ is not possible since its density can be arbitrarily complex, however, $p(\mathbf{x})$ can be evaluated up to a normalizing constant:
+Another way for approximate inference is using Markov chain Monte Carlo (MCMC) sampling. In particular, gibbs sampling is popularly used in Markov networks.    
+MCMC is a family of sampling algorithms, which are designed to generate samples from a target distribution $p(\mathbf{x}), \mathbf{x}\in\mathbb{R}^d$. 
+Usually, directly sampling from $p(\mathbf{x})$ is not possible since its density can be arbitrarily complex. However, $p(\mathbf{x})$ can be evaluated up to a normalizing constant:
 \begin{equation*}
 	p(\mathbf{x})=\frac{\tilde{p}(\mathbf{x})}{\mathbf{Z}}
 \end{equation*}
@@ -481,6 +562,7 @@ The Gibbs sampling is a special case of MH with the proposal distribution define
 %	SECTION 3
 %----------------------------------------------------------------------------------------
 \section{3D Part-Based Shape Modeling with Spatial Latent Dirichlet Markov Random Fields}
+\label{sec:3D_Shape}
 \begin{shaded}
 {\Huge VI.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it 3D Object Class Geometry Modeling with Spatial Latent Dirichlet Markov Random Fields}, In Proceedings of the 35th German Conference on Pattern Recognition (GCPR13), pp 51-60, 2013,  Springer.  
 \vspace{-.2cm}
