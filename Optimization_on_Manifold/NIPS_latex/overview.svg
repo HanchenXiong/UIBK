@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:latexdraw="http://latexdraw.sourceforge.net/namespaces/latexdraw"
+    version="1.1" baseProfile="full">
+    <g>
+        <g latexdraw:type="bezierCurve" id="id18">
+            <path
+                d="M 39.0 42.4560111706748 C 16.775382377811493 70.85391853601936 90.13607701129958 304.75259416696855 119.03656307129812 326.5392915995334 C 147.93704913129665 348.3259890320982 300.5968099955924 353.8684028519762 425.35831809872013 333.71311181238343 C 550.1198262018479 313.55782077279065 442.6899680537452 75.01415677997954 436.99999999999994 39.586483085534894 C 431.3100319462547 4.158809391090244 408.62242769978235 2.737710112872435 372.2431444241315 3.0 C 335.8638611484807 3.262289887127565 61.224617622188504 14.058103805330234 39.0 42.4560111706748 z "
+                stroke-width="2.0" stroke="black" fill="none"
+                stroke-dasharray="8.819444444444445, 5.291666666666667" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="bezierCurve" id="id43">
+            <path
+                d="M 337.00587484841424 99.5248860883392 C 290.0210604651737 70.25186499764402 206.84384430534095 195.3416192010576 152.52467463257065 200.67479970351337 C 98.20550495980035 206.00798020596915 120.12445173248312 86.93270320973448 167.10926611572478 116.20572430042972 C 214.09408049896643 145.47874539112496 313.85710191179885 340.36572597306997 368.17627158456986 335.0325454706141 C 422.4954412573409 329.6993649681582 383.99068923165476 128.79790717903438 337.00587484841424 99.5248860883392 z "
+                stroke-width="2.0" stroke="black" fill="#b9aeb0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="rhombus" id="id78" latexdraw:points="270.0 121.0 291.0 121.0 270.0 143.0 291.0 143.0">
+            <polygon
+                points="280.5,122.44827679292814 289.6175539703868,132.0 280.5,141.55172320707186 271.3824460296132,132.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#ef042e"/>
+        </g>
+        <g latexdraw:type="bezierCurve" id="id96">
+            <path
+                d="M 332.5352073409721 282.36035182883614 C 299.4796731540888 245.91462025803344 275.2857042751243 225.44493852427615 285.4639192478149 177.88640487026433 C 295.64213422050545 130.3278712162525 321.5894750463376 195.32338376572758 341.63887956838914 239.82270616460391 C 361.6882840904407 284.3220285634802 365.59074152785536 318.80608339963885 332.5352073409721 282.36035182883614 z "
+                stroke-width="2.0" stroke="#1413f2" fill="none" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="bezierCurve" id="id110">
+            <path
+                d="M 321.55904425050306 247.38589776366518 C 306.7451172484863 230.93598187130283 295.902524693916 221.6969152275292 300.4639192478149 200.23119496745693 C 305.02531380171376 178.76547470738467 316.65368473401173 208.10143995595533 325.63887956838926 228.18637388865886 C 334.6240744027668 248.2713078213624 336.37297125251985 263.83581365602754 321.55904425050306 247.38589776366518 z "
+                stroke-width="2.0" stroke="#1413f2" fill="none" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="bezierCurve" id="id132">
+            <path
+                d="M 339.70107415571044 305.6766545389507 C 285.4617380767239 249.23510728970695 245.7629450791078 217.5348104659662 262.4639192478149 143.8834634180145 C 279.164893416522 70.23211637006278 321.7407154090385 170.88717622044297 354.63887956838926 239.80088708549152 C 387.53704372774 308.7145979505401 393.94041023469697 362.1182017881944 339.70107415571044 305.6766545389507 z "
+                stroke-width="2.0" stroke="#1413f2" fill="none" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="ellipse" id="id186" transform="rotate(-31.300081322307324) translate(-206.95440418786893 387.73581353651844)">
+            <ellipse cx="795.5" cy="175.49999999999977" rx="185.5"
+                ry="73.5" latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="#6e6364" fill="none"/>
+        </g>
+        <g latexdraw:type="rhombus" id="id199" latexdraw:points="296.0 183.0 317.0 183.0 296.0 205.0 317.0 205.0">
+            <polygon
+                points="306.5,184.44827679292814 315.6175539703868,194.0 306.5,203.55172320707186 297.3824460296132,194.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#4b814e"/>
+        </g>
+        <g latexdraw:type="joinedLines" id="id213">
+            <polyline points="596.0,299.0 965.0,54.0 965.0,54.0 "
+                stroke-width="2.0" stroke="#8d8d97" fill="none"
+                stroke-dasharray="8.819444444444445, 5.291666666666667" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="joinedLines" id="id214">
+            <polyline points="725.0,90.0 867.0,289.0 "
+                stroke-width="2.0" stroke="#9898a1"
+                stroke-dasharray="8.819444444444445, 5.291666666666667" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="ellipse" id="id268" transform="rotate(-31.300081322307324) translate(-208.82429627489353 384.41050237706014)">
+            <ellipse cx="790.5" cy="180.49999999999972" rx="122.5"
+                ry="38.5" latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="#6e6364" fill="none"/>
+        </g>
+        <g latexdraw:type="ellipse" id="id274" transform="rotate(-31.300081322307324) translate(-205.58187971835366 380.8365074088472)">
+            <ellipse cx="782.5" cy="176.5" rx="34.5" ry="14.5"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="#6e6364" fill="none"/>
+        </g>
+        <g latexdraw:type="circle" id="id288">
+            <circle cx="785.0" cy="173.0" r="7.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="#0e0e15" fill="#ec0e0e"/>
+        </g>
+        <g latexdraw:type="circle" id="id293">
+            <circle cx="734.0" cy="235.0" r="7.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="#0e0e15" fill="#4a8f55"/>
+        </g>
+        <g latexdraw:type="square" id="id323">
+            <rect x="420.0" y="198.0" width="14.0" height="14.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="#0e0e15" fill="#4a8f55"/>
+        </g>
+        <g latexdraw:type="joinedLines" id="id410">
+            <polyline
+                points="297.9470112691427,133.36952410820612 781.0529887308574,171.63047589179376 "
+                stroke-width="2.0" stroke="#ee191c"
+                stroke-dasharray="8.819444444444445, 5.291666666666667"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow1-410)"/>
+        </g>
+        <g latexdraw:type="joinedLines" id="id417">
+            <polyline points="781.0,180.0 741.0,228.0 "
+                stroke-width="2.0" stroke="#ee191c"
+                stroke-dasharray="8.819444444444445, 5.291666666666667"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow1-417)"/>
+        </g>
+        <g latexdraw:type="joinedLines" id="id418">
+            <polyline points="731.0,233.0 434.0,205.0 "
+                stroke-width="2.0" stroke="#ee191c"
+                stroke-dasharray="8.819444444444445, 5.291666666666667"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow1-418)"/>
+        </g>
+        <g latexdraw:type="joinedLines" id="id419">
+            <polyline points="418.0,203.0 314.0,191.0 "
+                stroke-width="2.0" stroke="#ee191c"
+                stroke-dasharray="8.819444444444445, 5.291666666666667"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow1-419)"/>
+        </g>
+        <g latexdraw:type="bezierCurve" id="id498">
+            <path
+                d="M 188.0 137.0 C 188.0 177.0 162.0 154.0 162.0 114.0 "
+                stroke-width="2.0" stroke="#192aee" fill="none" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="bezierCurve" id="id499">
+            <path
+                d="M 199.0 150.0 C 199.0 190.0 133.0 165.0 133.0 125.0 "
+                stroke-width="2.0" stroke="#192aee" fill="none" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="bezierCurve" id="id537">
+            <path
+                d="M 207.0 156.0 C 207.0 196.0 121.0 202.0 121.0 162.0 "
+                stroke-width="2.0" stroke="#192aee" fill="none" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="joinedLines" id="id571">
+            <polyline points="298.0,244.0 248.0,298.0 "
+                stroke-width="2.0" stroke="#0c0d13"
+                latexdraw:rotationAngle="0.0" marker-end="url(#arrow1-571)"/>
+        </g>
+        <g latexdraw:type="rectangle" id="id592">
+            <rect x="510.0" y="181.0" width="152.0" height="39.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="#0c0d13" fill="none"/>
+        </g>
+        <g latexdraw:type="rectangle" id="id593">
+            <rect x="325.0" y="211.0" width="154.0" height="74.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="#0c0d13" fill="none"/>
+        </g>
+        <g latexdraw:type="rectangle" id="id594">
+            <rect x="538.0" y="113.0" width="48.0"
+                height="35.230769230769226" latexdraw:borderPos="outer"
+                stroke-width="2.0" stroke="#0c0d13" fill="none"/>
+        </g>
+        <g latexdraw:type="rectangle" id="id595">
+            <rect x="769.0" y="195.0" width="226.0" height="41.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="#0c0d13" fill="none"/>
+        </g>
+        <g latexdraw:type="text" id="id32" fill="black" latexdraw:position="bl">
+            <text x="739.0" y="42.0"><![CDATA[\huge{RKHS $\mathcal{H}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id41" fill="black" latexdraw:position="bl">
+            <text x="779.0" y="231.0"><![CDATA[\huge{sampling in $\mathcal{H}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id62" fill="black" latexdraw:position="bl">
+            <text x="552.5833333333331" y="149.0"><![CDATA[\huge{$\phi$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id76" fill="black" latexdraw:position="bl">
+            <text x="514.0" y="216.0"><![CDATA[\huge{pre-image}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id107" fill="black" latexdraw:position="bl">
+            <text x="114.0" y="64.0"><![CDATA[\huge{Embeding Space $\mathbb{R}^d$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id131" fill="black" latexdraw:position="bl">
+            <text x="332.0" y="248.0"><![CDATA[\huge{projection}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id156" fill="black" latexdraw:position="bl">
+            <text x="357.0" y="276.0"><![CDATA[\huge{on $\mathcal{M}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id184" fill="black" latexdraw:position="bl">
+            <text x="73.0" y="107.0"><![CDATA[\large{Riemann Manifold $\mathcal{M}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id210" fill="black" latexdraw:position="bl">
+            <text x="781.0" y="301.0"><![CDATA[\large{$C_z$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id159" fill="black" latexdraw:position="bl">
+            <text x="298.0" y="127.0"><![CDATA[\Large{$\theta_t\in\mathcal{M}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id168" fill="black" latexdraw:position="bl">
+            <text x="275.0" y="188.0"><![CDATA[\Large{$\theta_{t+1}\in \mathcal{M}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id176" fill="black" latexdraw:position="bl">
+            <text x="159.0" y="326.0"><![CDATA[\Large{$f(\theta), \theta\in \mathcal{M}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id184" fill="black" latexdraw:position="bl">
+            <text x="817.0" y="183.0"><![CDATA[\Large{$\phi(\theta_t)$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id191" fill="black" latexdraw:position="bl">
+            <text x="696.0" y="283.0"><![CDATA[\Large{$\phi(\theta^*)$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id198" fill="black" latexdraw:position="bl">
+            <text x="399.0" y="191.0"><![CDATA[\Large{$\theta^* \in \mathbb{R}^d$}]]></text>
+        </g>
+    </g>
+    <defs>
+        <marker overflow="visible" orient="auto" id="arrow1-410">
+            <path
+                d="M 0.0 0.0 L -10.645833333333334 2.6614583333333335 L -10.645833333333334 0.0 L -10.645833333333334 -2.6614583333333335 z "
+                latexdraw:arrSizeNum="4.0" fill="#ee191c"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow1-417">
+            <path
+                d="M 0.0 0.0 L -10.645833333333334 2.6614583333333335 L -10.645833333333334 0.0 L -10.645833333333334 -2.6614583333333335 z "
+                latexdraw:arrSizeNum="4.0" fill="#ee191c"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow1-418">
+            <path
+                d="M 0.0 0.0 L -10.645833333333334 2.6614583333333335 L -10.645833333333334 0.0 L -10.645833333333334 -2.6614583333333335 z "
+                latexdraw:arrSizeNum="4.0" fill="#ee191c"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow1-419">
+            <path
+                d="M 0.0 0.0 L -10.645833333333334 2.6614583333333335 L -10.645833333333334 0.0 L -10.645833333333334 -2.6614583333333335 z "
+                latexdraw:arrSizeNum="4.0" fill="#ee191c"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow1-571">
+            <path
+                d="M 0.0 0.0 L -10.645833333333334 2.6614583333333335 L -10.645833333333334 0.0 L -10.645833333333334 -2.6614583333333335 z "
+                latexdraw:arrSizeNum="4.0" fill="#0c0d13"/>
+        </marker>
+    </defs>
+    <metadata>
+        <latexdraw:metadata>
+            <latexdraw:latexIncludes><![CDATA[\usepackage{amsmath,amssymb}]]></latexdraw:latexIncludes>
+            <latexdraw:displayXScale>true</latexdraw:displayXScale>
+            <latexdraw:displayYScale>true</latexdraw:displayYScale>
+            <latexdraw:unit>CM</latexdraw:unit>
+            <latexdraw:zoom>1.0</latexdraw:zoom>
+            <latexdraw:magneticGridStyle>CUSTOMISED</latexdraw:magneticGridStyle>
+            <latexdraw:gridGap>10</latexdraw:gridGap>
+            <latexdraw:magneticGrid>false</latexdraw:magneticGrid>
+            <latexdraw:version>3.1.0</latexdraw:version>
+            <latexdraw:size>
+                <latexdraw:width>1600</latexdraw:width>
+                <latexdraw:height>876</latexdraw:height>
+            </latexdraw:size>
+            <latexdraw:position>
+                <latexdraw:x>0.0</latexdraw:x>
+                <latexdraw:y>24.0</latexdraw:y>
+            </latexdraw:position>
+        </latexdraw:metadata>
+    </metadata>
+</svg>

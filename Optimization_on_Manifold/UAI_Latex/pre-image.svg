@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:latexdraw="http://latexdraw.sourceforge.net/namespaces/latexdraw"
+    version="1.1" baseProfile="full">
+    <g>
+        <g latexdraw:type="square" id="id67">
+            <rect x="202.11111111111077" y="186.55555555555557"
+                width="15.777777777777771" height="15.777777777777771"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#077227"/>
+        </g>
+        <g latexdraw:type="rhombus" id="id80" latexdraw:points="143.33333333333334 126.66666666666669 167.7777777777778 126.66666666666669 143.33333333333334 152.22222222222223 167.7777777777778 152.22222222222223">
+            <polygon
+                points="155.55555555555557,128.11337852692483 166.39396643318307,139.44444444444446 155.55555555555557,150.77551036196408 144.71714467792808,139.44444444444446"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#ea1906"/>
+        </g>
+        <g latexdraw:type="rhombus" id="id83" latexdraw:points="124.44444444444466 216.66666666666669 148.8888888888891 216.66666666666669 124.44444444444466 242.22222222222223 148.8888888888891 242.22222222222223">
+            <polygon
+                points="136.66666666666688,218.11337852692483 147.50507754429438,229.44444444444446 136.66666666666688,240.77551036196408 125.8282557890394,229.44444444444446"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#ea1906"/>
+        </g>
+        <g latexdraw:type="rhombus" id="id85" latexdraw:points="243.33333333333334 123.3333333333332 267.7777777777778 123.3333333333332 243.33333333333334 148.88888888888874 267.7777777777778 148.88888888888874">
+            <polygon
+                points="255.5555555555556,124.78004519359133 266.3939664331831,136.11111111111097 255.5555555555556,147.4421770286306 244.71714467792808,136.11111111111097"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#ea1906"/>
+        </g>
+        <g latexdraw:type="rhombus" id="id87" latexdraw:points="244.44444444444466 250.00000000000017 268.88888888888914 250.00000000000017 244.44444444444466 275.5555555555557 268.88888888888914 275.5555555555557">
+            <polygon
+                points="256.6666666666669,251.44671186025832 267.5050775442944,262.77777777777794 256.6666666666669,274.1088436952976 245.8282557890394,262.77777777777794"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#ea1906"/>
+        </g>
+        <g latexdraw:type="rhombus" id="id89" latexdraw:points="279.9999999999999 189.99999999999972 304.44444444444434 189.99999999999972 279.9999999999999 215.55555555555526 304.44444444444434 215.55555555555526">
+            <polygon
+                points="292.2222222222221,191.44671186025786 303.0606330998496,202.7777777777775 292.2222222222221,214.1088436952971 281.3838113445946,202.7777777777775"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#ea1906"/>
+        </g>
+        <g latexdraw:type="circle" id="id118">
+            <circle cx="532.2222222222223" cy="195.55555555555563"
+                r="9.0" latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#157b22"/>
+        </g>
+        <g latexdraw:type="circle" id="id122">
+            <circle cx="477.7777777777776" cy="134.4444444444448"
+                r="9.0" latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#dc1813"/>
+        </g>
+        <g latexdraw:type="circle" id="id126">
+            <circle cx="558.8888888888894" cy="118.88888888888914"
+                r="9.0" latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#dc1813"/>
+        </g>
+        <g latexdraw:type="circle" id="id128">
+            <circle cx="458.88888888888846" cy="233.33333333333303"
+                r="9.0" latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#dc1813"/>
+        </g>
+        <g latexdraw:type="circle" id="id130">
+            <circle cx="540.0000000000002" cy="266.6666666666665"
+                r="9.0" latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#dc1813"/>
+        </g>
+        <g latexdraw:type="circle" id="id133">
+            <circle cx="595.5555555555559" cy="196.66666666666652"
+                r="9.0" latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="#dc1813"/>
+        </g>
+        <g latexdraw:type="circle" id="id146">
+            <circle cx="531.111111111111" cy="195.55555555555577"
+                r="94.55555555555554" latexdraw:borderPos="outer"
+                stroke-width="2.0" stroke="#7c6e6e" fill="none" stroke-dasharray="8.819444444444445, 5.291666666666667"/>
+        </g>
+        <g latexdraw:type="text" id="id288" fill="black" latexdraw:position="bl">
+            <text x="131.5151515151515" y="77.07070707070747"><![CDATA[\Large{Original space $\mathbb{R}^d$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id300" fill="black" latexdraw:position="bl">
+            <text x="470.60606060606096" y="68.9898989898989"><![CDATA[\Large{RKHS $\mathcal{H}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id307" fill="black" latexdraw:position="bl">
+            <text x="149.09090909090878" y="119.09090909090861"><![CDATA[\Large{$x^{(i)}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id314" fill="black" latexdraw:position="bl">
+            <text x="273.63636363636294" y="115.45454545454578"><![CDATA[\Large{$x^{(j)}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id323" fill="black" latexdraw:position="bl">
+            <text x="198.18181818181824" y="177.27272727272714"><![CDATA[\Large{$x^*$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id330" fill="black" latexdraw:position="bl">
+            <text x="121.81818181818156" y="270.9090909090909"><![CDATA[\Large{$x^{(n)}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id337" fill="black" latexdraw:position="bl">
+            <text x="274.5454545454545" y="269.0909090909091"><![CDATA[\Large{$x^{(m)}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id344" fill="black" latexdraw:position="bl">
+            <text x="290.9090909090909" y="183.63636363636374"><![CDATA[\Large{$x^{(k)}$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id351" fill="black" latexdraw:position="bl">
+            <text x="420.80808080808026" y="123.03030303030278"><![CDATA[\Large{$\phi(x^{(i)})$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id358" fill="black" latexdraw:position="bl">
+            <text x="500.50505050505046" y="181.61616161616206"><![CDATA[\Large{$\phi(x^*)$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id365" fill="black" latexdraw:position="bl">
+            <text x="571.8181818181813" y="106.36363636363654"><![CDATA[\Large{$\phi(x^{(j)})$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id372" fill="black" latexdraw:position="bl">
+            <text x="578.1818181818184" y="180.00000000000003"><![CDATA[\Large{$\phi(x^{(k)})$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id379" fill="black" latexdraw:position="bl">
+            <text x="410.9090909090912" y="278.1818181818179"><![CDATA[\Large{$\phi(x^{(n)})$}]]></text>
+        </g>
+        <g latexdraw:type="text" id="id387" fill="black" latexdraw:position="bl">
+            <text x="569.0909090909092" y="286.36363636363643"><![CDATA[\Large{$\phi(x^{(m)})$}]]></text>
+        </g>
+    </g>
+    <defs/>
+    <metadata>
+        <latexdraw:metadata>
+            <latexdraw:latexIncludes><![CDATA[\usepackage{amsmath,amssymb}]]></latexdraw:latexIncludes>
+            <latexdraw:displayXScale>true</latexdraw:displayXScale>
+            <latexdraw:displayYScale>true</latexdraw:displayYScale>
+            <latexdraw:unit>CM</latexdraw:unit>
+            <latexdraw:zoom>1.1</latexdraw:zoom>
+            <latexdraw:magneticGridStyle>CUSTOMISED</latexdraw:magneticGridStyle>
+            <latexdraw:gridGap>10</latexdraw:gridGap>
+            <latexdraw:magneticGrid>false</latexdraw:magneticGrid>
+            <latexdraw:version>3.1.0</latexdraw:version>
+            <latexdraw:size>
+                <latexdraw:width>1604</latexdraw:width>
+                <latexdraw:height>901</latexdraw:height>
+            </latexdraw:size>
+            <latexdraw:position>
+                <latexdraw:x>-2.0</latexdraw:x>
+                <latexdraw:y>-1.0</latexdraw:y>
+            </latexdraw:position>
+        </latexdraw:metadata>
+    </metadata>
+</svg>

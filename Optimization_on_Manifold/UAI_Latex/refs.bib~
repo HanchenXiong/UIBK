@@ -1,0 +1,167 @@
+@article{Jasra_2011_Inference,
+  	title={Inference for L{\'e}vy-Driven Stochastic Volatility Models via Adaptive Sequential Monte Carlo},
+  	author={Jasra, Ajay and Stephens, David A and Doucet, Arnaud and Tsagaris, Theodoros},
+  	journal={Scandinavian Journal of Statistics},
+  	volume={38},
+  	number={1},
+  	pages={1--22},
+  	year={2011},
+  	publisher={Wiley Online Library}
+}
+@article{Christian_2013_StaComp,
+	year={2013},
+	journal={Statistics and Computing},
+	volume={23},
+	number={2},
+	title={Sequential Monte Carlo on large binary sampling spaces},
+	publisher={Springer US},
+	author={Sch{\"a}fer, Christian and Chopin, Nicolas},
+	pages={163-184}
+}
+@inproceedings{SA_finite_time, 
+    Publisher = {MIT Press}, 
+    Title = {Simulated Annealing: Rigorous finite-time guarantees for optimization on continuous domains}, 
+    Booktitle = {Advances in Neural Information Processing Systems (NIPS)}, 
+    Author = {Andrea Lecchini-visintini and John Lygeros and Jan Maciejowski}, 
+    Year = {2007},
+    Pages = {865--872} 
+}
+
+@article{SA_registration,
+ author = {Papazov, Chavdar and Burschka, Darius},
+ title = {Stochastic Global Optimization for Robust Point Set Registration},
+ journal = {Comput. Vis. Image Underst.},
+ volume = {115},
+ number = {12},
+ month = dec,
+ year = {2011},
+ pages = {1598--1609},
+ publisher = {Elsevier Science Inc.}
+} 
+﻿@article {Geo_MCMC,
+	author = {Byrne, Simon and Girolami, Mark},
+	title = {Geodesic Monte Carlo on Embedded Manifolds},
+	journal = {Scandinavian Journal of Statistics},
+	volume = {40},
+	number = {4},
+	pages = {825--845},
+	year = {2013}
+}
+
+@techreport{Convergence_ASMC,
+	author = {Beskos, A and Jasra, A and Kantas, N and Thiery, A},
+	title = {On the Convergence of Adaptive Sequential Monte Carlo Methods},
+        Institution = {arXiv.org},
+        Number = {arXiv:1306.6462v3},
+	year = {2013}
+}
+@article{black_box_optimization,
+	year={2013},
+	journal={Journal of Global Optimization},
+	volume={56},
+	number={3},
+	title={Derivative-free optimization: a review of algorithms and comparison of software implementations},
+	publisher={Springer US},
+	author={Rios, LuisMiguel and Sahinidis, NikolaosV.},
+	pages={1247-1293}
+}
+@book{black_box_optimization_book,
+ author = {Conn, Andrew R. and Scheinberg, Katya and Vicente, Luis N.},
+ title = {Introduction to Derivative-Free Optimization},
+ year = {2009},
+ publisher = {Society for Industrial and Applied Mathematics},
+ address = {Philadelphia, PA, USA},
+} 
+@misc{BO_NIPS,
+      year={2014},
+      author= {Ryan P Adams and Zoubin Ghahramani and Matthew W Hoffman and Jasper Snoek and Kevin Swersky},
+      title={{NIPS workshop on Bayesian Optimization in Academia and Industries}}
+}
+@techreport{BO_tutorial,
+	Author = {Eric Brochu and Vlad M Cora and Nando {de Freitas}},
+	Institution = {arXiv.org},
+	Month = {December},
+	Number = {arXiv:1012.2599},
+	Title = {A Tutorial on Bayesian Optimization of Expensive Cost Functions, with Application to Active User Modeling and Hierarchical Reinforcement Learning},
+	Year = {2010}
+}
+@article{optimistic,
+	year = {2014},
+	volume = {7},
+	journal = {Foundations and Trends® in Machine Learning},
+	title = {From Bandits to Monte-Carlo Tree Search: The Optimistic Principle Applied to Optimization and Planning},
+	number = {1},
+	pages = {1-129},
+	author = {R{\'e}mi Munos}
+}
+@article{SMC_ABC,
+year={2012},
+journal={Statistics and Computing},
+volume={22},
+number={5},
+title={An adaptive sequential Monte Carlo method for approximate Bayesian computation},
+publisher={Springer US},
+author={Del Moral, Pierre and Doucet, Arnaud and Jasra, Ajay},
+pages={1009-1020}
+}
+@article{ASMC_binary,
+year={2013},
+journal={Statistics and Computing},
+volume={23},
+number={2},
+title={Sequential Monte Carlo on large binary sampling spaces},
+publisher={Springer US},
+author={Sch{\"a}fer, Christian and Chopin, Nicolas},
+pages={163-184}
+}
+﻿@article {ASMC_1,
+author = {JASRA, AJAY and STEPHENS, DAVID A. and DOUCET, ARNAUD and TSAGARIS, THEODOROS},
+title = {Inference for L{\'e}vy-Driven Stochastic Volatility Models via Adaptive Sequential Monte Carlo},
+journal = {Scandinavian Journal of Statistics},
+volume = {38},
+number = {1},
+publisher = {Blackwell Publishing Ltd},
+pages = {1--22},
+year = {2011}
+}
+@inproceedings{BO_constraint, 
+    Publisher = {JMLR Workshop and Conference Proceedings}, 
+    Title = {Bayesian Optimization with Inequality Constraints},  
+    Author = {Jacob Gardner and Matt Kusner and Kilian Q. Weinberger and John Cunningham and Zhixiang Xu},  
+    Year = {2014}, 
+    Booktitle = {Proceedings of the 31st International Conference on Machine Learning (ICML-14)}, 
+    Pages = {937-945} 
+   }
+@inproceedings{Bam_SOO,
+  title = "Bayesian Multi-Scale Optimistic Optimization",
+  author = "Ziyu Wang and Babak Shakibi and Lin Jin and Nando de Freitas",
+  year = "2014",
+  booktitle = "International Conference on Artificial Intelligence and Statistics (AISTATS)",
+  pages = "1005-1014",
+}
+@ARTICLE{SA,
+    author = {S. Kirkpatrick and C. D. Gelatt and M. P. Vecchi},
+    title = {Optimization by simulated annealing},
+    journal = {SCIENCE},
+    year = {1983},
+    volume = {220},
+    number = {4598},
+    pages = {671--680}
+}
+@article{SMC,
+    author = {Del Moral, Pierre and Doucet, Arnaud and Jasra, Ajay},
+    journal = {Journal of the Royal Statistical Society: Series B (Statistical Methodology)},
+    month = jun,
+    number = {3},
+    pages = {411--436},
+    title = {{Sequential Monte Carlo samplers}},
+    volume = {68},
+    year = {2006}
+}
+@inproceedings{MCMC_Kameleon,
+	author = {Sejdinovic, D. and Strathmann, H. and Lomeli, M. and Andrieu, C. and Gretton, A.},
+	booktitle = {ICML},
+	title = {{Kernel Adaptive Metropolis-Hastings}},
+	year = {2014},
+	pages = {1665--1673}
+}

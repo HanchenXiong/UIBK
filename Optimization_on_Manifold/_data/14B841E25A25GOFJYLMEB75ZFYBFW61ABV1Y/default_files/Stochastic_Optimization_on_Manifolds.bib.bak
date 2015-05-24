@@ -1,0 +1,62 @@
+% This file was created with JabRef 2.7.1.
+% Encoding: UTF8
+
+@STRING{dke = {Data \& Knowledge Engineering}}
+
+@STRING{joop = {Journal of Object-Oriented Programming}}
+
+@STRING{lnai = {Lecture Notes in Artificial Intelligence}}
+
+@STRING{lncs = {Lecture Notes in Computer Science}}
+
+@STRING{mibi = {Medizinische Informatik und Bioinformatik}}
+
+@STRING{tkde = {IEEE Transactions on Knowledge and Data Engineering}}
+
+@STRING{tods = {ACM Transactions on Database Systems}}
+
+@STRING{tois = {ACM Transactions on Information Systems}}
+
+@ARTICLE{Atchade2009,
+  author = {Atchade, Yves and Fort, Gersende and Moulines, Eric and Priouret,
+	Pierre},
+  title = {Adaptive Markov chain Monte Carlo: theory and methods},
+  journal = {Preprint},
+  year = {2009},
+  file = {:/home/c7031035/Lecture/Innsbruck/Projects/Optimization_on_Manifold/literature_repository/Adaptive Markov Chain Monte Carlo\: Theory and Methods.pdf:PDF}
+}
+
+@ARTICLE{Lecchini-Visintini2010,
+  author = {Lecchini-Visintini, Andrea and Lygeros, John and Maciejowski, Jan
+	M},
+  title = {Stochastic optimization on continuous domains with finite-time guarantees
+	by Markov chain Monte Carlo methods},
+  journal = {Automatic Control, IEEE Transactions on},
+  year = {2010},
+  volume = {55},
+  pages = {2858--2863},
+  number = {12},
+  file = {:/home/c7031035/Lecture/Innsbruck/Projects/Optimization_on_Manifold/literature_repository/Stochastic Optimization on Continuous Domains with Finite-time Guarantees by Markov Chain Monte Carlo Methods.pdf:PDF},
+  publisher = {IEEE}
+}
+
+@comment{jabref-meta: selector_publisher:}
+
+@comment{jabref-meta: selector_author:}
+
+@comment{jabref-meta: selector_journal:}
+
+@comment{jabref-meta: selector_keywords:}
+
+@comment{jabref-meta: groupsversion:3;}
+
+@comment{jabref-meta: groupstree:
+0 AllEntriesGroup:;
+1 ExplicitGroup:link spam\;0\;;
+1 ExplicitGroup:content spam\;0\;;
+1 ExplicitGroup:competiror click fraud\;0\;;
+1 KeywordGroup:Norman\;0\;owner\;Norman\;1\;0\;;
+1 ExplicitGroup:ourpublications\;0\;Beel10\;Beel2010\;;
+1 ExplicitGroup:test\;0\;Beel2010\;;
+}
+

@@ -1,0 +1,12 @@
+<project name="Stochastic_Optimization_on_Manifolds" ID="14B841E25A25GOFJYLMEB75ZFYBFW61ABV1Y" version="docear 1.0">
+<folder type="library" name="Library">
+<link type="file" name="Temp" path="project://14B841E25A25GOFJYLMEB75ZFYBFW61ABV1Y/_data/14B841E25A25GOFJYLMEB75ZFYBFW61ABV1Y/default_files/temp.mm" system="true"/>
+<link type="file" name="Trash" path="project://14B841E25A25GOFJYLMEB75ZFYBFW61ABV1Y/_data/14B841E25A25GOFJYLMEB75ZFYBFW61ABV1Y/default_files/trash.mm" system="true"/>
+<link type="file" name="Stochastic Optimization on Continuous Domains with Finite-time Guarantees by Markov Chain Monte Carlo Methods.pdf" path="project://14B841E25A25GOFJYLMEB75ZFYBFW61ABV1Y/literature_repository/Stochastic%20Optimization%20on%20Continuous%20Domains%20with%20Finite-time%20Guarantees%20by%20Markov%20Chain%20Monte%20Carlo%20Methods.pdf"/>
+</folder>
+<folder type="physical" name="My drafts" path="project://14B841E25A25GOFJYLMEB75ZFYBFW61ABV1Y/_data/14B841E25A25GOFJYLMEB75ZFYBFW61ABV1Y/My%20Drafts/"/>
+<folder type="literature_repository" name="Literature repository" system="true">
+<folder type="repository_path" name="default" path="file:/home/c7031035/Lecture/Innsbruck/Projects/Optimization_on_Manifold//literature_repository"/>
+</folder>
+<link type="references" name="References" path="project://14B841E25A25GOFJYLMEB75ZFYBFW61ABV1Y/_data/14B841E25A25GOFJYLMEB75ZFYBFW61ABV1Y/default_files/Stochastic_Optimization_on_Manifolds.bib" system="true"/>
+</project>
