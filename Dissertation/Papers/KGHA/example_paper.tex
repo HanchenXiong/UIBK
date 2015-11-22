@@ -132,7 +132,7 @@ on multivariate categorical data, and outcomes are a set of linear projections w
 that their consistency is preserved as much as possible.                  
 Although these methods have been successfully employed in various application domains, detecting linear patterns within data is rather limited in the face of
 increasingly more complicated data. Therefore, some nonlinear embedding techniques, \emph{e.g.} \emph{kernelized versions} 
-of the above-mentioned MVA methods or \emph{nonlinear manifold learning} methods \cite{Manifold_Learning}, 
+of the above-mentioned MVA methods or \emph{nonlinear manifold learning} methods \citep{Manifold_Learning}, 
 are increasingly used in modern data analysis.  
 
 We start with introductions to CCA and HA (Section \ref{sec:pre}), in which their corresponding objective 
@@ -148,11 +148,11 @@ computation in multiple-set CCA.
 
 In section \ref{sec:multi-label} we study KGHA in the multi-label learning case.  We show that when used 
 for learning vector-valued functions (\emph{e.g.}\ multi-label, multi-task learning), KGHA is an elegant combination of low-rank output kernel learning and co-regularized multi-view learning. 
-Low-rank output kernel learning coincides with multi-label dimensionality reduction \cite{sun_MLDR}, which enables learners to gain higher efficiency and 
-accuracy \cite{Ji_2009_IJCAI} by exploiting more compact yet informative latent space. Also, co-regularized multi-view learning  is related to multiple kernel learning 
+Low-rank output kernel learning coincides with multi-label dimensionality reduction \citep{sun_MLDR}, which enables learners to gain higher efficiency and 
+accuracy \citep{Ji_2009_IJCAI} by exploiting more compact yet informative latent space. Also, co-regularized multi-view learning  is related to multiple kernel learning 
 (MKL; \citeauthor{MKL_cv} \citeyear{MKL_cv}), in which heterogeneous information is encoded in an ensemble of kernels to match outputs. One feature worth noting is that, 
 since multi-label is encoded in a lower-dimensional latent space, co-regularization in KGHA takes place in a subsapce of multi-view, which differs from conventional 
-co-regularization \cite{Rosenberg_2007_AISTATS}.                   
+co-regularization \citep{Rosenberg_2007_AISTATS}.                   
 
 This paper makes four contributions. First, we reveal the close connections between HA and multiple-set CCA, which sheds light on new understanding   
 and potential extensions of these two MVA techniques. 
@@ -165,20 +165,20 @@ Finally, according to our experimental results in image annotation and protein f
 \subsection{Related Work}
 Our study can be connected to many other work in different respects. The following gives a short summary of recent advances of relevant research. 
 
-\textbf{Variants of CCA.} It has been shown that CCA is related to other MVA techniques, such as partial least square (PLS) \cite{Sun_2009_IJCAI}  and  Fisher linear discriminative 
-analysis \cite{Sun_2011_PAMI}. More extensions of CCA for multi-label learning can be found in \citeauthor{HardoonSS04} \shortcite{HardoonSS04} and \citeauthor{Sun_2011_PAMI} \shortcite{Sun_2011_PAMI}.   
+\textbf{Variants of CCA.} It has been shown that CCA is related to other MVA techniques, such as partial least square (PLS) \citep{Sun_2009_IJCAI}  and  Fisher linear discriminative 
+analysis \citep{Sun_2011_PAMI}. More extensions of CCA for multi-label learning can be found in \citeauthor{HardoonSS04} \shortcite{HardoonSS04} and \citeauthor{Sun_2011_PAMI} \shortcite{Sun_2011_PAMI}.   
 \textbf{Multi-Label Prediction.} Basically, multi-label learning has been studied with different ``canonical'' learning schemes , e.g. regression
-\cite{Hsu_NIPS_2009,lin_2014_icml} and ranking \cite{RankSVM}. Recently, structured output learning has also been 
-leveraged \cite{Hariharan_icml_2010,Xiong_esann_2014} for this study. Our method belongs to the regression category.  
+\citep{Hsu_NIPS_2009,lin_2014_icml} and ranking \citep{RankSVM}. Recently, structured output learning has also been 
+leveraged \citep{Hariharan_icml_2010,Xiong_esann_2014} for this study. Our method belongs to the regression category.  
 \textbf{Multi-Label Dimensionality Reduction.} Much effort has been put into learning a shared subspace for multi-label outputs (see a review by \citeauthor{sun_MLDR} \citeyear{sun_MLDR}).
-Other notable work includes projection via compressed sensing \cite{Hsu_NIPS_2009} and feature-aware label encoding  \cite{lin_2014_icml}. 
+Other notable work includes projection via compressed sensing \citep{Hsu_NIPS_2009} and feature-aware label encoding  \citep{lin_2014_icml}. 
 \textbf{MKL}. MKL has been recruited as a framework for integrating multiple input features from heterogeneous information 
-sources \cite{MKL}. Especially in computer vision and bioinformatics applications \cite{MKL_cv, Mostafavi_2010_Bioinfo}, since various visual features and bio-related features are available, MKL plays an important role in 
+sources \citep{MKL}. Especially in computer vision and bioinformatics applications \citep{MKL_cv, Mostafavi_2010_Bioinfo}, since various visual features and bio-related features are available, MKL plays an important role in 
 manipulating geometric structures of data in multiple features to fit certain applications.  \textbf{Co-regularization for Multi-View Learning.} 
-Co-regularization has been well investigated in multi-view learning \cite{Rosenberg_2007_AISTATS,Sridharan_2008_COLT}, however, these studies focus on semi-supervised learning. A similar 
-subspace co-regularization in supervised-learning circumstance was proposed in \citeauthor{Guo_2012_ICML} \cite{Guo_2012_ICML}, where nevertheless only two views are considered.  
+Co-regularization has been well investigated in multi-view learning \citep{Rosenberg_2007_AISTATS,Sridharan_2008_COLT}, however, these studies focus on semi-supervised learning. A similar 
+subspace co-regularization in supervised-learning circumstance was proposed in \citeauthor{Guo_2012_ICML} \citep{Guo_2012_ICML}, where nevertheless only two views are considered.  
 
-Two pieces of work closely related to KGHA are FaIE \cite{lin_2014_icml} and MultiK-MHKS \cite{MKL} respectively. 
+Two pieces of work closely related to KGHA are FaIE \citep{lin_2014_icml} and MultiK-MHKS \citep{MKL} respectively. 
 First, in FaIE, lower-dimensional projections of multi-label data are found by jointly optimizing the correlations between input features and 
 projections and recoverability of projections back to the original output data. From a different perspective, KGHA can be formulated as an objective function rather 
 similar to FaIE. KGHA goes beyond FaIE by considering multiple features from heterogeneous sources of information. 
@@ -192,7 +192,7 @@ In this sense, KGHA can be considered a combination of FaIE and MultiK-MHKS.
 
 \subsection{Canonical Correlation Analysis}
 \label{subsec:CCA}
-Canonical correlation analysis (CCA) \cite{HardoonSS04} was developed to find the correlations between two sets of variables. The essence of CCA is to seek a pair of 
+Canonical correlation analysis (CCA) \citep{HardoonSS04} was developed to find the correlations between two sets of variables. The essence of CCA is to seek a pair of 
 linear transformations, one for each set, such that the correlation of transformed variables is maximized. 
 Assume that a data instance is composed of two set of variates, $[g_1^\top,g_2^\top]$, of which the dimensions are $d_1$ and $d_2$ respectively.  
 A dataset $\mathcal{D}$ consisting of $M$ such instances can be represented as a $M\times (d_1+d_2)$ matrix of the form $\mathcal{D}=[G_1,G_2]$. By using two matrices 
@@ -222,7 +222,7 @@ where $C_{12}, C_{11}, C_{22}$ are blocks within the covariance matrices of $\ma
         \{\mathbf{w}_1^*,\mathbf{w}_2^*\} &=& \argmax_{\mathbf{w}_1,\mathbf{w}_2}\mathbf{w}_1^\top C_{12} \mathbf{w}_2     \label{equ:CCA2}\\
                      s.t.    & &  \mathbf{w}_1^\top C_{11} \mathbf{w}_1=1,\; \mathbf{w}_2^\top C_{22} \mathbf{w}_2=1 \nonumber
 \end{eqnarray}
-It has been shown \cite{Bie_05,HardoonSS04} that the solution to (\ref{equ:CCA2}) can be obtained by solving following generalized eigenvalue problem:   
+It has been shown \citep{Bie_05,HardoonSS04} that the solution to (\ref{equ:CCA2}) can be obtained by solving following generalized eigenvalue problem:   
 %To solve the constrained optimization problem in (\ref{equ:CCA2}), we can first write out its corresponding Lagrangian:   
 %\begin{equation}
 %    \mathcal{L}=\mathbf{w}_1^\top C_{12} \mathbf{w}_2 - \frac{\lambda_1}{2} (\mathbf{w}_1^\top C_{11} \mathbf{w}_1-1)-\frac{\lambda_2}{2} (\mathbf{w}_2^\top C_{22} \mathbf{w}_2-1),
@@ -297,7 +297,7 @@ uncorrelated to each other:
 %\subsection{Dual Form and Kernel CCA}
 It was also shown that the solutions of (\ref{equ:CCA_primal})  $\mathbf{w}_1, \mathbf{w}_2$ lie in the span of $G_1$ and $G_2$ respectively, \emph{i.e.} 
 $\mathbf{w}_1=G_1^\top\boldsymbol{\alpha}_1 $, $\mathbf{w}_2=G_2^\top\boldsymbol{\alpha}_2 $, $\boldsymbol{\alpha}_1,\boldsymbol{\alpha}_2\in \mathbb{R}^M$. By substituting the alternative form 
-of $\mathbf{w}_1, \mathbf{w}_2$ into the primal form of CCA (\ref{equ:CCA_primal}), we can write out the dual form of CCA \cite{Bie_05,HardoonSS04} as
+of $\mathbf{w}_1, \mathbf{w}_2$ into the primal form of CCA (\ref{equ:CCA_primal}), we can write out the dual form of CCA \citep{Bie_05,HardoonSS04} as
 \small
 \begin{equation}
     \left(\begin{array}{cc}
@@ -327,7 +327,7 @@ where $\phi_i:\mathbb{R}^{d_i} \to \mathcal{H}$ is a feature map from original d
 
 \subsection{Homogeneity Analysis}
 \label{subsec:HA}
-Homogeneity analysis \cite{gifi} is a popular tool for analyzing and visualizing multivariate categorical data.  
+Homogeneity analysis \citep{gifi} is a popular tool for analyzing and visualizing multivariate categorical data.  
 Assume that there are $M$ data instances in a dataset $\mathcal{D}=\{O_m\}_{m=1}^M$, and each data instance is  
 represented by a $J$-dimensional vector $O_m=[v_1,v_2,\dots, v_J]^\top$ $(m = 1,\dots,M)$. 
 Variable $v_j$ takes on $n_j$ categorical values. Here we briefly review the procedure of homogeneity analysis with its 
@@ -344,7 +344,7 @@ produces two projections into the same Euclidean space $\mathbb{R}^p$,
 one from $J$-dimensional data instances $O_i$, the other from the
 $M$-dimensional categorical attribute indicator vectors (columns of
 $G$).  These projections are referred to as \emph{object 
-scores} and \emph{category quantifications}, respectively \cite{gifi}. 
+scores} and \emph{category quantifications}, respectively \citep{gifi}. 
 In addition, these two projections are intended to preserve the consistency among data instances and 
 attribute values as closely as possible to the data in the original categorical space:
 \begin{itemize}
@@ -371,7 +371,7 @@ each dimension to $M$. In addition, another effect of (\ref{equ:second_constrain
 orthogonal to each other.   
 
 To minimize the cost function (\ref{equ:cost_function}) under these constraints (\ref{equ:first_constraint}, \ref{equ:second_constraint}), usually 
-the alternating least squares (ALS) algorithm \cite{gifi} is used. The basic idea of ALS is to iteratively optimize with respect to $X$ or 
+the alternating least squares (ALS) algorithm \citep{gifi} is used. The basic idea of ALS is to iteratively optimize with respect to $X$ or 
 to $[Y_1,\ldots,Y_M]$ with the other held fixed. Assuming $X^{(0)}$ is provided arbitrarily at iteration $t=0$, each iteration of ALS can be summarized as:    
 \begin{enumerate}
     \item $\forall j\in[1,J],  $update $Y_j$: 
@@ -504,7 +504,7 @@ and the remaining $J-1$ sets of variables represent $J-1$ input features from he
 \end{equation}
 where $\mathbf{P}$ is the projection associated with outputs $T$\footnote{From now on, we refer to the same thing by using $G_J$ or $T$, and similarly, $\mathbf{P}$
 and $\mathbf{W}_J$ are equivalent.}. Interestingly, $\rho_j$ and $\pi$ in (\ref{equ:extended_HA}) are identical to the predictability 
-and recoverability of $X$ respectively, which are two concepts recently introduced in FaIE \cite{lin_2014_icml}. More concretely, predictability is measured by how much  
+and recoverability of $X$ respectively, which are two concepts recently introduced in FaIE \citep{lin_2014_icml}. More concretely, predictability is measured by how much  
 input features are correlated with lower-dimensional representations of multi-label outputs, while recoverability refers to how successfully the compact representations 
 can be decoded back to binary vectors. It is worth noting that only one $\rho_j$ was used in FaIE.  
 Following the philosophy of \citet{lin_2014_icml}, we also introduce a trade-off parameter $\lambda$ to balance $\sum_{j=1}^J \rho_j$ and $\pi$.  After rescaling we can further 
@@ -572,7 +572,7 @@ Then, $\mathcal{K}_T (t^{(m)}, t^{(n)})=t^{(m) \top} \tilde{\mathbf{Q}}
 \tilde{\mathbf{Q}}^\top t^{(n)}=t^{(m) \top} \mathbf{L} t^{(n)}$. In each $\mathcal{A}_j$, with a feature map defined on both input and output, a function to be 
 learned is defined as $f_j(G_j^{(m)},t^{(m)})=\mathbf{W}_j^\top \left(\phi_j(G_j^{(m)})\otimes \tilde{\phi}_T(t^{(m)})\right)$, where $\otimes$ denotes tensor product. Therefore, within the framework 
 of regularization in reproducing kernel Hilbert 
-spaces (RKHS) of vector-valued functions \cite{vector_value_function},  the unique 
+spaces (RKHS) of vector-valued functions \citep{vector_value_function},  the unique 
 kernel $\mathbf{H}_j$ associated with the RHKS of $\tilde{\phi}_T(\mathcal{T})$-valued function is
 \begin{eqnarray*}
     \small
@@ -582,19 +582,19 @@ kernel $\mathbf{H}_j$ associated with the RHKS of $\tilde{\phi}_T(\mathcal{T})$-
 \end{eqnarray*}
 where $\mathcal{K}_j^{m,n}$ is the kernel value $\mathcal{K}_j(G_j^{(m)},\phi(G_j^{(n)})$. $\mathcal{K}_j^{m,n} \mathbf{L}$ defines an operator-valued, 
 positive semidefinite $\mathcal{T}$-kernel: $\mathbb{R}^{d_j}\times \mathbb{R}^{d_j}\to \mathbb{R}^{d_J \times d_J}$. 
-Because of the decomposability $\mathbf{H}_j=\mathcal{K}_j\cdot \mathbf{L}$ \cite{output_kernel}, $\mathbf{L}$ corresponds to a low-rank output kernel \cite{low_rank_kernel}. 
+Because of the decomposability $\mathbf{H}_j=\mathcal{K}_j\cdot \mathbf{L}$ \citep{output_kernel}, $\mathbf{L}$ corresponds to a low-rank output kernel \citep{low_rank_kernel}. 
 Since $\tilde{\mathbf{Q}}$ itself specifies a linear dimensionality reduction, a
 plain Gram matrix is used for $T$ in (\ref{equ:update_alpha}) to learn $\tilde{\mathbf{Q}}$.      
 Low-rank output kernel learning, to some extent, is equivalent to multi-label dimensionality reduction (see a review by \citeauthor{sun_MLDR}\citeyear{sun_MLDR}),              
 whose target is to find a lower-dimensional latent space for multi-label space so as to capture inter-label dependencies as well as to remove nuisance noise.             
 
 \subsection{Co-regularized Multi-view Learning}
-Co-regularization has been popularly employed in multi-view learning \cite{Farquhar_2005_NIPS,Brefeld_2006_ICML,Rosenberg_2007_AISTATS}. Essentially, co-regularization 
+Co-regularization has been popularly employed in multi-view learning \citep{Farquhar_2005_NIPS,Brefeld_2006_ICML,Rosenberg_2007_AISTATS}. Essentially, co-regularization 
 works as an extra model-complexity controller by penalizing functions which tend to generate big disagreements among multiple views (see pairwise $\mathcal{B}_{ij}$ in (\ref{equ:pairwise-objective})).   
 In particular, an improved generalization bound of using co-regularization was presented by \citeauthor{Rosenberg_2007_AISTATS} (\citeyear{Rosenberg_2007_AISTATS}) in terms of Rademacher complexities.    
 While most co-regularization is for semi-supervised learning, quite similar to our work,  a subspace co-regularised multi-view learning paradigm was proposed by \citeauthor{Guo_2012_ICML} (\citeyear{Guo_2012_ICML})
 for supervised learning.
-A similar regularization is also used in MultiK-MHKS \cite{MKL} for multiple kernel learning, which strategically integrates heterogeneous information with an 
+A similar regularization is also used in MultiK-MHKS \citep{MKL} for multiple kernel learning, which strategically integrates heterogeneous information with an 
 ensemble of kernels. Since MultiK-MHKS works on the original binary output space, the squared misclassification loss is used. However, a least-squares loss is 
 used in KGHA as a regression on lower-dimensional representations of multi-label outputs.      
 
@@ -631,7 +631,7 @@ feature,
 where $W_j=\boldsymbol{\oplus}_{s=1}^S W_j^{(s)}$ (\emph{i.e.} the direct sum of $W_j^{(s)}$ in $S$ blocks, $W_j\in\mathbb{R}^{Sk\times Sk}$)
 and $L_j\in\mathbb{R}^{Sk\times Sk}$ consists of $S^2$ block-linking matrices. 
 MEKA was reported 
-to outperform other low-rank approximations by exploiting the block structure in kernel matrices \cite{BlockNystrom}.  
+to outperform other low-rank approximations by exploiting the block structure in kernel matrices \citep{BlockNystrom}.  
 By using MEKA, the space complexity of training KGHA decreases to $O(J(Mk+(ck)^2))$. 
 In addition, to avoid the matrix inverse in (\ref{equ:update_alpha}), we employed \emph{conjugate gradient} (CG) to solve the linear equation for each feature: 
 \begin{equation}
@@ -832,7 +832,7 @@ To evaluate the proposed KGHA for multi-label learning, we test it on image anno
 \subsection{Image Annotation}
 \subsubsection{Data and Evaluation}
 In this experiment, we used three benchmark datasets, \textsf{Corel5k}, \textsf{Espgame} and \textsf{Iaprtc12}. 
-These three datasets have been widely used in image annotation studies \cite{GMVS09,baseline,chen_2013_icml} with 
+These three datasets have been widely used in image annotation studies \citep{GMVS09,baseline,chen_2013_icml} with 
 performance evaluations reported therein.  Therefore, we can easily compare our method with others.   
 Statistics of the three benchmark datasets are summarized in Table~\ref{tab:data}.
 Readers are referred to \citet{baseline} for more details of the three datasets.  
@@ -866,7 +866,7 @@ the lower panel of Table \ref{tab:final_comparison}. We see that KGHA generally 
 low-rank output kernel learning and co-regularization.  
 In addition, the upper panel of Table~\ref{tab:final_comparison} lists
 the results of some notable methods that were recently developed or
-surveyed \cite{GMVS09,baseline,chen_2013_icml}. KGHA demonstrates
+surveyed \citep{GMVS09,baseline,chen_2013_icml}. KGHA demonstrates
 promising capabilities by comparing favorably to the state-of-the-art.
 
 \subsection{Protein Function Prediction}
@@ -877,7 +877,7 @@ second one is \textsf{Yeast} from \citeauthor{Tsuda_2005_BioInfor} (\citeyear{Ts
 by \citeauthor{Yu_2013_TBioinfo} (\citeyear{Yu_2013_TBioinfo}), we filtered out some protein instances with too general or too narrow functions. For both datasets, 
 multiple kernels (similarity networks) were already pre-computed. The statistics and heterogeneous features of two datasets are listed in Table \ref{tab:bio_features}. 
 
-For better comparison with the state-of-the-art results in bioinformatics community, we evaluated performances with $1-$RankingLoss \cite{Yu_2012_KDD,Yu_2013_TBioinfo}.  
+For better comparison with the state-of-the-art results in bioinformatics community, we evaluated performances with $1-$RankingLoss \citep{Yu_2012_KDD,Yu_2013_TBioinfo}.  
 \emph{RankingLoss} is computed as the average fraction of label pairs which are incorrectly ordered. To align with Macro F1, $1-$RankingLoss was used instead.  
 The score values of all labels in (\ref{equ:binary_prediction}) were used for ordering. 
 In the \textsf{Human} experiment, 60\% of the instances were used for training and 40\% for testing. 

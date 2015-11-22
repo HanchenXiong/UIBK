@@ -18,10 +18,10 @@ Confucius
 Graphical models have been studied in many disciplines, such as artificial intelligence \citep{pearl_book}, statistics \citep{lauritzen_book} and communication \citep{MRF_communication}.  
 Using graphical models is considered as one important landmark in machine learning research. Essentially, graphical models enable graphs to assist and facilitate probabilistic representation, 
 analysis and computing. This chapter starts with two representative graphical models, \emph{Bayesian networks} and \emph{Markov networks} in section \ref{sec:PGMs}. Some fundamental basics, 
-including \emph{factorizations, conditional independencies} and \emph{the conversions between Bayesian networks and Markov networks} , are explained. In section \ref{sec:inference}, three inference 
-algorithms for graphical models are reviewed: \emph{(loopy) belief propagation}, \emph{variational method} and \emph{Markov chain Monte Carlo} (MCMC). 
-At last, an application of the modeling and inference with graphical models is presented in section \ref{sec:3D_Shape}, where a hybrid model of Bayesian network and Markov network, \emph{Spatial Latent 
-Dirichlet Markov Random Fields}, is developed for learning 3D part-based shapes.             
+including \emph{factorizations, conditional independencies} and \emph{the conversions between Bayesian networks and Markov networks}, are explained. In section \ref{sec:inference}, three inference 
+algorithms for graphical models are reviewed: \emph{(loopy) belief propagation}, \emph{variational methods} and \emph{Markov chain Monte Carlo} (MCMC). 
+At last, an application of the modeling and inference with graphical models is presented in section \ref{sec:3D_Shape}, where a hybrid model,  
+\emph{Spatial Latent Dirichlet Markov Random Fields}, is developed for learning 3D part-based shapes.             
 
 The content in this chapter basically is a short summary of relevant materials collected from \cite{MLPR_book}, \cite{Barber_book}, \cite{Koller09} and \cite{Wainwright_book}.                   
 
@@ -41,16 +41,16 @@ Markov networks by going through their basic properties.
 %-----------------------------------
 \subsection{Bayesian Networks}
 Given a set of variables $\{x_1,x_2,\cdot, x_i\}$, one key function of graphical models is to model the interactions among them using graphs. A Bayesian network is a very 
-intuitive graphical model by defining a joint distribution of  $\{x_1,x_2,\cdot, x_i\}$ with simple \emph{causal-effect} links. More precisely,  a Bayesian network is constructed by considering 
-all causal-effect relations and linking them with directed arrows. Then the joint distribution can be factorized as the product of all conditional distributions associated with causal-effect relations. 
-It is better to start with an real-world example \citep{Barber_book} for a 
+intuitive graphical model by defining a joint distribution of  $\{x_1,x_2,\cdots, x_i\}$ with simple \emph{cause-effect} links. More precisely,  a Bayesian network is constructed by considering 
+all cause-effect relations and linking them with directed arrows. Then the joint distribution can be factorized as the product of all conditional distributions associated with cause-effect relations. 
+It is better to start with a real-world example \citep{Barber_book} for a 
 quick understanding of the concept:   
 \begin{shaded}
-   \textbf{Wet-grass Example:} One morning Tracey found that the grass in her garden is wet ($T\in\{0,1\}$). Is it due to overnight rain ($R \in\{0,1\}$)or did
+   \textbf{Wet-grass Example:} One morning Tracey found that the grass in her garden is wet ($T\in\{0,1\}$). Is it due to overnight rain ($R \in\{0,1\}$) or did
 she forget to turn off the sprinkler last night ($S\in\{0,1\}$)? Next she notices that the grass of her neighbor, Jack, is also
 wet ($J\in\{0,1\}$), and she also remembered it was cloudy on the previous daytime ($C\in\{0,1\}$).                   
 \end{shaded}
-In the above example, five binary variables are involved: $T,R,J,S,C$. After an easy analysis, the corresponding Bayesian network can be drawn as follow: 
+In the above example, five binary variables are involved: $T,R,J,S,C$. After an easy analysis, the corresponding Bayesian network can be drawn as follows: 
 \begin{figure}[h]
    \centering
    \includegraphics[width=0.4\textwidth]{./Figures/wet_glass_BN.pdf}
@@ -62,7 +62,7 @@ The joint distribution of these five variables is:
 	P(J,T,R,C,S)=P(J|R)P(T|R,S)P(R|C)P(C)P(S)
 	\label{equ:wet_grass}
 \end{equation}
-It is worth mentioning that the conditional distributions are definitely not limited to represent causal-effect relations.  
+It is worth mentioning that the conditional distributions are definitely not limited to represent cause-effect relations.  
 Actually, they are more often used to encode \emph{generation processes}. Therefore, Bayesian networks are usually 
 used as generative models in many scenarios.  
 
@@ -87,8 +87,7 @@ indepencies can be figured out with common sense:
 \end{equation*}
  
 
-Meanwhile, a more systematic way to check conditinal independencies is \emph{D-separation rule}: 
-\emph{D-separation} rule:  
+Meanwhile, a more systematic way to check conditinal independencies is \emph{D-separation rule}:   
 \begin{theorem}
 \textbf{D-Separation Rule}:
  Given three non-intersecting subsets of nodes $A,B,S$, in a DAG $G$, we consider all possible paths from any node in $A$ to any node in $B$. The path 
@@ -103,9 +102,9 @@ If all paths are blocked, then S D-separates $A$ from $B$, and then:
 \end{equation*}
 \end{theorem}
 
-The D-Separation rule can be empirically proofed as follows:
+The D-Separation rule can be empirically proved as follows:
 \begin{proof}
-	Three type of separating nodes:\emph{tail-to-tail},\emph{head-to-tail} and \emph{head-to-head} are considered in three simple graphs respectively   \\ \\
+	Three type of separating nodes: \emph{tail-to-tail}, \emph{head-to-tail} and \emph{head-to-head} are considered in three simple graphs respectively   \\ \\
 	\includegraphics[width=\textwidth]{./Figures/D_Sep}\newline
 \begin{minipage}[c]{0.32\textwidth}
  \begin{equation*}
@@ -158,7 +157,8 @@ To obtain a quick awareness of the modeling flexibility of Markov networks, it i
  \end{array}
  \label{equ:BN2MN}
 \end{equation}
-where $\phi_1(J,R), \phi_2(R,C),\phi_3(T,R,S)$ are no longer conditional probabilities. As a matter of fact, $\phi_1(J,R), \phi_2(R,C),\phi_3(T,R,S)$ even 
+where $\phi_1(J,R), \phi_2(R,C),\phi_3(T,R,S)$ are no longer conditional probabilities. As a matter of fact, in Markov netowrks, 
+$\phi_1(J,R), \phi_2(R,C),\phi_3(T,R,S)$ even 
 do not have to be distributions. They can be compatibilities represented by any parametric form. Meanwhile, since $P(J,T,R,C,S)$ is still a distribution, 
 \emph{i.e.} $\sum_{J,T,R,C,S}P(J,T,R,C,S)=1$, a normalization needs to be introduced.   
 
@@ -174,7 +174,7 @@ A formal definition of a Markov network is given as follows:
 \textbf{Remarks:}
 \begin{itemize}
  \item the potential function is non-negative, and can be a function of any form over the clique $X_c$, and in most cases it reflects the dependences /compatibilities /constrains among $x_i\in X_c$ ;
- \item the normalization term can be computed as $Z=\sum_{x_1,x_2,...x_n}\prod_{c}\phi_c(X_c)$ or $Z=\int_{x_1,x_2,...x_n}\prod_{c}\phi_c(X_c)$ for continuous cases;
+ \item the normalization term can be computed as $Z=\sum_{x_1,x_2,\dots,x_n}\prod_{c}\phi_c(X_c)$ or $Z=\int_{x_1,x_2,\dots,x_n}\prod_{c}\phi_c(X_c)$ for continuous cases;
  \item the clique defined here means maximal \emph{fully connected subgraph}, some examples of cliques and potential functions are shown in the following: 
 \end{itemize}
 \includegraphics[width=\textwidth]{./Figures/clique}\newline
@@ -210,8 +210,7 @@ in Markov networks is referred to as \emph{Markov separation rule}:
 \begin{theorem}
 \textbf{Markov Separation Rule} : a subset $\mathcal{A}$ is said to be separated from another subset $\mathcal{B}$ 
 by subset $\mathcal{S}$ if all possible paths from any member of $\mathcal{A}$ to any member $\mathcal{B}$
-pass through $\mathcal{S}$. 
- Conditional Independence: If $\mathcal{S}$ separates $\mathcal{A}$ from $\mathcal{B}$, then
+pass through $\mathcal{S}$. If $\mathcal{S}$ separates $\mathcal{A}$ from $\mathcal{B}$, then
  \begin{equation*}
  \mathcal{A} \ci \mathcal{B} | \mathcal{S}
   \end{equation*}
@@ -222,7 +221,7 @@ The equivalence between the factorization of Markov networks and Markov separati
 Based on the Markov separation rule, several interesting and useful properties can be further derived.   
 \begin{corollary}
 \textbf{Local Conditional Independence}:
-  when conditioned on its neighbor, $x_i$ is  independent of all other variables of the graph: 
+  when conditioned on its neighbors, $x_i$ is  independent of all other variables of the graph: 
    \begin{equation*}
     P(x_i|X \backslash x_i)= P(x_i|\text{ne}(x_i))
    \end{equation*}
@@ -241,7 +240,7 @@ For instance, \newline\newline
 
 \begin{corollary}
 \textbf{Pairwise Conditional Independence}:
-  given two non-adjacent variables $x_i$ and $x_j$ variables, they are independent conditioned all other variables of the graph:
+  given two non-adjacent variables $x_i$ and $x_j$, they are independent conditioned on all other variables of the graph:
  \begin{equation*}
   x_i \ci x_j | X \backslash \{x_i,x_j\}
  \end{equation*}
@@ -299,10 +298,10 @@ Markov network cases.
 %-----------------------------------
 \subsection{Belief Propagation}
 A main inference task is computing marginal distributions, based on which conditional distributions can be subsequently computed as well.    
-Again, an example is fist illustrated to understand the procedure of computing marginal distributions, based on which \emph{Belief propagation} will explained  
+Again, an example is first illustrated to understand the procedure of computing marginal distributions, based on which the \emph{belief propagation} algorithm will be explained  
 later. 
 
-In a tree-structure Markov network shown below, $A,B,C,D$ are four variables and each of them has $n$ states. Then how to compute $P(A)$ ?
+In a tree-structured Markov network shown below, $A,B,C,D$ are four variables and each of them has $n$ states. Then how to compute $P(A)$ ?
 \newline 
 \begin{minipage}[c]{0.4\textwidth}
       \centering
@@ -323,8 +322,10 @@ In a tree-structure Markov network shown below, $A,B,C,D$ are four variables and
 \newline 
 
 In the above procedure, it can be seen that the computation complexity of calculating $p(A)$ is in general $\mathcal{O}(n^3)$. However, by exploiting 
-the graph structure and corresponding factorization, the complexity is reduced to $O(n)$. Basically, each variable is eliminated by first summing 
-itself up in the potential function involving it, and then passing ``marginalized" message to its neighbouring variable. This procedure is repeatedly carried out 
+the graph structure and corresponding factorization, the complexity is reduced to $O(n)$. Basically, a new ``message function" $m(\cdot)$ is introduced; 
+each variable is eliminated by first summing 
+itself up in the product of potential functions and $m$ functions which involves it, and then passing a marginalize message to its neighbouring variable. 
+This procedure is repeatedly carried out 
 on all variables until it reaches $A$. To demonstrate the ``message-passing" theme more clearly,  messages and passing directions are added in the Markov networks and  
 highlighted below:
 \newline
@@ -346,7 +347,7 @@ highlighted below:
 \textbf{Remarks:}
 $m_{C\rightarrow B}(B)$ is called \emph{belief function} of $B$ over $C$ by summing out $C$ from the potential function $\sum_C \phi(B,C)$, and it will propagate afterwards; 
 
-Similarly, $P(C)$ can be computed with the propagation belief functions: 
+Similarly, $P(C)$ can be computed with the propagations of belief functions: 
 \newline
 \begin{minipage}[c]{0.4\textwidth}
       \centering
@@ -400,10 +401,14 @@ Based on three examples above, some observations of ``message passing" are:
    P(D)&=&\frac{1}{Z}m_{B\rightarrow D}(D) 
   \end{array}
  \end{equation*}
+ \item messages are asymmetric and thus associated with directions;       
+ \item messages are reused in many inference tasks, therefore it is more efficient to compute all messages first and 
+	 then conduct inference. 
 \end{itemize}
-And the belief propagation algorithm for tree-structure Markov networks is provided in Algorithm \ref{alg:BP_tree}.       
+
+Based on the observations above, the belief propagation algorithm for tree-structured Markov networks can be written out in Algorithm \ref{alg:BP_tree}.       
 \begin{algorithm}
-	\caption{Belief Propagation for tree-structure Markov networks}
+	\caption{Belief Propagation for tree-structured Markov networks}
 	\label{alg:BP_tree}
 \begin{algorithmic}[1]
 \STATE  select one variable as the root; 
@@ -421,7 +426,12 @@ where Ne$(i)$ denotes the neighboring variables of $x_i$ in the graph.
 \end{algorithm}
 
 
-
+However, in grid-structured Markov networks, there is no root and leaves, where the belief propagation algorithm can not be directly applied.  
+Fortunately, an approximate version of the belief propagation algorithm, \emph{loopy belief propagation}, was proposed for the inference of 
+loopy Markov networks. Basically, in the loop belief propagation algorithm, all messages are randomly initialized and iteratively updated based on 
+the same passing rules as in the belief propagation algorithm.   A pseudo-code of the loopy belief propagation algorithm is presented in Algorithm \ref{alg:LBP}.     
+Until now, there exist no theoretic proof for the convergence the loopy belief propagation algorithm. However, it has been applied in many tasks 
+and empirically works well.  
 \begin{algorithm}
 	\caption{Loopy Belief Propagation for Loopy Markov networks}
 	\label{alg:LBP}
@@ -440,45 +450,55 @@ where Ne$(i)$ denotes the neighboring variables of $x_i$ in the graph.
 %-----------------------------------
 %	SUBSECTION 2
 %-----------------------------------
-
-\subsection{Variational Method}
-
-
-%-----------------------------------
-%	SUBSECTION 3
-%-----------------------------------
 \subsection{Markov Chain Monte Carlo}
-Another way for approximate inference is using Markov chain Monte Carlo (MCMC) sampling. In particular, gibbs sampling is popularly used in Markov networks.    
+Another way for approximate inference is using samples and \emph{Monte-Carlo estimations}.      
+Markov chain Monte Carlo (MCMC) is a very general and powerful framework for sampling. In particular, Gibbs sampling is popularly used in Markov networks.    
 MCMC is a family of sampling algorithms, which are designed to generate samples from a target distribution $p(\mathbf{x}), \mathbf{x}\in\mathbb{R}^d$. 
-Usually, directly sampling from $p(\mathbf{x})$ is not possible since its density can be arbitrarily complex. However, $p(\mathbf{x})$ can be evaluated up to a normalizing constant:
+Usually, directly sampling from $p(\mathbf{x})$ is not possible since its density can be arbitrarily complex. However, $p(\mathbf{x})$ can be evaluated up to a normalizing constant, \emph{e.g.} a 
+Markov network:
 \begin{equation*}
 	p(\mathbf{x})=\frac{\tilde{p}(\mathbf{x})}{\mathbf{Z}}
 \end{equation*}
+%The target distribution $p(\mathbf{x})$ can be marginal distributions or conditional distributions based on the inference task.      
 
+A Markov chain of $\mathbf{x}$ is specified by a \emph{transition probability}, based on which the state of $\mathbf{x}$ can 
+be evolved. The transition probability defines how the state of $\mathbf{x}$ at the current step changes to the next step: $\mathcal{T}(\mathbf{x}^{t+1}|\mathbf{x}^t)$.      
+The distribution $p(\mathbf{x})$ is said to be \emph{invariant} with respect to a Markov chain with the transition  $\mathcal{T}(\mathbf{x}^{t+1}|\mathbf{x}^t)$ if
+\begin{equation}
+	p(\mathbf{x}^*)=\sum_{\mathbf{x}^t}\mathcal{T}(\mathbf{x}^*|\mathbf{x}^t)p(\mathbf{x}^t)
+\end{equation}
+A sufficient (but not necessary) condition for checking whether $p(\mathbf{x})$ is invariant with respect to the Markov chain with $\mathcal{T}$ is \emph{detailed balance}:
+\begin{equation}
+  p(\mathbf{x}^t) \mathcal{T}(\mathbf{x}^*|\mathbf{x}^t)=p(\mathbf{x}^*) \mathcal{T}(\mathbf{x}^t|\mathbf{x}^*)
+\end{equation}
 \subsubsection{Metropolis Algorithm}
+The \emph{Metropolis algorithm} is the simplest MCMC sampling method. The transition probability in the Metropolis algorithm is specified by a \emph{proposal distribution} and 
+an \emph{acceptance probability}:
 \begin{itemize}
 	\item the proposal distribution is symmetric: $q(\mathbf{x}^*|\mathbf{x}^t)=q(\mathbf{x}^t|\mathbf{x}^*)$;
-	\item acceptance probability is: $\mathcal{A}(\mathbf{x}^*;\mathbf{x}^t) = \min\{1, \frac{p(\mathbf{x}^*)}{p(\mathbf{x}^t)}\}$; 
+	\item the acceptance probability is: $\mathcal{A}(\mathbf{x}^*;\mathbf{x}^t) = \min\{1, \frac{p(\mathbf{x}^*)}{p(\mathbf{x}^t)}\}$; 
 \end{itemize}
-It can be seen in the Metropolis algorithm that  $\mathbf{x}^0,\mathbf{x}^1,\cdot, \mathbf{x}^t$ are not independent because successive samples are correlated. Therefore, in practice, real independent 
+A pseudo-code of the Metropolis algorithms is provided in Algorithm \ref{alg:Metropolis}.  
+It can be seen in the Metropolis algorithm that  $\mathbf{x}^0,\mathbf{x}^1,\cdots, \mathbf{x}^t$ are not independent because successive samples are correlated. Therefore, in practice, real independent 
 samples can be obtained by only retraining samples at every $M$ iterations. 
+    
 
-The detailed balance of the Metropolis algorithm can be proof as follows:
+The detailed balance of the Metropolis algorithm can be proved as follows:
 \begin{proof}
 	\begin{equation}
 		\begin{array}{rcl}
-			p(\mathbf{x}^t)p(\mathbf{x}^*|\mathbf{x}^t)&=&p(\mathbf{x}^t)\left(q(\mathbf{x}^*|\mathbf{x}^t)\min\{1,\frac{p(\mathbf{x}^*)}{p(\mathbf{x}^t)}\}\right) \\
+			p(\mathbf{x}^t)\mathcal{T}(\mathbf{x}^*|\mathbf{x}^t)&=&p(\mathbf{x}^t)\left(q(\mathbf{x}^*|\mathbf{x}^t)\min\{1,\frac{p(\mathbf{x}^*)}{p(\mathbf{x}^t)}\}\right) \\
 												       &=& \min\{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t),q(\mathbf{x}^*|\mathbf{x}^t)p(\mathbf{x}^*) \}  \\
 			                                           &=&p(\mathbf{x}^*)q(\mathbf{x}^*|\mathbf{x}^t)\min\{1,\frac{p(\mathbf{x}^t)}{p(\mathbf{x}^*)}\} \\
 																											 &\overset{\text{since } q(\mathbf{x}^*|\mathbf{x}^t)=q(\mathbf{x}^t|\mathbf{x}^*)}=& p(\mathbf{x}^*)\left(q(\mathbf{x}^t|\mathbf{x}^*) \min\{1,\frac{p(\mathbf{x}^t)}{p(\mathbf{x}^*)}\} \right) \\
-																							  &=& p(\mathbf{x}^*)p(\mathbf{x}^t|\mathbf{x}^*)
+																									&=& p(\mathbf{x}^*)\mathcal{T}(\mathbf{x}^t|\mathbf{x}^*)
 	   \end{array}
 	\end{equation}
 \end{proof}
 
-\begin{algorithm}[t]
+\begin{algorithm}[h]
 	\caption{Metropolis Algorithm}
-	\label{alg:LBP}
+	\label{alg:Metropolis}
 \begin{algorithmic}[1]
 \STATE initialize $\mathbf{x}^0$.
 \FOR {$t=0$ to $T-1$}
@@ -493,14 +513,29 @@ The detailed balance of the Metropolis algorithm can be proof as follows:
 \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{Metropolis-Hasting Algorithm} 
+\subsubsection{Metropolis-Hastings Algorithm} 
+In the Metropolis algorithm, the proposal distribution is restricted to be symmetric, which limits its applicabilities.   A more general extension is the \emph{Metropolis-Hastings algorithm}, 
+of which the proposal distribution and the acceptance probability are specified as follows:
 \begin{itemize}
 	\item the proposal distribution can be arbitrary (no symmetric restriction): $q(\mathbf{x}^*|\mathbf{x}^t)$;
-	\item acceptance probability is: $\mathcal{A}(\mathbf{x}^*;\mathbf{x}^t) = \min\{1, \frac{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}\}$; 
+	\item the acceptance probability is: $\mathcal{A}(\mathbf{x}^*;\mathbf{x}^t) = \min\{1, \frac{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}\}$; 
 \end{itemize}
-\begin{algorithm}[t]
-	\caption{Metropolis-Hasting (MH) Algorithm}
-	\label{alg:LBP}
+The pseudo-code of the Metropolis-Hastings algorithm is presented in Algorithm \ref{alg:MH}. 
+The detailed balance of the Metropolis algorithm can be proved as follows:
+\begin{proof}
+	\begin{equation}
+		\begin{array}{rcl}
+			p(\mathbf{x}^t)\mathcal{T}(\mathbf{x}^*|\mathbf{x}^t)&=&p(\mathbf{x}^t)\left(q(\mathbf{x}^*|\mathbf{x}^t)\min\{1,\frac{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}\}\right) \\
+												       &=& \min\{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t),q(\mathbf{x}^*|\mathbf{x}^t)p(\mathbf{x}^*) \}  \\
+			                                           &=& p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)\min\{1,\frac{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}\} \\
+										&=& p(\mathbf{x}^*)\left(q(\mathbf{x}^t|\mathbf{x}^*)\min\{1,\frac{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}\}\right) \\
+											  &=& p(\mathbf{x}^*)\mathcal{T}(\mathbf{x}^t|\mathbf{x}^*)
+	   \end{array}
+	\end{equation}
+\end{proof}
+\begin{algorithm}[h]
+	\caption{Metropolis-Hastings (MH) Algorithm}
+	\label{alg:MH}
 \begin{algorithmic}[1]
 \STATE initialize $\mathbf{x}^0$.
 \FOR {$t=0$ to $T-1$}
@@ -517,24 +552,27 @@ The detailed balance of the Metropolis algorithm can be proof as follows:
 
 
 
-The detailed balance of the Metropolis algorithm can be proof as follows:
-\begin{proof}
-	\begin{equation}
-		\begin{array}{rcl}
-			p(\mathbf{x}^t)p(\mathbf{x}^*|\mathbf{x}^t)&=&p(\mathbf{x}^t)\left(q(\mathbf{x}^*|\mathbf{x}^t)\min\{1,\frac{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}\}\right) \\
-												       &=& \min\{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t),q(\mathbf{x}^*|\mathbf{x}^t)p(\mathbf{x}^*) \}  \\
-			                                           &=& p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)\min\{1,\frac{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}\} \\
-										&=& p(\mathbf{x}^*)\left(q(\mathbf{x}^t|\mathbf{x}^*)\min\{1,\frac{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}\}\right) \\
-													   &=& p(\mathbf{x}^*)p(\mathbf{x}^t|\mathbf{x}^*)
-	   \end{array}
-	\end{equation}
-\end{proof}
+
 
 \subsubsection{Gibbs Sampling Algorithm}
-The Gibbs sampling is a special case of MH with the proposal distribution defined as the cyclic conditional distributions among $\{x_1,x_2,\cdots,x_d\}$.               
-\begin{algorithm}[t]
+Gibbs sampling is a special case of Me with the cyclic conditional distributions among $\{x_1,x_2,\cdots,x_d\}$ as the proposal distribution. Therefore,  
+\begin{itemize}
+	\item the proposal distribution: $q(\mathbf{x}^*|\mathbf{x}^t)=p(x_k^*|x_{[1,\cdots,d]/k}^t)$;
+	\item the acceptance probability is: 
+		\begin{equation*}
+			\begin{array}{rcl}
+				\mathcal{A}(\mathbf{x}^*;\mathbf{x}^t) &=& \min\left\{1, \frac{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}\right\} \\
+																				  &=& \min\left\{1, \frac{p(\mathbf{x}^*)p(x_k^t|x_{[1,\cdots,d]/k}^*)}{p(\mathbf{x}^t)p(x_k^*|x_{[1,\cdots,d]/k}^t)}\right\} \\
+																			   &=& \min\left\{1,\frac{p(x_{[1,\cdots,d]/k}^*)p(x_k^*|x^*_{[1,\cdots,d]/k})p(x_k^t|x_{[1,\cdots,d]/k}^*)}{p(x^t_{[1,\cdots,d]/k})p(x_k^t|x^t_{[1,\cdots,d/k]})p(x_k^*|x_{[1,\cdots,d]/k}^t)} \right \} \\
+											  &\overset{\text{since }x_{[1,\cdots,d]/k}^*=x_{[1,\cdots,d]/k}^t}=& \min\{1,1\} \\
+							   &=&1
+        	\end{array}
+	    \end{equation*}
+\end{itemize}
+Obviously,  the proposal at each iteration is accepted in Gibbs sampling. The pseudo-code of Gibbs sampling is given in Algorithm \ref{alg:gibbs}.    
+\begin{algorithm}[h]
 	\caption{Gibbs Sampling Algorithm}
-	\label{alg:LBP}
+	\label{alg:gibbs}
 \begin{algorithmic}[1]
 \STATE initialize $\mathbf{x}^0$.
 \FOR {$t=0$ to $T-1$}
@@ -545,24 +583,48 @@ The Gibbs sampling is a special case of MH with the proposal distribution define
 \end{algorithmic}
 \end{algorithm}
 
+%-----------------------------------
+%	SUBSECTION 3
+%-----------------------------------
+\subsection{Variational Methods}
+Variational methods are an alternative to sampling-based methods for approximate inference. Basically, variational methods convert the inference problem into a constrained optimization 
+problem, where standard optimization tools can be applied. For instance, to approximate a distribution $p(\mathbf{x})$, a family of distributions $q(\mathbf{x})$ is used and the optimal 
+one is eventually selected by using certain optimization machinery. In a Markov network $p(\mathbf{x})$, the \emph{energy} is defined as: 
+\begin{equation}
+	E(\mathbf{x})=-\log p(\mathbf{x})-\log Z
+\end{equation}
+and the \emph{variational free energy} with $q(\mathbf{x})$ is defined as: 
+\begin{equation}
+	\begin{array}{rcl}	
+	F(q)&=&\displaystyle\sum_{\mathbf{x}}q(\mathbf{x}) E(\mathbf{x})+\sum_{\mathbf{x}}\log q(\mathbf{x})\\ 
+	\displaystyle		   &=&\underbrace{-\sum_{\mathbf{x}}q(\mathbf{x})\log p(\mathbf{x})+\sum_{\mathbf{x}} q(\mathbf{x})\log q(\mathbf{x})}_{KL(q(\mathbf{x}),p(\mathbf{x}))}-\log Z
+    \end{array}
+\end{equation}
+It can be seen that the variational free energy can be minimized when $q(\mathbf{x})=p(\mathbf{x})$. Therefore, the joint distribution $p(\mathbf{x})$ is considered as 
+the optimal solution in the optimization problem: $\arg\min_{q} F(q)$.  
 
-\begin{itemize}
-	\item the proposal distribution: $q(\mathbf{x}^*|\mathbf{x}^t)=p(x_k^*|x_{[1,\cdots,d]/k}^t)$;
-	\item acceptance probability is: 
-		\begin{equation*}
-			\begin{array}{rcl}
-				\mathcal{A}(\mathbf{x}^*;\mathbf{x}^t) &=& \min\{1, \frac{p(\mathbf{x}^*)q(\mathbf{x}^t|\mathbf{x}^*)}{p(\mathbf{x}^t)q(\mathbf{x}^*|\mathbf{x}^t)}\} \\
-																				  &=& \min\{1, \frac{p(\mathbf{x}^*)p(x_{[1,\cdots,d]/k}^t|x_k^*)}{p(\mathbf{x}^t)p(x_k^*|x_{[1,\cdots,d]/k}^t)}\} \\
-															 &=& \min\{1,\frac{p(x_k^*)p()p(x_{[1,\cdots,d]/k}^t|x_k^*)}{p(\mathbf{x}^t)p(x_k^*|x_{[1,\cdots,d]/k}^t)}\} \}
-        	\end{array}
-	    \end{equation*}
-\end{itemize}
+The simplest variation method is the \emph{mean field} approximation, where $q(\mathbf{x})$ is a locally factorized: $q(\mathbf{x})=\prod_{i}q_i(x_i)$. Then the variational free energy is: 
+\begin{equation}
+	F_{MF}(q)=-\sum_{c}\sum_{\mathbf{x}_c}\log \phi_c(\mathbf{x}_c) \prod_{i\in c}q_i (x_i)+ \sum_i\sum_{x_i} q_i(x_i)\log q_i(x_i)
+\end{equation}
+where $c$ indexes cliques. Then the approximate marginal distribution of each variable $q_i(x_i)$ is updated according to:    
+\begin{equation}
+	q_i(x_i)=\alpha \exp \left(\sum_{c\in\mathcal{C}_i} \sum_{\mathbf{x}_{c/i}} \log \phi_c(\mathbf{x}_c)\prod_{j\in c, j\neq i}q_j(x_j)\right)
+\end{equation}
+where $\mathcal{C}_i$ denotes the set of all cliques which $x_i$ occupies and $\alpha$ is a normalization term for $\sum_{x_i}q_i (x_i)=1$.   
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
 %----------------------------------------------------------------------------------------
 \section{3D Part-Based Shape Modeling with Spatial Latent Dirichlet Markov Random Fields}
 \label{sec:3D_Shape}
+This section presents an application of graphical models on 3D part-based shape modeling. In particular, to fit the target of the task and make full use of various heuristics, 
+both Bayesian networks and Markov networks are utilized. On the one hand, it is desired to have shape generative models, which can capture the composition processes of parts        
+in different shapes. On the other hand, local and global spatial coherences need to be taken into account when conducting segmentation.  
+Therefore, a hybrid model, \emph{spatial latent Dirichlet Markov random fileds}, is developed by integrating \emph{latent Dirichlet allocation} (LDA), \emph{mixture of Gaussians} (MoGs) and  
+a Markov random field. In addition, Gibbs sampling is applied for inference in the hybrid model.      
+More technical details and results are presented in the paper VI by the author. 
+
 \begin{shaded}
 {\Huge VI.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it 3D Object Class Geometry Modeling with Spatial Latent Dirichlet Markov Random Fields}, In Proceedings of the 35th German Conference on Pattern Recognition (GCPR13), pp 51-60, 2013,  Springer.  
 \vspace{-.2cm}

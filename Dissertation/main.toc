@@ -5,45 +5,51 @@
 \contentsline {chapter}{Acknowledgements}{iv}{dummy.3}
 \vspace {1em}
 \contentsline {chapter}{Contents}{v}{dummy.4}
-\contentsline {chapter}{List of Figures}{vii}{dummy.6}
-\contentsline {chapter}{List of Tables}{viii}{dummy.8}
-\contentsline {chapter}{Symbols}{ix}{dummy.10}
 \vspace {2em}
-\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.13}
-\contentsline {section}{\numberline {1.1}Structure Domains in Computer Vision}{1}{section.14}
-\contentsline {section}{\numberline {1.2}Overview}{1}{section.15}
-\contentsline {subsection}{\numberline {1.2.1}Part I: Inference with Graphical Models}{1}{subsection.16}
-\contentsline {subsection}{\numberline {1.2.2}Part II: Structural Output Learning}{1}{subsection.17}
-\contentsline {subsection}{\numberline {1.2.3}Part III: Optimization on Structures}{1}{subsection.18}
-\contentsline {section}{\numberline {1.3}Author's Contribution}{1}{section.19}
-\contentsline {chapter}{\numberline {2}Graphical Models: Structural Modeling and Inference}{3}{chapter.20}
-\contentsline {section}{\numberline {2.1}Bayeisan Networks and Markov Networks}{3}{section.21}
-\contentsline {subsection}{\numberline {2.1.1}Bayeisan Networks}{3}{subsection.22}
-\contentsline {subsection}{\numberline {2.1.2}Markov Networks}{4}{subsection.23}
-\contentsline {subsection}{\numberline {2.1.3}Factor Graph}{4}{subsection.24}
-\contentsline {section}{\numberline {2.2}Exact and Approximate Inference}{4}{section.25}
-\contentsline {subsection}{\numberline {2.2.1}Belief Propagation}{4}{subsection.26}
-\contentsline {subsection}{\numberline {2.2.2}Variational Method}{5}{subsection.27}
-\contentsline {subsection}{\numberline {2.2.3}Markov Chain Monte Carlo}{5}{subsection.28}
-\contentsline {section}{\numberline {2.3}3D Part-Based Shape Modeling with Spatial Latent Dirichlet Markov Random Fields}{5}{section.29}
-\contentsline {chapter}{\numberline {3}Graph-Based Structural Output Learning}{16}{chapter.30}
-\contentsline {section}{\numberline {3.1}Conditional Random Field}{16}{section.31}
-\contentsline {subsection}{\numberline {3.1.1}Maximum Likelihood Learning}{17}{subsection.32}
-\contentsline {subsection}{\numberline {3.1.2}Maxi-Margin Markov Network}{17}{subsection.33}
-\contentsline {section}{\numberline {3.2}Training Undirected Graphical Models with Persistent Sequential Monte Carlo}{17}{section.34}
-\contentsline {subsection}{\numberline {3.2.1}Training Conditional Random Fields for Image Annotation and Image Segmentation}{34}{subsection.35}
-\contentsline {subsubsection}{\numberline {3.2.1.1}Multi-Label Learning}{34}{subsubsection.38}
-\contentsline {subsubsection}{\numberline {3.2.1.2}Image Segmentation}{35}{subsubsection.41}
-\contentsline {chapter}{\numberline {4}Kernel-Based Structural Output Learning}{39}{chapter.58}
-\contentsline {section}{\numberline {4.1}Joint SVM}{39}{section.59}
-\contentsline {subsection}{\numberline {4.1.1}Structural SVM for Multi-Label Learning}{39}{subsection.60}
-\contentsline {subsection}{\numberline {4.1.2}Joint SVM: Output Kernel Learning and Regularization }{40}{subsection.61}
-\contentsline {section}{\numberline {4.2}Homogeneity Analysis for Object-Action Relation Learning}{62}{section.62}
-\contentsline {section}{\numberline {4.3}Multi-Label Learning with Kernel Generalized Homogeneity Analysis}{71}{section.63}
-\contentsline {chapter}{\numberline {5}Optimization on Structures}{87}{chapter.64}
-\contentsline {section}{\numberline {5.1}Optimization on Riemmian Manifold}{87}{section.65}
-\contentsline {section}{\numberline {5.2}3D Point Cloud Registration with Convex Optimization on SO(3) Manifold}{87}{section.66}
-\contentsline {chapter}{\numberline {6}Conclusion}{96}{chapter.67}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.6}
+\contentsline {section}{\numberline {1.1}Work on Structured Domains}{1}{section.7}
+\contentsline {section}{\numberline {1.2}Overview}{3}{section.9}
+\contentsline {subsection}{\numberline {1.2.1}Part I: Inference with Graphical Models}{3}{subsection.10}
+\contentsline {subsection}{\numberline {1.2.2}Part II: Structured Output Learning}{3}{subsection.11}
+\contentsline {subsection}{\numberline {1.2.3}Part III: Optimization on Structures}{4}{subsection.12}
+\contentsline {section}{\numberline {1.3}Author's Contribution}{4}{section.13}
+\contentsline {chapter}{\numberline {2}Graphical Models: Structural Modeling and Inference}{6}{chapter.14}
+\contentsline {section}{\numberline {2.1}Probabilistic Graphical Models}{7}{section.15}
+\contentsline {subsection}{\numberline {2.1.1}Bayesian Networks}{7}{subsection.16}
+\contentsline {subsection}{\numberline {2.1.2}Markov Networks}{9}{subsection.24}
+\contentsline {subsection}{\numberline {2.1.3}Connecting Bayesian Networks and Markov Networks}{11}{subsection.31}
+\contentsline {section}{\numberline {2.2}Exact and Approximate Inference}{12}{section.37}
+\contentsline {subsection}{\numberline {2.2.1}Belief Propagation}{13}{subsection.38}
+\contentsline {subsection}{\numberline {2.2.2}Markov Chain Monte Carlo}{15}{subsection.49}
+\contentsline {subsubsection}{\numberline {2.2.2.1}Metropolis Algorithm}{16}{subsubsection.52}
+\contentsline {subsubsection}{\numberline {2.2.2.2}Metropolis-Hastings Algorithm}{17}{subsubsection.65}
+\contentsline {subsubsection}{\numberline {2.2.2.3}Gibbs Sampling Algorithm}{18}{subsubsection.78}
+\contentsline {subsection}{\numberline {2.2.3}Variational Methods}{19}{subsection.86}
+\contentsline {section}{\numberline {2.3}3D Part-Based Shape Modeling with Spatial Latent Dirichlet Markov Random Fields}{20}{section.91}
+\contentsline {chapter}{\numberline {3}Graph-Based Structured Output Learning}{31}{chapter.92}
+\contentsline {section}{\numberline {3.1}Conditional Random Fields}{32}{section.93}
+\contentsline {subsection}{\numberline {3.1.1}Maximum Likelihood Estimation}{33}{subsection.96}
+\contentsline {subsection}{\numberline {3.1.2}Max-Margin Markov Networks}{34}{subsection.103}
+\contentsline {subsection}{\numberline {3.1.3}Regularization as Maximum Entropy}{38}{subsection.118}
+\contentsline {subsubsection}{\numberline {3.1.3.1}Maximum Entropy while Maximizing Margin}{38}{subsubsection.119}
+\contentsline {subsubsection}{\numberline {3.1.3.2}Maximum Entropy within MAP Learning}{39}{subsubsection.125}
+\contentsline {section}{\numberline {3.2}Training Undirected Graphical Models with Persistent Sequential Monte Carlo}{41}{section.135}
+\contentsline {subsection}{\numberline {3.2.1}Training Conditional Random Fields for Image Annotation and Image Segmentation}{60}{subsection.148}
+\contentsline {subsubsection}{\numberline {3.2.1.1}Multi-Label Learning}{60}{subsubsection.151}
+\contentsline {subsubsection}{\numberline {3.2.1.2}Image Segmentation}{61}{subsubsection.154}
+\contentsline {chapter}{\numberline {4}Kernel-Based Structured Output Learning}{65}{chapter.171}
+\contentsline {section}{\numberline {4.1}Joint SVM}{66}{section.174}
+\contentsline {subsection}{\numberline {4.1.1}Structural SVM for Multi-Label Learning}{66}{subsection.175}
+\contentsline {subsection}{\numberline {4.1.2}Joint SVM: Output Kernel Learning and Regularization }{68}{subsection.182}
+\contentsline {section}{\numberline {4.2}Homogeneity Analysis for Object-Action Relation Learning}{90}{section.183}
+\contentsline {section}{\numberline {4.3}Multi-Label Learning with Kernel Generalized Homogeneity Analysis}{99}{section.184}
+\contentsline {chapter}{\numberline {5}Optimization on Structures}{116}{chapter.185}
+\contentsline {section}{\numberline {5.1}Optimization on Graphs}{116}{section.186}
+\contentsline {subsection}{\numberline {5.1.1}Max-product (Loopy) Belief Propagation}{117}{subsection.187}
+\contentsline {subsection}{\numberline {5.1.2}Iterated Conditional Modes}{117}{subsection.198}
+\contentsline {section}{\numberline {5.2}Optimization on Matrix Manifolds}{118}{section.199}
+\contentsline {subsection}{\numberline {5.2.1}3D Point Cloud Registration with Optimization on SE(3) Manifold}{118}{subsection.200}
+\contentsline {chapter}{\numberline {6}Conclusion}{128}{chapter.201}
 \vspace {2em}
 \vspace {2em}
-\contentsline {chapter}{Bibliography}{97}{dummy.68}
+\contentsline {chapter}{Bibliography}{131}{dummy.203}

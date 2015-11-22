@@ -11,7 +11,7 @@
 % http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/
 % and
 % Sunil Patel
-% http://www.sunilpatel.co.uk/thesis-template/
+% http://www.sunilpatel.dissertatiothesis-template/
 %
 % License:
 % CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
@@ -112,7 +112,7 @@
 \begin{center}
 
 \textsc{\LARGE \univname}\\[1.5cm] % University name
-\textsc{\Large Doctoral Thesis}\\[0.5cm] % Thesis type
+\textsc{\Large Doctoral Dissertation}\\[0.5cm] % Thesis type
 
 \HRule \\[0.4cm] % Horizontal line
 {\LARGE \bfseries \ttitle }\\[0.4cm] % Thesis title
@@ -131,9 +131,9 @@
 \end{flushright}
 \end{minipage}\\[3cm]
  
-\large \textit{A thesis submitted in fulfilment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
+\large \textit{A dissertation submitted in partial fulfilment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
 \textit{in the}\\[0.4cm]
-\groupname\\\deptname\\[2cm] % Research group name and department name
+\deptname\\[2cm] % Research group name and department name
  
 {\large \today}\\[4cm] % Date
 %\includegraphics{Logo} % University/department logo - uncomment to place it
@@ -152,13 +152,13 @@
 
 \addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
-I, \authornames, declare that this thesis titled, '\ttitle' and the work presented in it are my own. I confirm that:
+I, \authornames, declare that this dissertation titled, '\ttitle' and the work presented in it are my own. I confirm that:
 
 \begin{itemize} 
 \item[\tiny{$\blacksquare$}] This work was done wholly or mainly while in candidature for a research degree at this University.
-\item[\tiny{$\blacksquare$}] Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
+\item[\tiny{$\blacksquare$}] Where any part of this dissertation has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
 \item[\tiny{$\blacksquare$}] Where I have consulted the published work of others, this is always clearly attributed.
-\item[\tiny{$\blacksquare$}] Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
+\item[\tiny{$\blacksquare$}] Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this dissertation is entirely my own work.
 \item[\tiny{$\blacksquare$}] I have acknowledged all main sources of help.
 %\item[\tiny{$\blacksquare$}] Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
 \end{itemize}
@@ -205,20 +205,22 @@ Nevertheless, merging different data together also makes the analysis of them mo
 There exist various forms of dependencies or interactions among multiple data.  
 Therefore, working with these data goes much beyond traditional machine leaning tasks: \emph{e.g.}
 classification or regression, where the output is a single scalar.      
-In this thesis, multiple data are considered as structures, in which different dependencies can 
+In this dissertation, multiple data sets together are considered as structures, in which different dependencies can 
 hence be modeled. In particular, structures are encoded within three forms by using: \emph{graphs}, 
 \emph{kernels} and \emph{manifolds} respectively,  which can match different application domains.   
-This thesis goes through \emph{inference}, \emph{learning} and \emph{optimization} of structural data which 
-are represented with different forms. Some existing work are reviewed while several new methods are put forward.    
-In particular, to make the thesis more practical, different methods were applied and evaluated on real-world application 
+This dissertation goes through \emph{inference}, \emph{learning} and \emph{optimization} of structured data which 
+are represented with different forms. Some existing work is reviewed while several new methods are put forward.    
+In particular, to make the dissertation more practical, different methods were applied and evaluated on real-world application 
 domains, including \emph{image segmentation}, \emph{image annotation}, \emph{protein function prediction}, 
 \emph{object-action relation modeling} and \emph{3D transformation estimation}. Of course the applicabilities 
-of those methods goes far beyond what are presented in the thesis. Meanwhile, this thesis attempts to 
-provide some main principles or methodologies when confronting structural data, and empirical experience in above-mentioned                 
+of these methods go far beyond those presented in the dissertation. Meanwhile, this dissertation  
+attempts to, with practical case studies, provide some main principles or methodologies when confronting structured data, and empirical experience in above-mentioned                 
 domains should be easily transferred to other ones.         
-Above all, the main contributions of this thesis are several novel learning algorithms for structural outputs, which 
-hopefully can widen and/or deepen the understanding of relevant research.    \\ 
-\textbf{Keywords:} graphical models, structural output learning, conditional random fields, structural SVM, multivariate analysis, matrix manifolds.   
+Above all, the main contributions of this dissertation are several novel models and learning algorithms for structured outputs, including 
+\emph{joint SVM} and \emph{kernel generalized homogeneity analysis} for multi-label learning,  \emph{persistent sequential Monte Carlo} for learning undirected graphical models.  
+The study in this dissertation is expected to widen and/or deepen the understanding of relevant research.    \\ 
+
+%\textbf{Keywords:} graphical models, structural output learning, conditional random fields, structural SVM, multivariate analysis, matrix manifolds.   
 }
 
 \clearpage % Start a new page
@@ -230,10 +232,10 @@ hopefully can widen and/or deepen the understanding of relevant research.    \\
 \setstretch{1.3} % Reset the line-spacing to 1.3 for body text (if it has changed)
 
 \acknowledgements{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
-This thesis is based on my work during years 2011-2015, at the Intelligent and Interactive Systems (IIS) research group, University of Innsbruck.  
+This dissertation is based on my work during years 2011-2015, at the Intelligent and Interactive Systems (IIS) research group, University of Innsbruck.  
 
 First and foremost, I wish to express my sincerest gratitude to my supervisor, Prof. Justus Piater, who has been continuously 
-providing me with seasoned guidance while leaving me immense freedom. The thesis would not have been possible without 
+providing me with seasoned guidance while leaving me immense freedom. The dissertation would not have been possible without 
 his encouragement and support. My gratitude also goes to Dr. Sandor Szedmak, who is a true workmate and friend to me despite his seniority. I really enjoyed working 
 with him and have learnt a lot from him in both scientific knowledge and how to conduct research, which I believe will be of great benefit in my future career. 
 
@@ -248,7 +250,7 @@ get to know many excellent researchers outside of IIS.
 In particular, I really appreciate Mikkel Tang Thomsen and Wail Mustafa from University of Southern Denmark. They are very good coworkers, actively  
 exchanging thoughts with me and motivating me at different lines of research.   
 
-Undoubtedly, there are far too many more people to whom I own my gratitude. They brought their most wonderful moments to my life, which will be preserved    
+Undoubtedly, there are far more people to whom I own my gratitude. They brought their most wonderful moments to my life, which will be preserved    
 in my heart forever. 
 
 I am deeply indebted to my wife, Youlin, who unconditionally stands by me, with patience and encouragement, in all circumstances.          

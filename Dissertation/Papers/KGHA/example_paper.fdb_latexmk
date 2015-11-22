@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex example_paper"] 1428592143 "example_paper.aux" "example_paper.bbl" "example_paper" 1428592143
+["bibtex example_paper"] 1448201389 "example_paper.aux" "example_paper.bbl" "example_paper" 1448201616
   "./icml2015.bst" 1427194872 27012 bac9c9ef6a3d56da903d9ae0dc074591 ""
-  "example_paper.aux" 1428592143 12545 521d0cda33d0efc433e341f2a991368d ""
+  "example_paper.aux" 1448201615 12545 521d0cda33d0efc433e341f2a991368d ""
   "example_paper.bcf" 0 -1 0 ""
   "refs.bib" 1427194872 12056 c1f2933cc438b81186b7be4683da57d2 ""
   (generated)
   "example_paper.bbl"
   "example_paper.blg"
-["pdflatex"] 1428592143 "example_paper.tex" "example_paper.pdf" "example_paper" 1428592143
+["pdflatex"] 1448201615 "example_paper.tex" "example_paper.pdf" "example_paper" 1448201616
   "/etc/texmf/tex/latex/config/graphics.cfg" 1255993321 3328 2584cfe577535f0a08f3a9717b5152ab ""
   "/etc/texmf/web2c/texmf.cnf" 1424560899 925 734c7fc4e97fba6461138c9b483a5050 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -145,13 +145,13 @@
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1424597808 855950 9f1bfe9402f07c10744d4b8cef1607a8 ""
   "algorithm.sty" 1427194872 2302 d2b29bd8abe4b311c2e3cf0641b4549b ""
   "algorithmic.sty" 1427194872 7615 a7a253154ed6d7d83141571d55bc3515 ""
-  "example_paper.aux" 1428592143 12545 521d0cda33d0efc433e341f2a991368d ""
-  "example_paper.bbl" 1428592143 9048 6575ee0f892a073de261bb5057a7512e "bibtex example_paper"
-  "example_paper.out" 1428592143 1339 efa3a3327768f8362e067e7ba6fedc74 ""
-  "example_paper.tex" 1428592137 62041 12abd4abe0f9e4148b8ba7657491d798 ""
+  "example_paper.aux" 1448201615 12545 521d0cda33d0efc433e341f2a991368d ""
+  "example_paper.bbl" 1448201389 9048 6575ee0f892a073de261bb5057a7512e "bibtex example_paper"
+  "example_paper.out" 1448201615 1339 efa3a3327768f8362e067e7ba6fedc74 ""
+  "example_paper.tex" 1448201615 62074 aadc55ae758fb521c95ec2dbf82d5ccc ""
   "natbib.sty" 1427194872 45154 40088ce024445d7ee2bca59e704cdd01 ""
   (generated)
-  "example_paper.out"
-  "example_paper.aux"
   "example_paper.pdf"
+  "example_paper.aux"
+  "example_paper.out"
   "example_paper.log"

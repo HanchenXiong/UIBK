@@ -181,7 +181,7 @@
 %	defined as \examname above so you cite it as \examname
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Inference, Learning and Optimization on Structure Domains: Methods and Applications} % Your thesis title - this is used in the title and abstract
+\thesistitle{Inference, Learning and Optimization on Structured Domains: Methods and Applications} % Your thesis title - this is used in the title and abstract
 %-------------------------------------------------  
 \supervisor{Prof. Justus \textsc{Piater}} % You supervisor's name - this is used in the title page
 %-------------------------------------------------   
@@ -301,8 +301,8 @@
     \bigskip
     {\normalsize \facname \par} % Faculty name
     {\normalsize \deptname \par} % Department name
-    \bigskip
-    {\normalsize \degreename\par} % Degree name
+   % \bigskip
+   % {\normalsize \degreename\par} % Degree name
     \bigskip
     {\normalsize\bf \@title \par} % Thesis title
     \medskip

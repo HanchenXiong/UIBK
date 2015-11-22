@@ -1,8 +1,8 @@
 % Chapter Template
 
-\chapter{Graph-Based Structural Output Learning} % Main chapter title
+\chapter{Graph-Based Structured Output Learning} % Main chapter title
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
-\lhead{Chapter 3. \emph{Graph-Based Structural Output Learning}} % Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
+\lhead{Chapter 3. \emph{Graph-Based Structured Output Learning}} % Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
 
 
 
@@ -14,49 +14,49 @@ Confucius
 \end{flushright}
 \rule{\textwidth}{0.4pt} 
 
-In chapter \ref{Chapter2}, modeling and inference of graphical models (mostly undirected ones) were explained. Meanwhile, until now, it is assumed that   
-the parameters of potential functions are provided by an expert of a specific task. However, this is usually not the case in practice.      
+In Chapter \ref{Chapter2}, modeling and inference of graphical models (mostly undirected ones) were explained. Meanwhile, until now, it is assumed that   
+the parameters of potential functions are provided by an expert for a specific task. However, this is usually not the case in practice.      
 Even though some empirical knowledge is available for specifying the parameters, it tends to be unreliable. 
 A wiser strategy is to learn the parameters from some training data.      
 
-This chapter focuses the learning of undirected graphical models, based on which structural data can subsequently be inferred.      
-At first, in section \ref{sec:crf}, a special case of Markov network, \emph{conditional random field} (CRF), is introduced for the discriminative learning      
-of structural-output. Its training issues and relation to \emph{max-margin Markov network} (M$^3$N) are studied as well.   
+This chapter focuses on the learning of undirected graphical models, based on which structured data can subsequently be inferred.      
+First, in section \ref{sec:crf}, a special case of Markov networks, \emph{conditional random fields} (CRFs), is introduced for the discriminative learning      
+of structured output. In addition, some training issues of CRFs and their relation to \emph{max-margin Markov networks} (M$^3$Ns) are studied as well.   
 Second, in section \ref{sec:PSMC},  a new algorithm, \emph{persistent sequential Monte Carlo} (PSMC), 
 is developed for learning general undirected graphical models.   
 
-Another aspect in training graphical models is the learning of graph structures, which, however, is not covered in this thesis.    
+Another aspect in training graphical models is the learning of graph structures, which, however, is not covered in this dissertation.    
 
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
-\section{Conditional Random Field}
+\section{Conditional Random Fields}
 \label{sec:crf}
-In general supervised learning paradigm, there exist input and output: $\{\mathbf{x},\mathbf{y}\}$. The target is to learn a function       
+In the general supervised learning paradigm, there exist an input and an output: $\{\mathbf{x},\mathbf{y}\}$. The target is to learn a function       
 $f:f(\mathbf{x})\rightarrow \mathbf{y}$ from a training dataset such that the estimated error of $\{f(\mathbf{x}),\mathbf{y}\}$ can be minimized.     
-In classic machine learning, output is only a binary value or a single scalar, which corresponds to binary classification and regression respectively.      
-However, with the increasingly higher data complexity in many areas, learning structural output are now more of interest.        
+In classic machine learning, the output is only a binary value or a single scalar, which corresponds to binary classification and regression respectively.      
+However, with the increasingly higher data complexity in many areas, learning structured output is now more of interest.        
 
 Markov networks, or Markov random fields (MRFs) can be used as a generative learning scheme for the learning task.    
-A MRF is supposed to 
+For instance, a MRF can be used to 
 reconstruct the generative process by defining a joint probability of $\{\mathbf{x,y}\}: p(\mathbf{x,y})=p(\mathbf{x})p(\mathbf{y}|\mathbf{x})$. 
 As for the prediction task, the conditional probability 
 $p(\mathbf{y|x})=\frac{p(\mathbf{x,y})}{\sum_\mathbf{y} p(\mathbf{x,y})}$ can be derived, or more straightforwardly, 
-$\mathbf{y}^*=\arg\max_{\mathbf{y}}p(\mathbf{y|x})=\arg\max_{\mathbf{y}}p(\mathbf{x,y})$ (\emph{e.g.} by using max-product algorithm). 
+$\mathbf{y}^*=\arg\max_{\mathbf{y}}p(\mathbf{y|x})=\arg\max_{\mathbf{y}}p(\mathbf{x,y})$. 
 However, it was realised that for learning $f:\mathbf{x}\to\mathbf{y}$, the only desired
-component is $p(\mathbf{y|x})$. It is wast to expend effort in modeling $p(\mathbf{x})$, which is not relevant anyway. Consequently, \emph{conditional random field} (CRF) was proposed \citep{CRF} as 
+component is $p(\mathbf{y|x})$. It is wasteful to expend effort in modeling $p(\mathbf{x})$, which is not relevant anyway. Consequently, \emph{conditional random fields} (CRFs) were proposed \citep{CRF} as 
 a discriminative model by learning only the conditional probability $p(\mathbf{y|x})$. One significant strength of CRFs in practice is that it can include arbitrarily complex features (\emph{e.g.} higher order dependencies) 
-of $\mathbf{x}$, which is intractable in MRFs. According to empirical study in \citep{Kumar03,CRF}, CRFs outperform MRFs in many practical applications. 
+of $\mathbf{x}$, which is intractable in MRFs. According to empirical study in \cite{Kumar03,CRF}, CRFs outperform MRFs in many practical applications. 
 
-At first, the definition of conditional random fields (CRFs) is given as \citep{CRF}: 
+First, the definition of conditional random fields (CRFs) is given as \citep{CRF}: 
 \begin{definition}
     Let $G=(V,E)$ be a graph ($V$ are vertices and $E$ are edges) such that $\mathbf{y}=\{y_v\}_{v\in V}$, so that $y$ is indexed by the vertices of $G$. Then $(\mathbf{x,y})$ is a 
         conditional random field in case, when conditioned on $\mathbf{x}$, the random variables $\{y_v\}_{v\in V}$ obey the Markov property with respect to 
     the graph $G$.   
 \label{def:CRF}
 \end{definition}
-Assume that the joint conditional probability $p(\mathbf{y|x})$ is defined in an exponential form: 
+Without losing generality, the conditional probability $p(\mathbf{y|x})$ is defined in an exponential form: 
 \begin{equation}
     p(\mathbf{y|x})=\frac{\exp(\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x,y}))}{\mathbf{Z(w)}}
 \end{equation}
@@ -65,7 +65,7 @@ $\boldsymbol{\phi}(\mathbf{x,y})=[\phi_1(\mathbf{x,y}),\cdots \phi_K(\mathbf{x,y
 $\mathbf{Z(w)}$ is the partition function for normalization $\mathbf{Z(w)}=\sum_{\mathbf{y}\in\mathcal{Y}} \exp(\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x,y}))$. 
 
 As a probabilistic model, one CRF is usually 
-learned via \emph{maximum likelihood estimation} (MLE) or \emph{maximum a posterior} (MAP) \citep{Kumar03,CRF,Accelerated_CRF}. 
+learned via \emph{maximum likelihood estimation} (MLE) or \emph{maximum a posteriori} (MAP) \citep{Kumar03,CRF,Accelerated_CRF}. 
 Meanwhile, inspired by the margin notion which has been exploited in successful binary classifiers, \emph{e.g.} \emph{Support Vector Machine} (SVM),  
 an alternative discriminative training scheme of CRFs is maximizing the margin between 
 the $p(\mathbf{y|x})$ of the desired $\mathbf{y^*}$ and the best runner-up $\mathbf{y}^{**}$  in their $\log$ domains. The CRFs trained with this 
@@ -73,13 +73,13 @@ margin
 are referred to as 
 \emph{Max-Margin Markov Networks} (M$^3$Ns) \citep{Taskar03}. 
 On the one hand, similarly to regular SVM, \emph{kernel tricks} can be used in the dual form of M$^3$N, in which way, the original inputs and/or outputs are implicitly mapped into a higher 
-dimensional \emph{reproducing kernel Hilbert space} (RKHS) (\emph{e.g.} polynomial kernels used in \citep{Taskar03}).     
+dimensional \emph{reproducing kernel Hilbert space} (RKHS) (\emph{e.g.} polynomial kernels used in \cite{Taskar03}).     
 On the other hand, different from regular SVM, the \emph{quadratic programming} 
-(QP) problem associated with M$^3$Ns (in both primal and dual form) has exponential number of constraints. 
+(QP) problem associated with M$^3$Ns (in both primal and dual form) has an exponential number of constraints. 
 Although it can be simplified by exploiting interesting properties within forest-structured outputs \citep{Taskar03},  
 for highly connected graphs, the learning is intractable.      
 Obviously, although CRF and  M$^3$Ns offer almost equivalent modeling capabilities for a given machine learning task, two rather different loss functions are 
-employed in them. However, it will be revealed in next two subsections that MAP and max-margin learning schemes are, to large extent, related. 
+employed in them. However, it will be revealed in next two subsections that MAP and max-margin learning schemes are, to a large extent, related. 
 %-----------------------------------
 %	SUBSECTION 1
 %-----------------------------------
@@ -88,17 +88,17 @@ employed in them. However, it will be revealed in next two subsections that MAP 
 Given a training dataset $\mathcal{D}=\{\mathbf{x}^{(i)},\mathbf{y}^{(i)}\}_{i=1}^M$, a CRF can be learned via maximum likelihood estimation (MLE):
 \begin{equation}
     \begin{array}{rl}
-        \mathbf{w}^* =& \arg\max_{\mathbf{w}} \frac{1}{M}\sum_{i=1}^M \log p(\mathbf{y}^{(i)}|\mathbf{x}^{(i)}) \\
-                     =& \arg\max_{\mathbf{w}} \frac{1}{M}\sum_{i=1}^M \{\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)}) -\log \sum_{\mathbf{y}\in\mathcal{Y}} \exp(\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}))\}
+        \mathbf{w}^* =& \displaystyle\arg\max_{\mathbf{w}} \frac{1}{M}\sum_{i=1}^M \log p(\mathbf{y}^{(i)}|\mathbf{x}^{(i)}) \\
+                     =& \displaystyle\arg\max_{\mathbf{w}} \frac{1}{M}\sum_{i=1}^M \{\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)}) -\log \sum_{\mathbf{y}\in\mathcal{Y}} \exp(\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}))\}
     \end{array}
     \label{equ:MLE}
 \end{equation}
 Meanwhile, usually, in order to enhance the generalization properties, a prior on $p(\mathbf{w})\propto \exp(-\frac{\mathbf{w}^2}{\sigma^2})$ is added in (\ref{equ:MLE}) to penalize the complexity of $\mathbf{w}$, which 
-results in the maximum a posterior (MAP) solution:
+results in the maximum a posteriori (MAP) solution:
 \begin{equation}
     \begin{array}{rl}
-        \mathbf{w}^* =& \arg\max_{\mathbf{w}}  -\frac{\mathbf{w}^2}{\sigma^2} +\frac{1}{M}\sum_{i=1}^M \{\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)}) -\log \sum_{\mathbf{y}\in\mathcal{Y}} \exp(\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}))\}  \\ 
-                     =& \arg\min_{\mathbf{w}} \frac{1}{2} ||\mathbf{w}||^2+  \frac{C}{M}\sum_{i=1}^M \mathcal{L}^{MAP}_i 
+        \mathbf{w}^* =& \displaystyle\arg\max_{\mathbf{w}}  -\frac{\mathbf{w}^2}{\sigma^2} +\frac{1}{M}\sum_{i=1}^M \{\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)}) -\log \sum_{\mathbf{y}\in\mathcal{Y}} \exp(\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}))\}  \\ 
+                     =& \displaystyle\arg\min_{\mathbf{w}} \frac{1}{2} ||\mathbf{w}||^2+  \frac{C}{M}\sum_{i=1}^M \mathcal{L}^{MAP}_i 
     \end{array}
     \label{equ:MAP}
 \end{equation}
@@ -110,7 +110,7 @@ where $\mathcal{L}_i^{MAP}$ is the negative log-likelihood of the $i$th training
 and $C=\frac{\sigma^2}{2}$ is a trade-off parameter to balance the regularization term $\frac{1}{2} ||\mathbf{w}||^2$ and average loss $\frac{1}{M}\sum_{i=1}^M \mathcal{L}^{MAP}_i$. A good property 
 of (\ref{equ:MAP}) is that it is convex with respect to $\mathbf{w}$. 
 \begin{proposition}
-    The objective function of maximum a posterior in learning CRFs is convex.
+    The objective function of MAP in learning CRFs is convex.
 \label{pro:MAP_convex}
 \end{proposition}
 
@@ -125,7 +125,7 @@ of (\ref{equ:MAP}) is that it is convex with respect to $\mathbf{w}$.
     $-\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})$ is linear (thus also convex), and $\frac{1}{2} ||\mathbf{w}||^2$ is convex. Therefore, 
     (\ref{equ:MAP}) (the sum of convex components) is convex.  
 \end{proof}
-Because of the convexity of the objective function, any local minimum is also global minimum, and gradient descent can be employed to find the unique solution 
+Because of the convexity of the objective function, any local minimum is also a global minimum, and gradient descent can be employed to find the unique solution 
 $\mathbf{w}^*$ with the negative gradient computed as: 
 \begin{equation}
     \Delta \mathbf{w}_t=\frac{C}{M}\sum_{i=1}^M(\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})-\mathbb{E}_{p(\mathbf{y}|\mathbf{x}^{(i)};\mathbf{w}_t)} \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}))-\mathbf{w}_t 
@@ -133,30 +133,30 @@ $\mathbf{w}^*$ with the negative gradient computed as:
 \end{equation}
 where $\mathbb{E}_{p(\boldsymbol{\rho})}f(\boldsymbol{\rho})$ is the expectation of $f(\boldsymbol{\rho})$ under the probability $p(\boldsymbol{\rho})$.
 The difficulty of computing (\ref{equ:gradient_MAP}) is the expectation term because its complexity grows exponentially. For example, in multi-label 
-learning case introduced in section \ref{sec:crf}, $|\mathcal{Y}|=2^L$. 
+learning introduced in section \ref{sec:crf}, $|\mathcal{Y}|=2^L$. 
 Therefore, when $|\mathcal{Y}|$ is relatively large in practice, enumerating all possible $\mathbf{y}$ is impossible. 
-In addition, as studied in section \ref{sec:inference}, exact inference within loopy graphs is intractable, therefore some approximations were used for learning: 
+In addition, as studied in section \ref{sec:inference}, exact inference within loopy graphs is intractable; therefore some approximations were used for learning: 
 \emph{e.g.} \emph{mean field} (MF), \emph{loopy belief propagation} (LBP) or \emph{pseudo likelihood} (PL) \citep{LBP, Kumar03,CRF,Accelerated_CRF}.  
 
 
 
-\subsection{Max-Margin Markov Network}
+\subsection{Max-Margin Markov Networks}
 \label{subsec:MMMN}
-The max-margin principle used in binary classifier, \emph{e.g.} Support Vector Machine (SVM), has been proven theoretically and empirically \citep{Vapnik} superior to others.        
-The margin notion was generalized to learn structured outputs in \citep{Taskar03} and structural SVM \citep{StructSVM}. More concretely, they proposed to learn CRFs by maximizing the margin 
+The max-margin principle used in binary classifiers, \emph{e.g.} Support Vector Machine (SVM), has been proven theoretically and empirically \citep{Vapnik} superior to others.        
+The margin notion was generalized to learn structured outputs in \cite{Taskar03} and structural SVM \citep{StructSVM}. More concretely, they proposed to learn CRFs by maximizing the margin 
 between the $p(\mathbf{y|x})$ of the desired $\mathbf{y^*}$ and the best runner-up $\mathbf{y}^{**}$ in log domain. The CRFs trained with maximum margin are referred to as 
 max-margin Markov networks (M$^3$Ns) \citep{Taskar03}.  The objective function of a M$^3$N can be written out as: 
 \begin{equation}
     \begin{array}{rl}
         & \arg\min_{\mathbf{w},\xi_{i:i\in[1,M]}}  \frac{1}{2} ||\mathbf{w}||^2 +\frac{C}{M} \sum_{i=1}^M \xi_i \\
-   s.t. &\forall i, \forall y\in\mathcal{Y}/\mathbf{y}^{(i)}: \xi_i\geq0, \mathbf{w}^\top (\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})-\boldsymbol{\phi} 
+		s.t. &\forall i, \forall \mathbf{y}\in\mathcal{Y}/\mathbf{y}^{(i)}: \xi_i\geq0, \mathbf{w}^\top (\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})-\boldsymbol{\phi} 
         (\mathbf{x}^{(i)},\mathbf{y}))\geq 1-\frac{\xi_i}{d(\mathbf{y}^{(i)},\mathbf{y})}
     \end{array}
     \label{equ:MMMN}
 \end{equation}
 where $\xi_i$ are slack variables for the relaxation of 
-max-margin, and $d(\mathbf{y}^{(i)},\mathbf{y})\geq0$ is a measure of dissimilarity between $\mathbf{y}^{(i)}$ and $\mathbf{y}$ 
-(\emph{e.g.} hamming distance used in the multilable learning case). The term $\frac{\xi_i}{d(\mathbf{y}^{(i)},\mathbf{y})}$ is to rescale 
+maximum margin, and $d(\mathbf{y}^{(i)},\mathbf{y})\geq0$ is a measure of dissimilarity between $\mathbf{y}^{(i)}$ and $\mathbf{y}$ 
+(\emph{e.g.} hamming distance used in multi-label learning). The term $\frac{\xi_i}{d(\mathbf{y}^{(i)},\mathbf{y})}$ is to rescale 
 slack variables by the dissimilarities between corresponding $\mathbf{y}^{(i)}$ and others. 
 Obviously, (\ref{equ:MMMN}) is a quadratic programming (QP)  problem with exponential number of 
 constraints. Similarly to SVM, (\ref{equ:MMMN}) can be converted to its dual form, of which some interesting properties can be exploited 
@@ -167,13 +167,13 @@ $\boldsymbol{\phi}(\mathbf{x},\mathbf{y})$ to
 a higher dimensional Hilbert feature space. Defining $\boldsymbol{\phi}(\mathbf{x},\mathbf{y})$  with kernel methods was more exploited in Structural SVM \citep{StructSVM} (see subsection \ref{subsec:SSVM}). 
 Usually quadratic or cubic kernels are used and yield promising results \citep{Taskar03}. 
 Correspondingly, 
-explicitly feature map of $\boldsymbol{\phi}(\mathbf{x},\mathbf{y})$  can be constructed via two-degree and three-degree polynomials in the primal form of M$^3$Ns.  
+explicit feature map of $\boldsymbol{\phi}(\mathbf{x},\mathbf{y})$  can be constructed via degree-2 and degree-3 polynomials in the primal form of M$^3$Ns.  
 
 The second constraint in (\ref{equ:MMMN}) can be written in a more compact form: 
 $\max_{\mathbf{y}\in\mathcal{Y}} \{d(\mathbf{y}^{(i)},\mathbf{y})-{\mathbf{w}^\top} (\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})-\boldsymbol{\phi} 
         (\mathbf{x}^{(i)},\mathbf{y})) d(\mathbf{y}^{(i)},\mathbf{y}\}\leq \xi_i$. 
 In addition, $\mathbf{w}$ can be rescaled $\mathbf{w}\gets \mathbf{w}d(\mathbf{y}^{(i)},\mathbf{y})$. 
-Then, instead of rescaling slack variables, one can rescale margin to be the same level as 
+Then, instead of rescaling slack variables, one can rescale the margin to be the same level as 
 $d(\mathbf{y}^{(i)},\mathbf{y})$.  
 Therefore, (\ref{equ:MMMN}) can be reformulated in a similar form as (\ref{equ:MAP}):
 \begin{equation}
@@ -196,8 +196,8 @@ Based on the introduction of CRFs and M$^3$N above, a unified objective function
 \end{equation} 
 where $\mathcal{L}_i$ denote loss functions, which correspond to $\mathcal{L}^{MAP}_i$  employed in MAP and $\mathcal{L}^{Margin}_i$ used 
 in M$^3$N respectively.      
-Although, at a fist glance, two loss functions look rather different, they are de facto closely related. This section will provide deep insights  
-into the behaviours of two loss functions.  
+Although, at a fist glance, the two loss functions look rather different, they are de facto closely related. This section will provide deep insights  
+into the behaviours of these two loss functions.  
 %within which the connections and differences between them can be more clearly exposed. 
 At first, the feature vector in CRFs can be augmented by adding an extra component $d(\mathbf{y}^{(i)},\mathbf{y})$:  
 $\bar{\boldsymbol{\phi}}(\mathbf{x}^{(i)},\mathbf{y})^\top=[\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y})^\top,d(\mathbf{y}^{(i)},\mathbf{y})]$, 
@@ -214,7 +214,8 @@ Since $d(\mathbf{y}^{(i)},\mathbf{y}^{(i)})=0$, the resulting $\bar{\mathcal{L}}
     \label{equ:new_MAP_loss}
 \end{equation}
 $\bar{\mathcal{L}}^{MAP}_i$ was also named as ``softmax-margin" by \cite{SoftMax}. It can be easily proved that $\bar{\mathcal{L}}^{MAP}_i$ is convex by following a similar proof in {Proposition \ref{pro:MAP_convex}}
-(note that $d(\mathbf{y}^{(i)},\mathbf{y})$ is independent of $\mathbf{w}$). It can be seen in (\ref{equ:MMMN_loss}) and (\ref{equ:new_MAP_loss}) that two loss functions share a similar form. The only 
+(note that $d(\mathbf{y}^{(i)},\mathbf{y})$ is independent of $\mathbf{w}$). It can be seen in (\ref{equ:MMMN_loss}) and (\ref{equ:new_MAP_loss}) that the two loss 
+functions share a similar form. The only 
 difference between them is that the \emph{max} function is used in (\ref{equ:MMMN_loss}) while the \emph{log-sum-exp} function is used (\ref{equ:new_MAP_loss}) (the first term). 
 
 Here, \textbf{the first connection} between $\mathcal{L}^{Margin}_i$ and $\bar{\mathcal{L}}^{MAP}_i$ is claimed:   
@@ -223,7 +224,7 @@ Here, \textbf{the first connection} between $\mathcal{L}^{Margin}_i$ and $\bar{\
     \label{equ:bound}
 \end{equation}
 \emph{i.e.} $\mathcal{L}^{Margin}_i$  
-is a lower bound of $\mathcal{L}^{MAP}_i$ and specifies a upper bound of $\mathcal{L}^{MAP}_i$ by $\mathcal{L}^{Margin}_i+\log |\mathcal{Y}|$. For notation simplicity, $\pi_n$ is used to represent  
+is a lower bound of $\mathcal{L}^{MAP}_i$ and specifies a upper bound of $\mathcal{L}^{MAP}_i$ by $\mathcal{L}^{Margin}_i+\log |\mathcal{Y}|$. For notational simplicity, $\pi_n$ is used to represent  
 $\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_n)+d(\mathbf{y}^{(i)},\mathbf{y}_n)$, $\forall \mathbf{y}_n\in\mathcal{Y}$, and $|\mathcal{Y}|=N$. 
 \begin{proposition}
     Given a set $\{\pi_n\in\mathbb{R}\}_{n=1}^N, \max\{\pi_n\}_{n=1}^N \leq \log\sum_{n=1}^N e^{\pi_n}\leq \max\{\pi_n\}_{n=1}^N+\log N$. 
@@ -232,13 +233,13 @@ $\mathbf{w}^\top \boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_n)+d(\mathbf{y}^{
 
 \begin{proof}
     Since $\max\{e^{\pi_n}\}_{n=1}^N \leq \sum_{n=1}^N e^{\pi_n}\leq  N \max\{e^{\pi_n}\}_{n=1}^N$, 
-    by taking the logarithm of above inequalities, it is obvious that    
+    by taking the logarithm of the above inequalities, it is obvious that    
     $\max\{\pi_n\}_{n=1}^N \leq \log\sum_{n=1}^N e^{\pi_n}\leq \max\{\pi_n\}_{n=1}^N\\+\log N$. 
     \label{proof:bound}
 \end{proof}
 
 \textbf{The second connection} between $\mathcal{L}^{Margin}_i$ and $\bar{\mathcal{L}}^{MAP}_i$ is:  
-given two solutions of $\mathcal{L}_i^{Margin}$, $\mathbf{w}_1$  and $\mathbf{w}_2$.   
+given two solutions, $\mathbf{w}_1$  and $\mathbf{w}_2$ of $\mathcal{L}_i^{Margin}$,  
 \begin{equation}
     \begin{array}{rcl}
         \text{when} & &\max_{\mathbf{y}\in\mathcal{Y}}\bar{p}(\mathbf{y}|\mathbf{x}^{(i)};\mathbf{w}_1)> \max_{\mathbf{y}\in\mathcal{Y}}\bar{p}(\mathbf{y}|\mathbf{x}^{(i)};\mathbf{w}_2),\\ 
@@ -280,7 +281,7 @@ the outputs with the largest confidence score.
     \label{proof:bound}
 \end{proof}
 
-At last, \textbf{the forth connection} between $\mathcal{L}^{Margin}_i$ and $\bar{\mathcal{L}}^{MAP}_i$ is: 
+Finally, \textbf{the forth connection} between $\mathcal{L}^{Margin}_i$ and $\bar{\mathcal{L}}^{MAP}_i$ is: 
 \begin{equation}
     \text{when} \forall \mathbf{y}_n,\mathbf{y}_q\in\mathcal{Y}, \bar{p}(\mathbf{y}_n|\mathbf{x}^{(i)})= \bar{p}(\mathbf{y}_q|\mathbf{x}^{(i)}), \quad \bar{\mathcal{L}}_i^{MAP}=\mathcal{L}^{Margin}_i+\log|\mathcal{Y}|  
     \label{equ:upper_bound}
@@ -296,12 +297,12 @@ At last, \textbf{the forth connection} between $\mathcal{L}^{Margin}_i$ and $\ba
     \label{proof:up_bound}
 \end{proof}
  
-Combining four connections between $\bar{\mathcal{L}}^{MAP}_i$ and $\mathcal{L}^{Margin}_i$, it can be somehow concluded that the gap between $\bar{\mathcal{L}}^{MAP}_i$ and $\mathcal{L}^{Margin}_i$ ($\bar{\mathcal{L}}^{MAP}_i-\mathcal{L}^{Margin}_i$) is correlated 
+Combining four connections between $\bar{\mathcal{L}}^{MAP}_i$ and $\mathcal{L}^{Margin}_i$, it can be concluded that the gap between $\bar{\mathcal{L}}^{MAP}_i$ and $\mathcal{L}^{Margin}_i$ ($\bar{\mathcal{L}}^{MAP}_i-\mathcal{L}^{Margin}_i$) is correlated 
 with the entropy (or smoothness) of the 
 conditional distributions exhibited in CRFs. The minimum gap is 0 when CRFs are collections of Dirac impulses, while the maximum gap is $\log|\mathcal{Y}|$ when conditional distributions 
 are uniform.  
 \cite{MaxEnt} and \cite{Norm_Partition} discovered roughly similar connections by increasing the sharpness of CRFs' output distributions with a tunable inverse temperature parameter, and a norm-defining 
-parameter respectively. Four connections can be summarized by listing three extreme circumstances as follows: \\ \\
+parameter respectively. The four connections can be summarized by listing three extreme circumstances as follows: \\ \\
 \begin{tabular}{m{15cm}}
       \Xhline{3\arrayrulewidth} \\ 
       when $\bar p(\mathbf{y}^{(i)}|\mathbf{x}^{(i)})\to 1$: $\mathbf{w}^\top \boldsymbol\phi(\mathbf{x}^{(i)},\mathbf{y}^{(i)})\gg \mathbf{w}^\top \boldsymbol\phi(\mathbf{x}^{(i)},\mathbf{y}^\prime)
@@ -319,7 +320,7 @@ when $\forall \mathbf{y}_n, \mathbf{y}_q\in\mathcal{Y}, \bar p(\mathbf{y}_n|\mat
 \newline 
 \newline 
 These three cases do not look so interesting because they are unrealistic in practice.
-However, these analysis will be of help for understanding the regularization in the next section.   
+However, this analysis will be of help for understanding the regularization in the next section.   
 
 
 \subsection{Regularization as Maximum Entropy}
@@ -327,7 +328,7 @@ This subsection will study the effect of l2-norm
 regularization in MAP and max-margin learning respectively, and provide an alternative interpretation of its role: \emph{maximum entropy}.
 
 \subsubsection{Maximum Entropy while Maximizing Margin}
-At first, conditional distributions $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ learned 
+First, conditional distributions $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ learned 
 with $\mathcal{L}_i^{Margin}$ are considered. As discussed in the previous section, when $\mathcal{L}_i^{Margin}$ is minimized to 0,       
 $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ can still exhibit different shapes, which correspondingly will lead to different landscapes of 
 $\mathbf{w}^\top\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y})$. For example, in Figure \ref{fig:M3N_outputs_both} two different $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ and 
@@ -346,10 +347,9 @@ any extra information, \emph{i.e.} uniform $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$
 \ref{fig:M3N_outputs_smooth}, when $\bar p(\mathbf{y}|\mathbf{x}^{(i)})$ is uniform, the set 
 $\{\mathbf{w}^{\top}(\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})-\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^\prime)),\mathbf{y}^\prime\in \mathcal{Y}/\mathbf{y}^{(i)}\}$ is well 
 aligned with the set  $\{d(\mathbf{y}^{(i)},\mathbf{y}^\prime)\}$. For all 
-$i\in[1,M]$, when $\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_n)-\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_q)$ is projected on to $\mathbf{w}$, it equals 
+$i\in[1,M]$, when $\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_n)-\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}_q)$ is projected onto $\mathbf{w}$, it equals 
 to $d(\mathbf{y}_n,\mathbf{y}_q)$. Therefore, when $|\mathcal{D}|$ is relatively large, it can be intuitively envisioned that the gap between two points in $p(\mathbf{\mathbf{y}|\mathbf{x}})$ is 
-consistent for all $\mathbf{x}\in\mathcal{X}$, which is better than a collection of distorted conditional distributions ($\{p(\mathbf{y}|\mathbf{x}^{(i)})\}_{i=1}^M$. This property is somehow 
-in line with the findings in \cite{input-output_alignment}, where maximum alignment between inputs and outputs is pursued.      
+consistent for all $\mathbf{x}\in\mathcal{X}$, which is better than a collection of distorted conditional distributions ($\{p(\mathbf{y}|\mathbf{x}^{(i)})\}_{i=1}^M)$. This property is in line with the findings in \cite{input-output_alignment}, where maximum alignment between inputs and outputs is pursued.      
 \end{enumerate}
 In M$^3$Ns, l2-norm regularization is usually considered as a penalty on the complexity of $\mathbf{w}$. Meanwhile, when $\mathcal{L}_0^{Margin}=0$,  
 $\mathbf{w}^{\top}(\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^{(i)})-\boldsymbol{\phi}(\mathbf{x}^{(i)},\mathbf{y}^\prime))$ will be closer to $d(\mathbf{y}^{(i)},\mathbf{y}^\prime)$ 
@@ -365,8 +365,8 @@ if $||\mathbf{w}||$ gets smaller. Therefore, the role of l2-norm regularization 
 
 
 \subsubsection{Maximum Entropy within MAP Learning}
-For simplicity, at first it is assumed that there exists only one training instance $\{\zeta,t\}$ in $\mathcal{D}$.  
-Since $\bar{\mathcal{L}}^{MAP}_\zeta$ is convex, the gradient of minimum point $\mathbf{w}^*$ is 0: 
+For simplicity, it is assumed that there exists only one training instance $\{\zeta,t\}$ in $\mathcal{D}$.  
+Since $\bar{\mathcal{L}}^{MAP}_\zeta$ is convex, the gradient at the minimum point $\mathbf{w}^*$ is 0: 
 \begin{equation}
     \left.\frac{d \bar{\mathcal{L}}^{MAP}_\zeta}{d \mathbf{w}}\right|_{\mathbf{w}^*}=\boldsymbol{\phi}(\zeta, t)-\mathbb{E}_{\bar p(\mathbf{y}|\zeta;\mathbf{w}^*)} \left(\boldsymbol{\phi}(\zeta,\mathbf{y})+d(t,\mathbf{y})\right)=0
     \label{equ:equality_1}
@@ -388,16 +388,16 @@ or equivalently:
     \end{array}
     \label{equ:entropy}
 \end{equation}
-where $H(\bar p(\mathbf{y}|\zeta))$ denotes the \emph{Shannon's entropy} of $\bar p(\mathbf{y}|\zeta)$. Note that we also have the constraint for the conditional probabilities:   
+where $H(\bar p(\mathbf{y}|\zeta))$ denotes \emph{Shannon's entropy} of $\bar p(\mathbf{y}|\zeta)$. Note that we also have the constraint for the conditional probabilities:   
 \begin{equation}
     \sum_{\mathbf{y}\in{\mathcal{Y}}} \bar p(\mathbf{y}|\zeta)=1
     \label{equ:sum_to_1}
 \end{equation}
-According to (\ref{equ:entropy}) and (\ref{equ:sum_to_1}), there can be two situations. At first, when $\bar p(t|\zeta)$ is big, then the gap between $\bar p(t|\zeta)$ and all other  
+According to (\ref{equ:entropy}) and (\ref{equ:sum_to_1}), there can be two situations. First, when $\bar p(t|\zeta)$ is big, then the gap between $\bar p(t|\zeta)$ and all other  
 $\bar p(\mathbf{y}:\mathbf{y}\in\mathcal{Y}/t|\zeta)$ should be large and different to decrease the entropy (Figure \ref{fig:small_entropy}). Secondly, when $\bar p(t|\zeta)$ is small,       
 then to ensure large entropy, all other $\bar p(\mathbf{y}:\mathbf{y}\in\mathcal{Y}/t|\zeta)$ will be similar to each other and close to $\bar p(t|\zeta)$ to increase the 
 entropy (Figure \ref{fig:large_entropy}).  
-When there are more training instances in $\mathcal{D}$ are considered, the situations are analogous, although mathematics will be more complicated.    
+When more training instances in $\mathcal{D}$ are considered, the situations are analogous, although the mathematics will be more complicated.    
 Since $\log \bar p(\mathbf{y}^{(i)}|\mathbf{x}^{(i)})$  
 is anti-correlated with $H(\bar p(\mathbf{y}|\mathbf{x}^{(i)}))$.  One simple extra regularization term can be added to bias the MAP solution towards max-entropy:    
 \begin{equation}
@@ -429,8 +429,8 @@ As analyzed in subsection \ref{subsec:MLE}, computing the exact likelihoods of C
 Therefore, different approximations are used, \emph{e.g.} \emph{mean field} (MF), \emph{loopy 
 belief propagation} (LBP) or \emph{pseudo likelihood} (PL) \citep{LBP, Kumar03,CRF,Accelerated_CRF}.  
 In this section, general undirected graphicalmodels (UGMs) are considered, which include 
-both Markov random fields (MRFs) and conditional random fields (CRFs). 
-Without loss of generality, a UGM can be modeled as: 
+MRFs and CRFs. 
+Without loss of generality, an UGM can be modeled as: 
 \begin{eqnarray}
     p(\mathbf{x};\boldsymbol{\theta})&=&\frac{\exp\left(-E(\mathbf{x};\boldsymbol{\theta})\right)}{\mathbf{Z}(\boldsymbol{\theta})}
     \label{equ:MRF}\\
@@ -467,10 +467,11 @@ estimated parameters  $\boldsymbol{\theta}^*=\boldsymbol{\theta}_t$
 
 
 During the past decade, besides the approximation methods mentioned above, several sampling-based approximations were also developed for learning 
-UGMs, \emph{e.g.} persistence contrastive divergence (PCD) \citep{tielemanPcd2008},  tempered transition (TT) \citep{Salakhutdinov_learningin} and parallel tempering (PT) \citep{desjardins2010}. 
+UGMs, \emph{e.g.} \emph{persistent contrastive divergence} (PCD) \citep{tielemanPcd2008},  \emph{tempered transition} (TT) \citep{Salakhutdinov_learningin} and 
+\emph{parallel tempering} (PT) \citep{desjardins2010}. 
 All these learning methods for
 UGMs can be considered as special cases of Robbins-Monro’s stochastic approximation procedure (SAP; \citealt{RobbinMonro,Younes1988}). A pseudo code of SAP for learning UGMs is provided in Algorithm \ref{alg:SAP}  
-with different invariant transitions (\emph{e.g.} PCD is a SAP with Gibbs transitions). By linking SAP
+with invariant transitions (\emph{e.g.} PCD is a SAP with Gibbs transitions). By linking SAP
 and sequential Monte Carlo (SMC), PCD and other state-of-the-art learning algorithms can be cast into a
 SMC-based interpretation framework. Moreover, within the SMC-based interpretation, two key factors
 which affect the performance of learning algorithms are disclosed: \emph{learning rate} and \emph{high model complexity}.
@@ -481,16 +482,15 @@ Inspired by the understanding of learning UGMs from the SMC perspective, and the
 tempering used in parallel tempering and tempered transition, a new learning algorithm, \emph{persistent sequential Monte Carlo} (PSMC) is put forward in this section to approach the
 MLE in learning UGMs. The basic idea is to construct a long, persistent distribution sequence by 
 inserting many tempered intermediary distributions between two successively updated
-distributions. According to empirical results on learning several UGMs, the proposed PSMC out
-performs other learning algorithms in challenging circumstances.
+distributions. According to empirical results on learning several UGMs, the proposed PSMC outperforms other learning algorithms in challenging circumstances.
 
-More technical details and results are presented in the paper II by the author. Furthermore, PSMC is also evaluated and compared against other relvelent learning algorithms 
+More technical details and results are presented in the paper II by the author. Furthermore, PSMC is also evaluated and compared against other relevant learning algorithms 
 on two practical tasks: \emph{image annotation} and \emph{image segmentation} in 
 subsection \ref{subsec:graph_experiment}, where two conditional random fields are constructed and trained.    
 
 
 \begin{shaded}
-{\Huge II.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Towards Maximum Likelihood: Learning Undirected Graphical Models using Persistent Sequential Monte Carlo}, The 6th Asian Conference on Machine Learning (ACML2014), 
+{\Huge II.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater. {\it Towards Maximum Likelihood: Learning Undirected Graphical Models using Persistent Sequential Monte Carlo}, The 6th Asian Conference on Machine Learning (ACML14), pp 205-220, 2014, Journal of Machine Learning Research: Workshop and Conference Proceedings.   
 \end{shaded}
 \includepdf[offset=3cm -2.5cm, scale=1, pages=-,pagecommand={\pagestyle{fancy}}]{./Papers/Xiong-2014-ACML.pdf}
 
@@ -498,7 +498,7 @@ subsection \ref{subsec:graph_experiment}, where two conditional random fields ar
 \label{subsec:graph_experiment}
 In this subsection, some evaluations and comparison of different learning algorithms on two practical tasks, \emph{multi-label learning} and \emph{image 
 segmentation}, are presented. Different from previous experiments in the paper II where generative models were learned, here discriminative models are used, \emph{i.e.}, two 
-conditional random fields were employed. Generally speaking, let $\mathbf{x}$ denotes input and $\mathbf{y}\in \mathcal{Y}$ as output, the target is to 
+conditional random fields were employed. Generally speaking, let $\mathbf{x}$ denote input and $\mathbf{y}\in \mathcal{Y}$ denote output, the target is to 
 learn an UGM:  
 \begin{equation}
 	p(\mathbf{y}|\mathbf{x})=\frac{\exp(\boldsymbol{\theta}^\top \phi(\mathbf{y},\mathbf{x}))}{\mathbf{Z}}
@@ -507,16 +507,16 @@ where the partition function $\mathbf{Z}$ is
 \begin{equation}
 	\mathbf{Z}=\sum_{\mathbf{y}\in\mathcal{Y}}\exp(\boldsymbol{\theta}^\top \phi(\mathbf{y},\mathbf{x}))
 \end{equation}
-where $\phi(\mathbf{y},\mathbf{x})$ is defined based on task-oriented dependency structure. Note that the partition function $\mathbf{Z}$ is computed by 
+where $\phi(\mathbf{y},\mathbf{x})$ is defined based on a task-oriented dependency structure. Note that the partition function $\mathbf{Z}$ is computed by 
 marginalizing out only $\mathbf{y}$ because the interest here is a conditional distribution. Six algorithms 
 were implemented: PCD-$H$, PCD-1, PT, TT, SMC and PSMC. Similar setups were used for all algorithms as in the paper II.  
 Learning rate $\eta_t=\frac{1}{10+0.1*t}$ was used and 100 iterations were run. For each input $\mathbf{x}$, 
 the size of particle set $\{ \hat{\mathbf{y}}^{(s)}\}$ is 200.  Similar to other supervised learning schemes, a regularization $\frac{1}{2}||\boldsymbol{\theta}||^2$ 
-was added and a trade-off parameters was tunned via $k$ folder cross-validation ($k=4$).  
+was added and a trade-off parameters was tuned via $k-$fold cross-validation ($k=4$).  
 
 It is worth mentioning that better results can be expected in both experiments by running more iterations, using better learning rates or exploiting 
-feature engineering. However, the purpose here is to compare different learning algorithms under the some conditional instead of defeat state-of-the-art 
-results in multi-label learning study and image segmentation study respectively. Therefore, less effort was put in tunning algorithms and constructing 
+feature engineering. However, the purpose here is to compare different learning algorithms under the some conditions instead of defeating state-of-the-art 
+results in multi-label learning and image segmentation respectively. Therefore, less effort was put in tuning algorithms and constructing 
 sophisticated features. 
 
 \subsubsection{Multi-Label Learning}
@@ -530,7 +530,7 @@ the constructed conditional random field is:
 where $\mathbf{W}_E\in \mathbb{R}^{L\times L}$ captures pairwise dependencies among $L$ labels (except diagonal entries) while $\mathbf{W}_v\in \mathbb{R}^{L\times d}$ reflects the 
 dependencies between input $\mathbf{x}$ and all individual labels.   
 In the test phase, with learned $\mathbf{W}_E$ and $\mathbf{W}_v$, for a test input $\mathbf{x}^\dagger$, the corresponding $\mathbf{y}^\dagger$ was predicted with 
-100 rounds of gibbs sampling based on (\ref{equ:scene_model}).  
+100 rounds of Gibbs sampling based on (\ref{equ:scene_model}).  
 
 The \emph{scene} database \citep{scene_database} was used in the experiment.  In the database, scene images are associated with a few semantic labels.
 There are 1121 training instances and 1196 test instances.  In total there are 6 labels ($L=6$) and a 294 dimensional feature were extracted from each image         
@@ -544,7 +544,7 @@ The performance of multi-label learning was evaluated using \emph{precision} (P)
 The results of all six algorithms are presented in Table \ref{tab:scene_results}.     
 The average number temperatures in PSMC is around 5, so PCD-5 was implemented. Also 5 temperatures were use in PT and TT.    
 It can be seen that PSMC yields the best F1 measure 75.1, followed by PT and SMC with 74.6 and 73.4 respectively. The results of PCD-5 and TT             
-are relative worse, while PCD-1 is the worst.  
+are relatively poor, while PCD-1 is the worst.  
 
 
 \begin{table}
@@ -576,21 +576,21 @@ be constructed as:
 \end{equation}
 where $y_v\in\{-1,+1\}$, $E$ denotes the set of all edges connecting neighbouring blocks, $W_e\in\mathbb{R}$ encodes the dependency between neighbouring labels, $V$ denotes the set of all 
 block's labels and $\mathbf{w}_v\in \mathbb{R}^{d\times 1}$ encodes the dependency between a block's label and its appearance which is represented by a $d$-dimensional feature $\mathbf{x}_v\in\mathbb{R}^d$.    
-Similar to the multi-label experiment, desired labels are predicted via 100 round gibbs sampling in test phase.      
+Similar to the multi-label experiment, desired labels are predicted via 100 rounds of Gibbs sampling in the test phase.      
 
 The binary segmentation database from \cite{img_seg_database} was used.  Each image is divided into non-overlapping blocks of 
-size $16\times16$ and each block is annotated with either ``man-made structure" (MS) or ``nature structure" (NS). 
+size $16\times16$ and each block is annotated with either ``man-made structure" (MS) or ``natural structure" (NS). 
 Overall, there are 108 training images and 129 test images. The training set contains 3004 MS blocks and 36269 NS blocks, while the test set 
 contains 6372 MS blocks and 43164 NS blocks.
 For each block, its appearance is 
-represented by a 3-dimensional features which includes the mean of gradient magnitude, the 'spikeness' of the count-weighted histogram of gradient orientations, 
+represented by a 3-dimensional feature which includes the mean of gradient magnitude, the 'spikiness' of the histogram of gradient orientations, 
 the angle between the most frequent orientation and the second most frequent orientation. The feature was designed to fit this specific application.        
 More explanation of the database and feature design can be found in \cite{img_seg_database}. 
 
 
 It is found that the average number of temperatures in PSMC is 20, therefore PCD-20 was run and 20 temperatures were used in TT and PT. The segmentation performance of 
 six algorithms are quantified with confusion matrices, which are presented in Figure \ref{fig:img_seg_results}. It can be seen that PSMC outperforms all others (by checking the diagonal 
-entries of confusion matrices).      
+entries of the confusion matrices).      
 For qualitative comparison, an example image and corresponding segmentations are shown in Figure \ref{fig:img_seg_example}.  It can be seen that the segmentation by PSMC is closer to the ground truth 
 compared to others. 
 \begin{figure}[t!] 
@@ -601,7 +601,7 @@ compared to others.
 	\subfigure{\includegraphics[width=0.48\textwidth]{./Figures/CM_PT}\label{fig:CM_PT}}
 	\subfigure{\includegraphics[width=0.48\textwidth]{./Figures/CM_SMC}\label{fig:CM_SMC}}
 	\subfigure{\includegraphics[width=0.48\textwidth]{./Figures/CM_PSMC}\label{fig:CM_PSCM}}
-    \caption{Confusion matrices of binary segmentation by six algorithms.}   
+    \caption{Confusion matrices of binary segmentation by the six algorithms.}   
     \label{fig:img_seg_results}
 \end{figure}
 
@@ -614,8 +614,8 @@ compared to others.
 	\subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_PT}\label{fig:img_seg_PT}}
 	\subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_SMC}\label{fig:img_seg_SMC}}
 	\subfigure[]{\includegraphics[width=0.49\textwidth]{./Figures/img_seg_PSMC}\label{fig:img_seg_PSCM}}
-    \caption{An example image and corresponding segmentations by six algorithms. Regions within white boxes are predicted as ``man-made structure'' while 
-	the remaining are ``nature structure''. }   
+    \caption{An example image and corresponding segmentations by the six algorithms. Regions within white boxes are predicted as ``man-made structure'' while 
+	the remaining are ``natural structure''. }   
     \label{fig:img_seg_example}
 \end{figure}
 

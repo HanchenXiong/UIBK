@@ -13,77 +13,106 @@
 Aristotle
 \end{flushright}
 \rule{\textwidth}{0.4pt} 
+\newline 
+\newline 
+This chapter is dedicated to the optimization on structured data. Basically, two forms of structures are considered. First, in section          
+\ref{sec:optimize_graph}, optimization on graphical models is studied. Second, in section \ref{sec:optimize_matrix}, structures on 
+manifold are considered. More precisely, the optimization on matrix manifolds are studied. 
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
-\section{Optimzation on Graphs}
+\section{Optimization on Graphs}
+\label{sec:optimize_graph}
+In this section, two optimization methods are reviewed: \emph{max-product (loopy) belief propagation} and \emph{iterated conditional modes} (ICMs).  
+Max-product (loopy) belief propagation is an extension of belief propagation inference, which was explained in section \ref{sec:inference}, while 
+ICMs is an iterative ``greedy" strategy for local optimization.    
+There also exist other notable optimization methods for graphical models, such as \emph{graph cut}, \emph{tree-reweighted message passing}. 
+Meanwhile, they are not added in this dissertation. Readers are referred to \cite{many_optimizations} for a review and comparison of them.   
+
+
 
 \subsection{Max-product (Loopy) Belief Propagation}
-\begin{algorithm}
-	\caption{Belief Propagation for tree-structured Markov networks}
-	\label{alg:BP_tree}
+In the belief propagation algorithm (section \ref{sec:inference}), a variable node sends a message to one of its neighbours by first
+receiving messages from other neighbours and summing itself out in the product of incoming messages and the occupied potential function.  
+Therefore, it is also referred to as \emph{sum-product algorithm} for factor graphs. Optimization actually can be also considered as     
+inference by replacing \emph{sum} with \emph{max}, which results in max-product belief propagation, of which the pseudo-code is presented 
+in Algorithm \ref{alg:Max_BP_tree}
+ \begin{algorithm}
+	\caption{Max-product Belief Propagation for tree-structured Markov networks}
+	\label{alg:Max_BP_tree}
 \begin{algorithmic}[1]
 \STATE  select one variable as the root; 
 \STATE  starting from all leaves, propagate \emph{beliefs} toward the root as:
 \begin{equation*}
-m_{i \rightarrow j}(x_j)= \sum_{x_i}\left\{\phi(x_i,x_j) \prod_{k\in \text{Ne}(i)\backslash j} m_{k \rightarrow i}(x_i)\right\}
+m_{i \rightarrow j}(x_j)= \max_{x_i}\left\{\phi(x_i,x_j) \prod_{k\in \text{Ne}(i)\backslash j} m_{k \rightarrow i}(x_i)\right\}
 \end{equation*}
 \STATE  when the root receives all messages from its neighbors, then propagate backwards the \emph{``inverse beliefs"} as the step 2;
-\STATE  the marginal probability of each variable is computed as: 
+\STATE  the optimization solution of each variable is computed as: 
 \begin{equation*}
-P(x_i)\propto \prod_{k\in \text{Ne}(i)} m_{k \rightarrow i}(x_i)
+	x_i=\argmax_{x_i} \prod_{k\in \text{Ne}(i)} m_{k \rightarrow i}(x_i)
 \end{equation*}
 where Ne$(i)$ denotes the neighboring variables of $x_i$ in the graph. 
 \end{algorithmic}
 \end{algorithm}
 
+Analogously, the max-product loopy belief propagation can be written out (see Algorithm \ref{alg:max_LBP}) for loopy Markov networks.  
 \begin{algorithm}
-	\caption{Generalized Belief Propagation for Loopy Markov networks}
-	\label{alg:LBP}
+	\caption{Max-product Loopy Belief Propagation for Loopy Markov networks}
+	\label{alg:max_LBP}
 \begin{algorithmic}[1]
 %\STATE  In a loopy graph, there is no root and leaves because of loop.
 \STATE  initialize all messages $m_{i\rightarrow j}$ in both directions of all connected variables randomly or with a constant value (\emph{e.g.} 1);
 \WHILE {all messages converge}
 \STATE  update messages as:
 \begin{equation*}
-  m^{(t+1)}_{i \rightarrow j}(x_j)= \sum_{x_i}\left\{\phi(x_i,x_j) \prod_{k\in \text{Ne}(i)\backslash j} m^{(t)}_{k \rightarrow i}(x_i)\right\}
+  m^{(t+1)}_{i \rightarrow j}(x_j)= \max_{x_i}\left\{\phi(x_i,x_j) \prod_{k\in \text{Ne}(i)\backslash j} m^{(t)}_{k \rightarrow i}(x_i)\right\}
 \end{equation*}
 \ENDWHILE
 \end{algorithmic}
 \end{algorithm}
 
 
-\subsection{Iterated Conditional Mode}
-\subsection{Graph Cut}
+\subsection{Iterated Conditional Modes}
+Iterated conditional modes (ICMs) is a simple ``greedy" strategy for the optimization of Markov networks. Basically, all variables are initialized randomly and then the state 
+of each variable $x_i$ is determined by maximizing the product of all potential functions which involve $x_i$. This state update is iteratively carried out for all variables       
+until convergence. 
 
 \section{Optimization on Matrix Manifolds}
+\label{sec:optimize_matrix}
+In many practical problems, the optimization is with respect to matrices which satisfy certain properties.   
+A few examples are enumerated as follow:     
+\begin{itemize}
+	\item \textbf{Oblique manifold}: $\mathcal{M}=\{X\in\mathbb{R}^{n\times m}: diag (X^\top X)=\mathbf{1}_m \}$; 
+	\item \textbf{Stiefel manifold}: $\mathcal{M}=\{X\in\mathbb{R}^{n\times m}: X^\top X=I_m \}$; 
+	\item \textbf{SO(n) manifold}: $\mathcal{M}=\{X\in\mathbb{R}^{n\times n}: X^\top X=I_n \text{ and } det(X)=1\}$. 
+\end{itemize}
+These matrices can also be considered as structures, in which entries are dependent by satisfying different constraints.    
+Usually, optimization techniques on matrix manifolds are used to find the optimal matrix. A review of relevant methods      
+is provided in \cite{matrix_manifold}.  
+In the following subsection, an application of the optimization on the SE(3) manifold on 3D shape registration is presented, which 
+shows a representative example of this type of optimization.    
 
-\subsection{3D Point Cloud Registration with Convex Optimization on SO(3) Manifold}
-3D shape pose estimation is an essential in computer vision and robot
-perception.
-Unitl now, the poses of 3D shapes are usually estimated by using registration algorithms. 
+\subsection{3D Point Cloud Registration with Optimization on SE(3) Manifold} 
 Despite intensive study, 3D shape
 registration remains an open question. 
-For most existing registration algorithms, there are many obstacles to
-practical use them in fully autonomous systems. For instance, ICP usually
-requires manual assistance to provide a good initialization, and
-Gaussian Mixtures and SoftAssign are too expensive for real-time
-tasks. Therefore, a novel algorithm was developed by the author and co-workers to satisfy the
-practical need for better robustness and higher efficiency. Quite
+Here, a novel and efficient registration method is proposed. 
+Quite
 different from previous registration methods, instead of computing
-correspondence and alignment in 3D space, the propsed algorithm first map
-points to a higher, possibly infinite-dimensional space by applying
-Kernel methods. Registration is subsequently performed within feature
-space by aligning corresponding principal components. The result is
+correspondence and aligning in 3D space, the proposed algorithm first maps 
+points to a higher dimensional reproducing  kernel Hilbert space by applying
+kernel methods. Registration is subsequently performed within the feature
+space by aligning principal components using kernel PCA. The alignment is
 projected back into 3D pose space. The whole procedure is
 theoretically elegant and efficient. Kernel PCA is used to avoid
 explicit computation in feature space, and SE(3) on-manifold
-optimization is employed to enhance the generality of our registration algorithm. 
+optimization is employed for the convex optimization in the alignment projection. 
 Empirical results demonstrate that the proposed method is quite accurate
-and robust to various challenging circumstances (\emph{e.g.} large motion,
-presence of outliers), and remarkably, it is much faster than other
+and robust to various challenging circumstances (\emph{e.g.} large motions,
+outliers), and remarkably, it is much faster than other
 state-of-the-art methods with comparable performance. 
+More technical details and results are presented in the paper IX by the author. 
+
 
 \begin{shaded}
  {\Huge IX.} \textbf{Hanchen Xiong}, Sandor Szedmak, Justus Piater {\it Efficient, General Point Cloud Registration With Kernel Feature Maps}, 
@@ -95,7 +124,6 @@ In Proceedings of 10th International Conference on Computer and Robot Vision (CR
 %----------------------------------------------------------------------------------------
 %	SECTION 2
 %----------------------------------------------------------------------------------------
-
 
 
 %\section{Stochastic Optmization of Black-box Functions on Riemannian Manifolds using Kernel Adaptive Sequential Monte Carlo}

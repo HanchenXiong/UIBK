@@ -1,0 +1,989 @@
+@article {step_length,
+author = {Jasra, Ajay and Stephens, David A. and Doucet, Arnaud and Tsagaris, Theodoros},
+title = {Inference for L{\'e}vy-Driven Stochastic Volatility Models via Adaptive Sequential Monte Carlo},
+journal = {Scandinavian Journal of Statistics},
+volume = {38},
+pages = {1--22},
+year = {2011},
+}
+@article{sample_deg_imp,
+title = "Fight sample degeneracy and impoverishment in particle filters: A review of intelligent approaches ",
+journal = "Expert Systems with Applications ",
+volume = "41",
+number = "8",
+pages = "3944 - 3954",
+year = "2014",
+author = "Tiancheng Li and Shudong Sun and Tariq Pervez Sattar and Juan Manuel Corchado"
+}
+
+@article{scene_database,
+title = "Learning multi-label scene classification ",
+journal = "Pattern Recognition ",
+volume = "37",
+number = "9",
+pages = "1757 - 1771",
+year = "2004",
+author = "Matthew R. Boutell and Jiebo Luo and Xipeng Shen and Christopher M. Brown"
+}
+@inproceedings{img_seg_database,
+   author = "Sanjiv Kumar and Martial Hebert",
+   title = "Man-Made Structure Detection in Natural Images using a Causal Multiscale Random Field",
+   booktitle = "IEEE International Conference on Computer Vision and Pattern Recognition (CVPR)",
+   pages = "119-126",
+   year = "2003"
+}
+@article{SMC_sampler,
+    author = {Del Moral, Pierre and Doucet, Arnaud and Jasra, Ajay},
+    journal = {Journal of the Royal Statistical Society: Series B (Statistical Methodology)},
+    month = jun,
+    number = {3},
+    pages = {411--436},
+    title = {{Sequential Monte Carlo samplers}},
+    volume = {68},
+    year = {2006}
+}
+
+@article{SMC_static,
+  title={A sequential particle filter method for static models},
+  author={Chopin, Nicolas},
+  journal={Biometrika},
+  volume={89},
+  number={3},
+  pages={539--552},
+  year={2002}
+}
+
+@article{Younes1988,
+author = {Younes, Laurent},
+journal = {Annales de l'institut Henri Poincaré (B) Probabilités et Statistiques},
+number = {2},
+pages = {269-294},
+title = {Estimation and annealing for Gibbsian fields},
+volume = {24},
+year = {1988},
+}
+
+@inproceedings{AIS,
+  author    = {Ruslan Salakhutdinov and
+               Iain Murray},
+  title     = {On the quantitative analysis of deep belief networks},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2008},
+}
+@article{ESS,
+    author = {Kong, Augustine and Liu, Jun S. and Wong, Wing H.},
+    journal = {Journal of the American Statistical Association},
+    month = mar,
+    number = {425},
+    pages = {278--288},
+    title = {{Sequential Imputations and Bayesian Missing Data Problems}},
+    volume = {89},
+    year = {1994}
+}
+
+
+@article{HintonSalakhutdinov2006b,
+  author = {Hinton, G E and Salakhutdinov, R R},
+  journal = {Science},
+  keywords = {dimensionalityreduction neuralnetworks parameterestimation},
+  month = Jul,
+  number = 5786,
+  pages = {504-507},
+  title = {Reducing the dimensionality of data with neural networks},
+  volume = 313,
+  year = 2006
+}
+
+@inproceedings{DBLP:conf/icml/SalakhutdinovMH07,
+  author    = {Ruslan Salakhutdinov and
+               Andriy Mnih and
+               Geoffrey E. Hinton},
+  title     = {Restricted Boltzmann machines for collaborative filtering},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2007},
+}
+@inproceedings{DBLP:conf/icassp/JaitlyH11,
+  author    = {Navdeep Jaitly and
+               Geoffrey E. Hinton},
+  title     = {Learning a better representation of speech soundwaves using
+               restricted boltzmann machines},
+  booktitle = {ICASSP},
+  year      = {2011},
+}
+
+@incollection{Smolensky1986,
+ author = {Smolensky, P.},
+ chapter = {Information processing in dynamical systems: foundations of harmony theory},
+ title = {Parallel distributed processing: explorations in the microstructure of cognition, vol. 1},
+ editor = {Rumelhart, David E. and McClelland, James L. and PDP Research Group, CORPORATE},
+ year = {1986},
+ pages = {194--281},
+ numpages = {88},
+ publisher = {MIT Press},
+ address = {Cambridge, MA, USA},
+} 
+@book{Geyer1991,
+    abstract = {{Markov chain Monte Carlo (e. g., the Metropolis algorithm and Gibbs sampler) is a general tool for simulation of complex stochastic processes useful in many types of statistical inference. The basics of Markov chain Monte Carlo are reviewed, including choice of algorithms and variance estimation, and some new methods are introduced. The use of Markov chain Monte Carlo for maximum likelihood estimation is explained, and its performance is compared with maximum pseudo likelihood estimation. Markov chain, Monte Carlo, Maximum likelihood, Metropolis algorithm, Gibbs sampler, Variance estimation.}},
+    author = {Geyer, Charles J.},
+    keywords = {mcmc},
+    posted-at = {2011-01-23 21:21:22},
+    publisher = {Compuuting Science and Statistics:Proceedings of the 23rd Symposium on the Interface},
+    title = {{Markov Chain Monte Carlo Maximum Likelihood.}},
+    year = {1991}
+}
+@InProceedings{asuncion2010,
+  author =    {Arthur U. Asuncion and Qiang Liu and Alexander T. Ihler and Padhraic Smyth},
+  title =     {Particle Filtered {MCMC-MLE} with Connections to Contrastive Divergence},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year =      2010,
+}
+@conference{tielemanPcd2008,
+  title={{Training Restricted Boltzmann Machines using Approximations to the Likelihood Gradient}},
+  author={Tieleman, Tijmen.},
+  booktitle={International Conference on Machine Learning (ICML)},
+  pages={1064--1071},
+  year={2008},
+}
+@article{Hinton2002,
+  author    = {Geoffrey E. Hinton},
+  title     = {Training Products of Experts by Minimizing Contrastive Divergence},
+  journal   = {Neural Computation},
+  volume    = {14},
+  number    = {8},
+  year      = {2002},
+  pages     = {1771-1800},
+}
+@book{Koller09,
+  title = {Probabilistic Graphical Models: Principles and Techniques},
+  author = {Daphne Koller and Nir Friedman},
+  year = 2009,
+  pages={947-948},
+  publisher = {MIT Press}
+}
+@ARTICLE{Handcock07statnet,
+    author = {Mark S. Handcock and David R. Hunter and Carter T. Butts and Steven M. Goodreau and Martina Morris},
+    title = {statnet: Software Tools for the Representation, Visualization, Analysis and Simulation of Network Data},
+    journal = {Journal of Statistical Software},
+    year = {2007},
+    pages = {1548--7660}
+}
+@inproceedings{Welling2004,
+  author = {Welling, Max and Rosen-Zvi, Michal and Hinton, Geoffrey E.},
+  booktitle = {Advances in Neural Information Processing Systems (NIPS)},
+  title = {{Exponential Family Harmoniums with an Application to Information Retrieval}},
+  year = 2004
+}
+
+@inproceedings{Carreira-Perpinan_oncontrastive,
+    author = {Miguel A. Carreira-Perpinan and Geoffrey E. Hinton},
+    booktitle = {International Conference on Artificial Intelligence and Statistics},
+    title = {{On Contrastive Divergence Learning}},
+    year = 2005      
+}
+@conference{tielemanFpcd2009,
+  title={{Using Fast Weights to Improve Persistent Contrastive Divergence}},
+  author={Tieleman, Tijmen. and Hinton, Geoffrey.E.},
+  booktitle={International Conference on Machine Learning (ICML)},
+  pages={1033--1040},
+  year={2009},
+  organization={ACM New York, NY, USA}
+}
+@InProceedings{desjardins2010,
+    title ={Tempered {M}arkov {C}hain {M}onte {C}arlo for Training of Restricted {B}oltzmann Machines},
+    author = {Guillaume Desjardins and Aaron Courville and Yoshua Bengio and Pascal Vincent and Olivier Delalleau},
+    booktitle = "AISTATS",
+    year = {2010},
+}
+@INPROCEEDINGS{Salakhutdinov_learningin,
+    author = {Ruslan Salakhutdinov},
+    title = {Learning in markov random fields using tempered transitions},
+    booktitle = {Advances in Neural Information Processing Systems (NIPS)},
+    year = {2010},
+}
+@ARTICLE{Neal94,
+    author = {Radford Neal},
+    title = {Sampling from Multimodal Distributions Using Tempered Transitions},
+    journal = {Statistics and Computing},
+    year = {1994},
+    volume = {6},
+    pages = {353--366}
+}
+@misc{neal2010mcmc,
+    author = {Neal, R. M.},
+    howpublished = {in {Handbook of Markov Chain Monte Carlo} (eds S. Brooks, A. Gelman, G. Jones, XL Meng). Chapman and Hall/CRC Press},
+    title = {{MCMC using Hamiltonian dynamics}},
+    year = {2010}
+}
+@article{RobbinMonro,
+  author = {Herbert Robbins and Sutton Monro},
+  journal = {Ann.Math.Stat.},
+  pages = {400--407},
+  title = {{A Stochastic Approximation Method}},
+  volume = 22,
+  year = 1951,
+}
+@ARTICLE{Hinton06afast,
+    author = {Geoffrey E. Hinton and Simon Osindero},
+    title = {A fast learning algorithm for deep belief nets},
+    journal = {Neural Computation},
+    year = {2006},
+    volume = {18},
+    pages = {2006}
+}
+
+@article{Binary_SMC,
+  author = {Sch{\"a}fer, Christian and Chopin, Nicolas},
+  journal = {Statistics and Computing},
+  number = 2,
+  pages = {163-184},
+  title = {Sequential Monte Carlo on large binary sampling spaces.},
+  volume = 23,
+  year = 2013
+}
+
+
+@book{Bakir07,
+ author = {Bakir, G\"{u}khan H. and Hofmann, Thomas and Sch\"{o}lkopf, Bernhard and Smola, Alexander J. and Taskar, Ben and Vishwanathan, S. V. N.},
+ title = {Predicting Structured Data (Neural Information Processing)},
+ year = {2007},
+ isbn = {0262026171},
+ publisher = {The MIT Press},
+} 
+
+
+@book{LGM,
+ author = {Jordan, Michael I.},
+ title = {Learning in Graphical Models},
+ year = {1999},
+ publisher = {MIT Press},
+ address = {Cambridge, MA, USA}
+} 
+@inproceedings{CRF,
+ author = {Lafferty, John D. and McCallum, Andrew and Pereira, Fernando C. N.},
+ title = {Conditional Random Fields: Probabilistic Models for Segmenting and Labeling Sequence Data},
+ booktitle = {ICML},
+ year = {2001}
+} 
+@INPROCEEDINGS{Kumar03,
+    author = {Sanjiv Kumar and Martial Hebert},
+    title = {Discriminative fields for modeling spatial dependencies in natural images},
+    booktitle = {In NIPS},
+    year = {2003}
+}
+@inproceedings{OnlineMKL,
+  author    = {Andr{\'e} Filipe Torres Martins and
+               Noah A. Smith and
+               Eric P. Xing and
+               Pedro M. Q. Aguiar and
+               M{\'a}rio A. T. Figueiredo},
+  title     = {Online Learning of Structured Predictors with Multiple Kernels},
+  booktitle = {AISTATS},
+  year      = {2011}
+}
+@InProceedings{GMVS09,
+  author       = "Matthieu Guillaumin and Thomas Mensink and Jakob Verbeek and Cordelia Schmid",
+  title        = "TagProp: Discriminative metric learning in nearest neighbor models for image auto-annotation",
+  booktitle    = "ICCV",
+  year         = "2009",
+}
+@book{Vapnik,
+ author = {Vapnik, Vladimir N.},
+ title = {The Nature of Statistical Learning Theory},
+ year = {1995},
+ publisher = {Springer-Verlag New York, Inc.},
+ address = {New York, NY, USA}
+} 
+@article{input-output_alignment,
+ author = {Cortes, Corinna and Mohri, Mehryar and Rostamizadeh, Afshin},
+ title = {Algorithms for Learning Kernels Based on Centered Alignment},
+ journal = {J. Mach. Learn. Res.},
+ volume = {13},
+ month = mar,
+ year = {2012},
+ pages = {795--828}
+} 
+@inproceedings{Accelerated_CRF,
+ author = {Vishwanathan, S. V. N. and Schraudolph, Nicol N. and Schmidt, Mark W. and Murphy, Kevin P.},
+ title = {Accelerated Training of Conditional Random Fields with Stochastic Gradient Methods},
+ booktitle = {ICML},
+ year = {2006}
+} 
+@book{Bakir07,
+ author = {Bakir, G\"{u}khan H. and Hofmann, Thomas and Sch\"{o}lkopf, Bernhard and Smola, Alexander J. and Taskar, Ben and Vishwanathan, S. V. N.},
+ title = {Predicting Structured Data (Neural Information Processing)},
+ year = {2007},
+ isbn = {0262026171},
+ publisher = {The MIT Press},
+} 
+@inproceedings{Taskar03,
+  author    = {Benjamin Taskar and
+               Carlos Guestrin and
+               Daphne Koller},
+  title     = {Max-Margin Markov Networks},
+  booktitle = {NIPS},
+  year      = {2003}
+}
+@inproceedings{StructSVM,
+ author = {Tsochantaridis, Ioannis and Hofmann, Thomas and Joachims, Thorsten and Altun, Yasemin},
+ title = {Support Vector Machine Learning for Interdependent and Structured Output Spaces},
+ booktitle = {ICML},
+ year = {2004}
+} 
+@inproceedings{MaxEnt,
+ author = {Pletscher, Patrick and Ong, Cheng Soon and Buhmann, Joachim M.},
+ title = {Entropy and Margin Maximization for Structured Output Learning},
+ booktitle = {ECML PKDD},
+ year = {2010}
+} 
+@article{ExpGradient,
+ author = {Collins, Michael and Globerson, Amir and Koo, Terry and Carreras, Xavier and Bartlett, Peter L.},
+ title = {Exponentiated Gradient Algorithms for Conditional Random Fields and Max-Margin Markov Networks},
+ journal = {J. Mach. Learn. Res.},
+ volume = {9},
+ month = jun,
+ year = {2008},
+ pages = {1775--1822}
+} 
+@INPROCEEDINGS{MAP_perturb,
+AUTHOR = {Tamir Hazan and Tommi Jaakkola},
+TITLE = {{On the Partition Function and Random Maximum A-Posteriori Perturbations}},
+BOOKTITLE = {ICML},
+YEAR = {2012}, 
+}
+@inproceedings{SoftMax,
+ author = {Gimpel, Kevin and Smith, Noah A.},
+ title = {{Softmax-margin CRFs: Training Log-linear Models with Cost Functions}},
+ booktitle = {Human Language Technologies: Annual Conference of the North American Chapter of the Association for Computational Linguistics},
+ year = {2010}
+} 
+@article{LBP,
+ author = {Yedidia, J. S. and Freeman, W. T. and Weiss, Y.},
+ title = {{Constructing Free-energy Approximations and Generalized Belief Propagation Algorithms}},
+ journal = {IEEE Trans. Inf. Theor.},
+ volume = {51},
+ number = {7},
+ month = jul,
+ year = {2005},
+ pages = {2282--2312},
+ publisher = {IEEE Press}
+} 
+@InCollection{cutting_plane_ml,
+	author={Vojtech Franc and Soeren Sonnenburg and Tomas Werner},
+	title={Cutting Plane Methods in Machine Learning},
+	booktitle={Optimization for Machine Learning},
+	publisher={MIT Press},
+	address = {Cambridge, MA.},
+	year={2011},
+	editor={Suvrit Sra and Sebastian Nowozin and Stephen J. Wright}
+}
+@article{cutting_plane_svm,
+author = {Nicholas A. Arnosti and Jugal K. Kalita},
+title = {Cutting Plane Training for Linear Support Vector Machines},
+journal ={IEEE Transactions on Knowledge and Data Engineering},
+volume = {25},
+number = {5},
+year = {2013},
+pages = {1186-1190}
+}
+@INPROCEEDINGS{Norm_Partition,
+    author = {Tamir Hazan and Raquel Urtasun},
+    title = {{A primal-dual message-passing algorithm for approximated large scale structured prediction}},
+    booktitle = {In Advances in Neural Information Processing Systems 23},
+    year = {2010}
+}
+@inproceedings{MAP_perturb_2,
+  author    = {Francesco Orabona and
+               Tamir Hazan and
+               Anand D. Sarwate and
+               Tommi Jaakkola},
+  title     = {On Measure Concentration of Random Maximum A-Posteriori
+               Perturbations},
+  booktitle = {ICML},
+  year      = {2014}
+}
+
+@article{CrammerMC,
+ author = {Crammer, Koby and Singer, Yoram},
+ title = {On the Algorithmic Implementation of Multiclass Kernel-based Vector Machines},
+ journal = {J. Mach. Learn. Res.},
+ volume = {2},
+ month = mar,
+ year = {2002},
+ pages = {265--292}
+} 
+@book{LGM,
+ author = {Jordan, Michael I.},
+ title = {Learning in Graphical Models},
+ year = {1999},
+ publisher = {MIT Press},
+ address = {Cambridge, MA, USA}
+} 
+@misc{svm-struct-matlab,
+  Author = {A. Vedaldi},
+  Title = {A {MATLAB} wrapper of $\mathrm{SVM}^\mathrm{struct}$},
+  Year  = {2011},
+  Howpublished = {\url{http://www.vlfeat.org/~vedaldi/code/svm-struct-matlab.html}}
+}
+@article{RLinearClass,
+ author = {Zhang, Tong and J. Oles, Frank},
+ title = {Text Categorization Based on Regularized Linear Classification Methods},
+ journal = {Information Retrieval},
+ volume = {4},
+ number = {1},
+ month = apr,
+ year = {2001},
+ pages = {5--31}
+} 
+@article{max_entropy_NLP,
+ author = {Berger, Adam L. and Pietra, Vincent J. Della and Pietra, Stephen A. Della},
+ title = {A Maximum Entropy Approach to Natural Language Processing},
+ journal = {Comput. Linguist.},
+ volume = {22},
+ month = mar,
+ year = {1996},
+ pages = {39--71},
+ publisher = {MIT Press}
+} 
+@InProceedings{Xiong-2014-ESANN,
+  title = {{Joint SVM for Accurate and Fast Image Tagging}},
+  author = {Xiong, Hanchen and Szedmak, Sandor and Piater, Justus},
+  booktitle = {{European Symposium on Artificial Neural Networks, Computational Intelligence and Machine Learning (ESANN)}},
+  year = 2014
+}
+
+
+
+@InProceedings{Detry-2010-ACCV,
+  title = {{Continuous surface-point distributions for 3D object pose estimation and recognition}},
+  author = {Detry, Renaud and Piater, Justus},
+  booktitle = {{ACCV}},
+  year = 2010,
+  volume = 6494,
+  pages = {572--585},
+  publisher = {Springer},
+  address = {{Heidelberg}},
+  doi = {10.1007/978-3-642-19318-7_45},
+  url = {https://iis.uibk.ac.at/public/papers/Detry-2010-ACCV.pdf},
+  series = {LNCS}
+}
+@Article{FASTPCA,
+    author    = {Alok Sharma and  Kuldip K. Paliwal},
+      title     = {{Fast Principal Component Analysis using Fixed-point Algorithm}},
+        journal   = {Pattern Recognition Letters},
+          volume    = {28},
+            number    = {10},
+              year      = {2007},
+                pages     = {1151-1155},
+                  ee        = {http://dx.doi.org/10.1016/j.patrec.2007.01.012},
+                    bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+@Article{Detry-2009-TPAMI,
+  title = {{A Probabilistic Framework for 3D Visual Object Representation}},
+  author = {Detry, Renaud and Pugeault, Nicolas and Piater, Justus},
+  journal = {{PAMI}},
+  year = 2009,
+  month = 10,
+  volume = 31,
+  number = 10,
+  pages = {1790--1803},
+  doi = {10.1109/TPAMI.2009.64},
+  url = {https://iis.uibk.ac.at/public/papers/Detry-2009-TPAMI.pdf}
+}
+@TECHREPORT{SE3MANIFOLD,
+       author = {Blanco, Jos{\'{e}} Luis},
+        month = sep,
+        title = {{A Tutorial on SE(3) Transformation Parameterizations and on-Manifold Optimiztion}},
+        year = {2010},
+        institution = {University of Malaga}
+}
+
+@TECHREPORT{MANIFOLDSO3,
+    author = {Camillo J. Taylor and David J. Kriegman},
+    title = {{Minimization on the Lie Group SO(3) and Related Manifolds}},
+    institution = {Yale University},
+    year = {1994}
+}
+@TECHREPORT{Sarkis_Diepold_Huper_2009, 
+       title={{Pose Estimation of a Camera using Newton Optimization on the Manifold}}, 
+       author={Sarkis, Michel and Schwing, Alexander and Diepold, Klaus}, 
+       year={2009},
+       institution = {Institute for Data Processing, Technische Universit\"{a}t M\"{u}nchen}
+}
+
+@book{citeulike:163662,
+    abstract = {{Convex optimization problems arise frequently in many different fields. A comprehensive introduction to the subject, this book shows in detail how such problems can be solved numerically with great efficiency. The focus is on recognizing convex optimization problems and then finding the most appropriate technique for solving them. The text contains many worked examples and homework exercises and will appeal to students, researchers and practitioners in fields such as engineering, computer science, mathematics, statistics, finance, and economics.}},
+    author = {Boyd, Stephen and Vandenberghe, Lieven},
+    howpublished = {Hardcover},
+    isbn = {0521833787},
+    keywords = {machine\_learning},
+    month = mar, 
+    publisher = {Cambridge University Press},
+    title = {{Convex Optimization}},
+    url = {http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/0521833787},
+    year = {2004}
+}
+@unpublished{Fack04,
+    author = {Facker, Paul},
+    month = apr,
+    title = {{Notes on Matrix Calculus}},
+    year = {2004}
+}
+@misc{IMM2008-03274,
+    abstract = {{Matrix identities, relations and approximations. A desktop reference for quick overview of mathematics of matrices.}},
+    author = {Petersen, Kaare Brandt and Pedersen, Michael Syskind},
+    comment = {Version 20081110},
+    keywords = {derivative, identity, intro, inverse, linear\_algebra, matrix, numerical\_methods, relations},
+    month = oct,
+    publisher = {Technical University of Denmark},
+    title = {{The Matrix Cookbook}},
+    year = {2008}
+}
+@INPROCEEDINGS{Plumbley04liegroup,
+    author = {Mark D. Plumbley},
+    title = {{Lie Group Methods for Optimization with Orthogonality Constraints}},
+    booktitle = {Int. Conf. on Independent Component Analysis and Blind Signal Separation},
+    year = {2004},
+    pages = {1245--1252},
+    publisher = {Springer}
+}
+@INPROCEEDINGS{Kernel_SETS,
+    author = {Risi Kondor and Tony Jebara},
+    title = {{A Kernel between Sets of Vectors}},
+    booktitle = {{ICML}},
+    year = {2003}
+}
+@article{ICP,
+    abstract = {{The authors describe a general-purpose, representation-independent method for the accurate and computationally efficient registration of 3-D shapes including free-form curves and surfaces. The method handles the full six degrees of freedom and is based on the iterative closest point (ICP) algorithm, which requires only a procedure to find the closest point on a geometric entity to a given point. The ICP algorithm always converges monotonically to the nearest local minimum of a mean-square distance metric, and the rate of convergence is rapid during the first few iterations. Therefore, given an adequate set of initial rotations and translations for a particular class of objects with a certain level of `shape complexity', one can globally minimize the mean-square distance metric over all six degrees of freedom by testing each initial registration. One important application of this method is to register sensed data from unfixtured rigid objects with an ideal geometric model, prior to shape inspection. Experimental results show the capabilities of the registration algorithm on point sets, curves, and surfaces}},
+    author = {Besl, P. J. and Mckay, H. D.},
+    journal = {{PAMI}},    
+    number = {2},
+    pages = {239--256},
+    title = {{A Method for Registration of 3-D Shapes}},
+    volume = {14},
+    year = {1992}
+}
+@InProceedings{Rusu_ICRA2011_PCL,
+  author    = {Radu Bogdan Rusu and Steve Cousins},
+  title     = {{3D is here: Point Cloud Library (PCL)}},
+  booktitle = {{ICRA}},
+  month     = {May 9-13},
+  year      = {2011},
+  address   = {Shanghai, China}
+}
+
+@article{journals/ras/SurmannNH03,
+  added-at = {2006-02-20T00:00:00.000+0100},
+  author = {Surmann, Hartmut and Nüchter, Andreas and Hertzberg, Joachim},
+  biburl = {http://www.bibsonomy.org/bibtex/20a1798c96be5a7643eae885b066e0e01/dblp},
+  date = {2006-02-20},
+  description = {dblp},
+  ee = {http://dx.doi.org/10.1016/j.robot.2003.09.004},
+  interhash = {f7b59c84f988aa0dfc431afbfb9bab54},
+  intrahash = {0a1798c96be5a7643eae885b066e0e01},
+  journal = {{Robotics and Autonomous Systems}},
+  keywords = {dblp},
+  number = {3-4},
+  pages = {181-198},
+  timestamp = {2006-02-20T00:00:00.000+0100},
+  title = {{An autonomous mobile robot with a 3D laser range finder for 3D exploration and digitalization of indoor environments}},
+  url = {http://dblp.uni-trier.de/db/journals/ras/ras45.html#SurmannNH03},
+  volume = 45,
+  year = 2003
+}
+@inproceedings{ICP_VARIANT,
+  abstract = {The ICP (Iterative Closest Point) algorithm is widely used for geometric alignment of three-dimensional models when an initial estimate of the relative pose is known. Many variants of ICP have been proposed, affecting all phases of the algorithm from the selection and matching of points to the minimization strategy. We enumerate and classify many of these variants, and evaluate their effect on the speed with which the correct alignment is reached. In order to improve convergence for nearly-flat ...},
+  added-at = {2009-05-19T18:00:18.000+0200},
+  author = {Rusinkiewicz, Szymon and Levoy, Marc},
+  booktitle = {3DIM},
+  pages = {145--152},
+  title = {{Efficient Variants of the ICP Algorithm}},
+  year = 2001
+}
+@book{citeulike:Taylor_Nello_Kernel,
+    author = {Shawe-Taylor, John and Cristianini, Nello},
+    citeulike-article-id = {176994},
+    isbn = {0521813972},
+    keywords = {kernel-method, machine-learning, pattern-recognition},
+    publisher = {Cambridge University Press},
+    title = {{Kernel Methods for Pattern Analysis}},
+    year = {2004}
+}
+@INPROCEEDINGS{Kondor03akernel,
+    author = {Risi Kondor and Tony Jebara},
+    title = {{A Kernel between Sets of Vectors}},
+    booktitle = {In International Conference on Machine Learning (ICML},
+    year = {2003}
+}
+@inproceedings{DBLP:conf/ecml/Lyu05,
+  author    = {Siwei Lyu},
+  title     = {{A Kernel Between Unordered Sets of Data: The Gaussian Mixture
+               Approach}},
+  booktitle = {{ECML}},
+  year      = {2005},
+  pages     = {255-267}
+}
+
+@article{Eggert1997,
+    author = {Eggert, D. W. and Lorusso, A. and Fisher, R. B.},
+    citeulike-article-id = {1051260},
+    journal = {Machine Vision and Applications},
+    keywords = {3d, analysis, bibtex-import, estimation, motion, pose, rigid, transformations},
+    pages = {272--290},
+    posted-at = {2007-01-19 11:21:44},
+    priority = {2},
+    title = {{Estimating 3D rigid body transformations: a comparison of four major algorithms}},
+    volume = {9},
+    year = {1997}
+}
+@article{many_otpimizations,
+  author    = {Richard Szeliski and
+               Ramin Zabih and
+               Daniel Scharstein and
+               Olga Veksler and
+               Vladimir Kolmogorov and
+               Aseem Agarwala and
+               Marshall F. Tappen and
+               Carsten Rother},
+  title     = {A Comparative Study of Energy Minimization Methods for Markov Random
+               Fields with Smoothness-Based Priors},
+  journal   = {{IEEE} Trans. Pattern Anal. Mach. Intell.},
+  volume    = {30},
+  number    = {6},
+  pages     = {1068--1080},
+  year      = {2008}
+}
+@book{pearl_book,
+ author = {Pearl, Judea},
+ title = {Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference},
+ year = {1988},
+ isbn = {0-934613-73-7},
+ publisher = {Morgan Kaufmann Publishers Inc.},
+ address = {San Francisco, CA, USA},
+} 
+@incollection{lauritzen_book,
+ author = {Lauritzen, S. L. and Spiegelhalter, D. J.},
+ chapter = {Local Computations with Probabilities on Graphical Structures and Their Application to Expert Systems},
+ title = {Readings in Uncertain Reasoning},
+ editor = {Shafer, Glenn and Pearl, Judea},
+ year = {1990},
+ isbn = {1-55860-125-2},
+ pages = {415--448},
+ publisher = {Morgan Kaufmann Publishers Inc.},
+ address = {San Francisco, CA, USA},
+} 
+@book{MRF_communication,
+ author = {Frey, Brendan J.},
+ title = {Graphical Models for Machine Learning and Digital Communication},
+ year = {1998},
+ isbn = {0-262-06202-X},
+ publisher = {MIT Press},
+ address = {Cambridge, MA, USA},
+} 
+@article{HC_theorem,
+  author = {Hammersley, John. M. and Clifford, Peter. E.},
+  journal = {{\em Unpublished manuscript}},
+  title = {Markov random fields on finite graphs and lattices},
+  year = 1971
+}
+
+
+@book{MLPR_book,
+ author = {Bishop, Christopher M.},
+ title = {Pattern Recognition and Machine Learning (Information Science and Statistics)},
+ year = {2006},
+ isbn = {0387310738},
+ publisher = {Springer-Verlag New York, Inc.},
+ address = {Secaucus, NJ, USA},
+} 
+
+@BOOK{barber_book,
+author = {Barber, David},
+title= {{Bayesian Reasoning and Machine Learning}},
+publisher = {{Cambridge University Press}},
+year = 2012}
+
+@article{Wainwright_book,
+ author = {Wainwright, Martin J. and Jordan, Michael I.},
+ title = {Graphical Models, Exponential Families, and Variational Inference},
+ journal = {Found. Trends Mach. Learn.},
+ issue_date = {January 2008},
+ volume = {1},
+ number = {1-2},
+ month = jan,
+ year = {2008},
+ publisher = {Now Publishers Inc.},
+ address = {Hanover, MA, USA},
+} 
+
+@article{Jebara2004Probability,
+    abstract = {{The advantages of discriminative learning algorithms and kernel machines are combined with generative modeling using a novel kernel between distributions. In the probability product kernel, data points in the input space are mapped to distributions over the sample space and a general inner product is then evaluated as the integral of the product of pairs of distributions. The kernel is straightforward to evaluate for all exponential family models such as multinomials and Gaussians and yields interesting nonlinear kernels. Furthermore, the kernel is computable in closed form for latent distributions such as mixture models, hidden Markov models and linear dynamical systems. For intractable models, such as switching linear dynamical systems, structured mean-field approximations can be brought to bear on the kernel evaluation. For general distributions, even if an analytic expression for the kernel is not feasible, we show a straightforward sampling method to evaluate it. Thus, the kernel permits discriminative learning methods, including support vector machines, to exploit the properties, metrics and invariances of the generative models we infer from each datum. Experiments are shown using multinomial models for text, hidden Markov models for biological data sets and linear dynamical systems for time series data.}},
+    author = {Jebara, Tony and Kondor, Risi and Howard, Andrew},
+    citeulike-article-id = {2232292},
+    citeulike-linkout-0 = {http://www.jmlr.org/papers/volume5/jebara04a/jebara04a.pdf},
+    citeulike-linkout-1 = {http://www.jmlr.org/papers/volume5/jebara04a/jebara04a.pdf},
+    journal = {Journal of Machine Learning Research},
+    keywords = {kernel, probability},
+    month = jul,
+    pages = {819--844},
+    posted-at = {2008-01-14 22:33:48},
+    priority = {2},
+    title = {{Probability Product Kernels}},
+    url = {http://www.jmlr.org/papers/volume5/jebara04a/jebara04a.pdf},
+    volume = {5},
+    year = {2004}
+}
+@ARTICLE{SOFTASSIGN,
+    author = {Steven Gold and Anand Rangarajan and Chienping Lu and Eric Mjolsness},
+    title = {{New Algorithms for 2D and 3D Point Matching: Pose Estimation and Correspondence}},
+    journal = {Pattern Recognition},
+    year = {1997},
+    volume = {31},
+    pages = {957--964}
+}
+@INPROCEEDINGS{EMICP,
+    author = {Sébastien Granger and Xavier Pennec},
+    title = {{Multi-scale EM-ICP: A Fast and Robust Approach for Surface Registration}},
+    booktitle = {European Conference on Computer Vision (ECCV 2002), volume 2353 of LNCS},
+    year = {2002},
+    pages = {418--432},
+    publisher = {Springer}
+}
+@INPROCEEDINGS{Jebara03bhattacharyyaand,
+    author = {Tony Jebara and Risi Kondor},
+    title = {{Bhattacharyya and Expected Likelihood Kernels}},
+    booktitle = {Conference on Learning Theory},
+    year = {2003}
+}
+@article{GAUSSMIX,
+  added-at = {2011-11-07T00:00:00.000+0100},
+  author = {Jian, Bing and Vemuri, Baba C.},
+  biburl = {http://www.bibsonomy.org/bibtex/25677ff0a4a8efadef8caa171f2e4ed1e/dblp},
+  ee = {http://doi.ieeecomputersociety.org/10.1109/TPAMI.2010.223},
+  interhash = {0a2ed94e4fc25316426abae7b4c2d166},
+  intrahash = {5677ff0a4a8efadef8caa171f2e4ed1e},
+  journal = {PAMI},
+  keywords = {dblp},
+  number = 8,
+  pages = {1633-1645},
+  timestamp = {2011-11-07T00:00:00.000+0100},
+  title = {{Robust Point Set Registration Using Gaussian Mixture Models}},
+  volume = 33,
+  year = 2011
+}
+@inproceedings{conf/iccv/JianV05,
+  author    = {Bing Jian and
+               Baba C. Vemuri},
+  title     = {{A Robust Algorithm for Point Set Registration Using Mixture
+               of Gaussians}},
+  booktitle = {{ICCV}},
+  year      = {2005},
+  pages     = {1246-1251},
+  ee        = {http://doi.ieeecomputersociety.org/10.1109/ICCV.2005.17},
+  crossref  = {DBLP:conf/iccv/2005},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+@article{DUALQUAT,
+  author    = {Zhengyou Zhang},
+  title     = {Iterative point matching for registration of free-form curves
+               and surfaces},
+  journal   = {International Journal of Computer Vision},
+  volume    = {13},
+  number    = {2},
+  year      = {1994},
+  pages     = {119-152},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+@article{journals/pr/CarcassoniH03,
+  added-at = {2004-02-12T00:00:00.000+0100},
+  author = {Carcassoni, Marco and Hancock, Edwin R.},
+  biburl = {http://www.bibsonomy.org/bibtex/21ed6342810e8434cf1045617a885e127/dblp},
+  date = {2004-02-12},
+  description = {dblp},
+  ee = {http://dx.doi.org/10.1016/S0031-3203(02)00054-7},
+  interhash = {f42e1c00bc194be9555c1828b8eeeb86},
+  intrahash = {1ed6342810e8434cf1045617a885e127},
+  journal = {Pattern Recognition},
+  keywords = {dblp},
+  number = 1,
+  pages = {193-204},
+  timestamp = {2004-02-12T00:00:00.000+0100},
+  title = {{Spectral Correspondence for Point Pattern Matching}},
+  url = {http://dblp.uni-trier.de/db/journals/pr/pr36.html#CarcassoniH03},
+  volume = 36,
+  year = 2003
+}
+@ARTICLE{Gold97newalgorithms,
+    author = {Steven Gold and Anand Rangarajan and Chien-ping Lu and Eric Mjolsness},
+    title = {{New Algorithms for 2D and 3D Point Matching: Pose Estimation and Correspondence}},
+    journal = {Pattern Recognition},
+    year = {1997},
+    volume = {31},
+    pages = {957--964}
+}
+@article{closest_point_paper, 
+    title={{Automatic Registration of Overlapping 3D Point Clouds using Closest Points}}, 
+    volume={24}, 
+    number={7}, 
+    journal={Image and Vision Computing}, 
+    author={Liu, Y}, 
+    year={2006}, 
+    pages={762--781}
+}
+@article{CURVATURE,
+  author    = {Yang Chen and G{\'e}rard G. Medioni},
+  title     = {{Object modelling by registration of multiple range images}},
+  journal   = {Image Vision Comput},
+  volume    = {10},
+  number    = {3},
+  year      = {1992},
+  pages     = {145-155},
+  ee        = {http://dx.doi.org/10.1016/0262-8856(92)90066-C},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+@book{gpml06,
+    author = {Rasmussen, Carl E. and Williams, Christopher},
+    booktitle = {Gaussian Processes for Machine Learning},
+    citeulike-article-id = {4015194},
+    citeulike-linkout-0 = {http://www.gaussianprocess.org/gpml/},
+    keywords = {gaussianprocesses, gp, machinelearning},
+    posted-at = {2009-02-06 10:28:12},
+    priority = {2},
+    publisher = {MIT Press},
+    title = {{Gaussian Processes for Machine Learning}},
+    url = {http://www.gaussianprocess.org/gpml/},
+    year = {2006}
+}
+@article{database2,
+ url= {http://people.sc.fsu.edu/~jburkardt/data/data.html}
+}
+@ARTICLE{KERNELPCA,
+      author = {Bernhard Sch\"{o}lkopf and Alexander Smola and Er Smola and Klaus-Robert M\"{u}ller},
+          title = {Nonlinear Component Analysis as a Kernel Eigenvalue Problem},
+              journal = {Neural Computation},
+                  year = {1998},
+                      volume = {10},
+                          pages = {1299--1319}
+}
+@article{databaseKIT,
+    abstract = {{For the execution of object recognition, localization and manipulation tasks, most algorithms use object models. Most models are derived from, or consist of two-dimensional (2D) images and/or three-dimensional (3D) geometric data. The system described in this article was constructed specifically for the generation of such model data. It allows 2D image and 3D geometric data of everyday objects be obtained semi-automatically. The calibration provided allows 2D data to be related to 3D data. Through the use of high-quality sensors, high-accuracy data is achieved. So far over 100 objects have been digitized using this system and the data has been successfully used in several international research projects. All of the models are freely available on the web via a front-end that allows preview and filtering of the data.}},
+    author = {Kasper, Alexander and Xue, Zhixing and Dillmann, R\"{u}diger},
+    citeulike-article-id = {10859648},
+    citeulike-linkout-0 = {http://dx.doi.org/10.1177/0278364912445831},
+    citeulike-linkout-1 = {http://ijr.sagepub.com/content/early/2012/05/29/0278364912445831.abstract},
+    citeulike-linkout-2 = {http://ijr.sagepub.com/content/early/2012/05/29/0278364912445831.full.pdf},
+    day = {29},
+    doi = {10.1177/0278364912445831},
+    issn = {1741-3176},
+    journal = {The International Journal of Robotics Research},
+    month = may,
+    posted-at = {2012-07-05 14:24:22},
+    priority = {2},
+    publisher = {SAGE Publications},
+    title = {{The KIT object models database: An object model database for object recognition, localization and manipulation in service robotics}},
+    year = {2012}
+}
+@article{NORMALVECTOR, 
+        title={{3D-2D projective registration of free-form curves and surfaces}}, 
+        volume={65}, 
+        journal={Computer Vision and Image Understanding}, 
+        publisher={IEEE Comput. Soc. Press}, 
+        author={Feldmar, J and Ayache, N and Betting, F}, 
+        year={1997}, 
+        pages={403--424}
+}
+@inproceedings{GPU,
+   title={{Softassign and EM-ICP on GPU}},
+   author={Tamaki, T. and Abe, M. and Raytchev, B. and Kaneda, K.},
+   booktitle={2010 First International Conference on Networking and Computing},
+   pages={179–183},
+   year={2010},
+   organization={IEEE}
+}
+@INPROCEEDINGS{CROSSCORR,
+    author = {Ruigang Yang and Peter K. Allen},
+    title = {{Registering, Integrating, and Building CAD Models from Range Data}},
+    booktitle = {ICRA},
+    year = {1998},
+    pages = {3115--3120}
+}
+@INPROCEEDINGS{COLOR,
+    author = {Andrew Johnson and Sing Bing Kang},
+    title = {{Registration and Integration of Textured 3-D Data}},
+    booktitle = {Image and Vision Computing},
+    year = {1996},
+    pages = {234--241},
+}
+@INPROCEEDINGS{Tsin04acorrelationbased,
+    author = {Yanghai Tsin and Takeo Kanade},
+    title = {{A Correlation-Based Approach to Robust Point Set Registration}},
+    booktitle = {ECCV},
+    year = {2004},
+    pages = {558--569}
+}
+@incollection{citeulike:80546,
+    author = {Rusu, Radu B. and Marton, Zoltan C. and Blodow, Nico and Beetz, Michael},
+    month = jan,
+    pages = {477},
+    title = {{Persistent Point Feature Histograms for 3D Point Clouds}},
+    booktitle = {Int. Conf. on Intelligent Autonomous Systems},
+    url = {http://dx.doi.org/10.2307/40041279},
+    year = {2008}
+}
+@INPROCEEDINGS{Hetzel013dobject,
+    author = {Guenter Hetzel and Bastian Leibe and Paul Levi and Bernt Schiele},
+    title = {{3D Object Recognition from Range Images using Local Feature Histograms}},
+    booktitle = {CVPR},
+    year = {2001},
+    pages = {394--399}
+}
+@inproceedings{Godin1994,
+    address = {{Boston, Massachusetts, USA}},
+    author = {Godin, Guy and Rioux, Marc and Baribeau, R{\'{e}}jean},
+    booktitle = {{Proceedings of the SPIE: Videometrics III}},
+    citeulike-article-id = {7935266},
+    month = nov,
+    pages = {279--290},
+    posted-at = {2010-10-01 17:25:55},
+    priority = {0},
+    title = {{Three-dimensional registration using range and intensity information}},
+    volume = {2350},
+    year = {1994}
+}
+@INPROCEEDINGS{Liu_3dshape,
+    author = {Yonghuai Liu and Longzhuang Li and Baogang Wei},
+    title = {{3D shape matching using collinearity constraint}},
+    booktitle = {ICRA},
+    year = {2004},
+    pages = {2285--2290}
+}
+@inproceedings{conf/3dim/ZhangCP11,
+  author = {Zhang, Lei and Choi, Sung-In and Park, Soon-Yong},
+  biburl = {http://www.bibsonomy.org/bibtex/2c3b9db9aa7bbab854b1a1c3a58396ca7/dblp},
+  booktitle = {3DIMPVT},
+  crossref = {conf/3dim/2011},
+  ee = {http://dx.doi.org/10.1109/3DIMPVT.2011.18},
+  interhash = {4362ff6deedd9db43abe5db904d00a85},
+  intrahash = {c3b9db9aa7bbab854b1a1c3a58396ca7},
+  keywords = {dblp},
+  pages = {80-85},
+  publisher = {IEEE},
+  timestamp = {2011-08-11T00:00:00.000+0200},
+  title = {{Robust ICP Registration Using Biunique Correspondence}},
+  url = {http://dblp.uni-trier.de/db/conf/3dim/3dimpvt2011.html#ZhangCP11},
+  year = 2011
+}
+@INPROCEEDINGS{EPSICP,
+    author = {Tomás Pajdla and Luc Van Gool},
+    title = {{Matching of 3-D Curves using Semi-differential Invariants}},
+    booktitle = {ICCV},
+    year = {1995},
+    pages = {390--395},
+    publisher = {IEEE Computer Society Press}
+}
+@INPROCEEDINGS{TRIMMEDICP,
+    author = {D. Chetverikov and D. Svirko and D. Stepanov and Pavel Krsek},
+    title = {{The Trimmed Iterative Closest Point Algorithm}},
+    booktitle = {ICPR},
+    year = {2002},
+    pages = {545--548}
+}
